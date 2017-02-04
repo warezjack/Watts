@@ -57,7 +57,7 @@
 	</head>
 	<body>
 		<div class="container-fluid">
-			<h3>Watts</h3>
+			<h3 align="center">Watts</h3>
 			<hr>
 			<h2>Registration</h2>
 			<hr>
