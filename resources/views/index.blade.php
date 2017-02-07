@@ -25,7 +25,6 @@
 				font-family: 'Pacifico';
 				font-size: 30px;
 			}
-
 			.nav-sidebar { 
     			width: 100%; 
 			    border-right: 1px solid #ddd;
@@ -60,19 +59,20 @@
 		</style>
 	</head>
 	<body>
-		<div class="container-fluid">
+		<div class="container-fluid">	
 			<h3 align="center">Watts</h3>
+			<h4>{{ Auth::user()->email }}</h4>
 			<hr>
 			 <div class="row">
 		        <div class="col-sm-2">
 		            <nav class="nav-sidebar">
 		                <ul class="nav">
 		                    <li class="active"><a href="javascript:;">Dashboard</a></li>
-		                    <li><a href="signup">System Service Status</a></li>
+		                    <li><a href="signup">System Services</a></li>
 		                    <li><a href="javascript:;">Candidates</a></li>
 		                    <li><a href="javascript:;">Settings</a></li>
 		                    <li class="nav-divider"></li>
-		                    <li><a href="javascript:;"><i class="glyphicon glyphicon-off"></i> Sign Out </a></li>
+		                    <li><a href="{{ url('/logout') }}"><i class="glyphicon glyphicon-off"></i> Sign Out </a></li>
 		                </ul>
 		            </nav>
 		        </div>

@@ -163,6 +163,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         'Collective\Html\HtmlServiceProvider',
+        Laracasts\Flash\FlashServiceProvider::class,
 
         /*
          * Package Service Providers...

@@ -27,6 +27,12 @@ Route::get('signup', function() {
 	return view('signup');
 });
 
-Route::get('sidebar_layout', function(){
-	return view('sidebar_layout');
+Route::get('index', function(){
+	return view('index');
 });
+
+Route::post('signup', 'UsersController@signup');
+
+Route::post('login', 'UsersController@login');
+
+Route::get('/logout', 'UsersController@logout');
