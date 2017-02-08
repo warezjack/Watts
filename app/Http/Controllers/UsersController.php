@@ -7,16 +7,19 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Laracasts\Flash\Flash;
 use App\User as Users;
+use Alert;
 
 class UsersController extends Controller
 {
     public function signup(Request $request) {
-        $admins = new Users();
-        $admins->email = $request->get('email');
-        $admins->password = bcrypt($request->get('password'));
-        $admins->save();
-
-        echo $admins;
+        if($request->get('type_of_user')) {
+            $admins = new Users();
+            $admins->email = $request->get('email');
+            $admins->password = bcrypt($request->get('password'));
+            $admins->is_admin = $request->get('type_of_user');
+            $admins->save();
+        }
+        echo 'Twitter Account' . $request->get('type_of_user');
     	echo 'Twitter Account' . $request->get('connect_to_twitter');
     	echo 'Full Name'. $request->get('full_name');
     	echo 'Gender - Male' . $request->get('male');
@@ -39,9 +42,11 @@ class UsersController extends Controller
     public function login(Request $request) {
         $email = $request->get('email');
         $password = $request->get('password');
-        if (Auth::attempt(['email' => $email, 'password' => $password])) {
+        if (Auth::attempt(['email' => $email, 'password' => $password]) && Auth::user()->is_admin) {
+            notify()->flash('You are signed in', 'success');
             return redirect()->intended('index');
         }
-        return view('login');
+        notify()->flash('Please check your credentials. Try again.', 'error');
+        return redirect()->to('login');
     }
 }

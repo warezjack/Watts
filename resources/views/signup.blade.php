@@ -69,8 +69,8 @@
 			<h6 class="text-info"><i>(Please input the code we sent to you in e-mail to continue)</i></h6>
 
 			<label>Type of User:</label>
-  			<label class="radio-inline"><input type="radio" name="type_of_user">Product Administrator</label>
-  			<label class="radio-inline"><input type="radio" name="type_of_user">Employee</label> 
+  			<label class="radio-inline"><input type="radio" name="type_of_user" value="1">Product Administrator</label>
+  			<label class="radio-inline"><input type="radio" name="type_of_user" value="0">Employee</label> 
   			<hr>
   			<div class="panel panel-default">
   				<div class="panel-heading">Basic Information</div>

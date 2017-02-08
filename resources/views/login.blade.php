@@ -14,6 +14,9 @@
 
 		<!-- Referencing Bootstrap JS that is hosted locally -->
     	{{ Html::script('js/bootstrap.min.js') }}
+    
+    	
+		<link rel="stylesheet" type="text/css" href="css/sweetalert.css">
 
     	<!-- Fonts -->
 		<link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet" type="text/css">
@@ -53,6 +56,20 @@
 	</head>
 	<body>
 		<div class="container" align="center">
+			
+			<script src="js/sweetalert.min.js"></script>
+			<script>
+				@if (notify()->ready())
+				    	swal({
+				            title: "{!! notify()->message() !!}",
+				            text: "{!! notify()->option('text') !!}",
+				            type: "{{ notify()->type() }}",
+				            timer: 2000,
+				            showConfirmButton: false
+				        });
+				@endif
+			</script>
+
 			<h3>Watts</h3>
 			<hr>
 			<form class="form-horizontal" role="form" method="POST" action="{{ url('/login') }}">

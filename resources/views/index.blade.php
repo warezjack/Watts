@@ -18,6 +18,7 @@
     	<!-- Fonts -->
 		<link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet" type="text/css">
 		<link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" type="text/css" href="css/sweetalert.css">
 
 		<!-- Styles -->
 		<style type="text/css">
@@ -59,9 +60,23 @@
 		</style>
 	</head>
 	<body>
-		<div class="container-fluid">	
+		<div class="container-fluid">
+
+			<script src="js/sweetalert.min.js"></script>
+			<script>
+				@if (notify()->ready())
+				    	swal({
+				            title: "{!! notify()->message() !!}",
+				            text: "{!! notify()->option('text') !!}",
+				            type: "{{ notify()->type() }}",
+				            timer: 2000,
+				            showConfirmButton: false
+				        });
+				@endif
+			</script>
+
+
 			<h3 align="center">Watts</h3>
-			<h4>{{ Auth::user()->email }}</h4>
 			<hr>
 			 <div class="row">
 		        <div class="col-sm-2">

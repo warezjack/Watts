@@ -27,9 +27,9 @@ Route::get('signup', function() {
 	return view('signup');
 });
 
-Route::get('index', function(){
+Route::get('index', ['middleware' => 'auth', function(){
 	return view('index');
-});
+}]);
 
 Route::post('signup', 'UsersController@signup');
 
