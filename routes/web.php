@@ -27,12 +27,22 @@ Route::get('signup', function() {
 	return view('signup');
 });
 
+Route::get('services', 'ServicesController@status');
+
 Route::get('index', ['middleware' => 'auth', function(){
 	return view('index');
 }]);
+
+Route::get('compose', 'ComposeController@index');
 
 Route::post('signup', 'UsersController@signup');
 
 Route::post('login', 'UsersController@login');
 
 Route::get('/logout', 'UsersController@logout');
+
+Route::post('add', 'ComposeController@add');
+
+Route::get('/compose/show/{id}', 'ComposeController@show');
+
+Route::resource('compose', 'ComposeController');

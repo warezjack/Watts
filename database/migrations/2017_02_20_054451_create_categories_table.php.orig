@@ -1,0 +1,40 @@
+<?php
+
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class CreateCategoriesTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+         Schema::create('categories', function (Blueprint $table) {
+            $table->increments('id');
+            $table->boolean('has_sports');
+            $table->boolean('has_medicine');
+            $table->boolean('has_computers');
+            $table->boolean('has_politics');
+            $table->boolean('has_religion');
+            $table->boolean('has_electronics');
+            $table->boolean('has_space');
+            $table->boolean('has_motorcycles');
+            $table->timestamps();
+            $table->rememberToken();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('categories');
+    }
+}
