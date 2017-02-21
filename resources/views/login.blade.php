@@ -14,6 +14,9 @@
 
 		<!-- Referencing Bootstrap JS that is hosted locally -->
     	{{ Html::script('js/bootstrap.min.js') }}
+    
+    	
+		<link rel="stylesheet" type="text/css" href="css/sweetalert.css">
 
     	<!-- Fonts -->
 		<link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet" type="text/css">
@@ -53,21 +56,38 @@
 	</head>
 	<body>
 		<div class="container" align="center">
+			
+			<script src="js/sweetalert.min.js"></script>
+			<script>
+				@if (notify()->ready())
+				    	swal({
+				            title: "{!! notify()->message() !!}",
+				            text: "{!! notify()->option('text') !!}",
+				            type: "{{ notify()->type() }}",
+				            timer: 2000,
+				            showConfirmButton: false
+				        });
+				@endif
+			</script>
+
 			<h3>Watts</h3>
 			<hr>
-			<div class="col-sm-4">
-				<div class="panel panel-default">
-	  				<div class="input-group">
-		    			<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-		    			<input id="email" type="text" class="form-control" name="email" placeholder="Email">
-	  				</div>
-		  			<div class="input-group">
-		    			<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-		    			<input id="password" type="password" class="form-control" name="password" placeholder="Password">
-		  			</div>
+			<form class="form-horizontal" role="form" method="POST" action="{{ url('/login') }}">
+				{{ csrf_field() }}
+				<div class="col-sm-4">
+					<div class="panel panel-default">
+		  				<div class="input-group">
+			    			<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+			    			<input id="email" type="text" class="form-control" name="email" placeholder="Email" required autofocus>
+		  				</div>
+			  			<div class="input-group">
+			    			<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+			    			<input id="password" type="password" class="form-control" name="password" placeholder="Password" required autofocus>
+			  			</div>
+					</div>
+					<button type="submit" class="btn btn-primary">Log In</button>
 				</div>
-				<button type="button" class="btn btn-primary">Log In</button>
-			</div>
+			</form>
 		</div>		
 	</body>
 </html>

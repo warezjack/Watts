@@ -26,3 +26,31 @@ Route::get('login', function() {
 Route::get('signup', function() {
 	return view('signup');
 });
+
+Route::get('services', 'ServicesController@status');
+
+Route::get('index', ['middleware' => 'auth', function(){
+	return view('index');
+}]);
+
+Route::get('compose', 'ComposeController@index');
+
+Route::post('signup', 'UsersController@signup');
+
+Route::post('login', 'UsersController@login');
+
+Route::get('/logout', 'UsersController@logout');
+
+Route::post('add', 'ComposeController@add');
+
+Route::get('/compose/show/{id}', 'ComposeController@show');
+
+Route::get('/compose/edit/{id}', 'ComposeController@edit');
+
+Route::resource('compose', 'ComposeController');
+
+Route::delete('/compose/{id}', 'ComposeController@destroy');
+
+Route::put('/compose/{id}', 'ComposeController@update');
+
+Route::get('/candidates', 'CandidatesController@index');

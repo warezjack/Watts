@@ -163,6 +163,8 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         'Collective\Html\HtmlServiceProvider',
+        UxWeb\SweetAlert\SweetAlertServiceProvider::class,
+        Codecourse\Notify\NotifyServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -228,6 +230,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Form' => 'Collective\Html\FormFacade',
         'Html' => 'Collective\Html\HtmlFacade',
+        'Alert' => UxWeb\SweetAlert\SweetAlert::class,
+        'Notify' => Codecourse\Notify\Facades\Notify::class,
     ],
 
 ];

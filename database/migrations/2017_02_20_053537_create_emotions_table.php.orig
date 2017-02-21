@@ -1,0 +1,38 @@
+<?php
+
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class CreateEmotionsTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('emotions', function (Blueprint $table) {
+            $table->increments('id');
+            $table->boolean('has_fear');
+            $table->boolean('has_joy');
+            $table->boolean('has_love');
+            $table->boolean('has_disgust');
+            $table->boolean('has_sadness');
+            $table->boolean('has_surprise');
+            $table->boolean('has_anger');
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('emotions');
+    }
+}

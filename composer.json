@@ -6,9 +6,13 @@
     "type": "project",
     "require": {
         "php": ">=5.6.4",
+        "codecourse/notify": "^1.1",
+        "laracasts/flash": "^2.0",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
-	"laravelcollective/html": "5.*"
+        "laravelcollective/html": "5.*",
+        "symfony/process": "^3.2",
+        "uxweb/sweet-alert": "^1.4"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
