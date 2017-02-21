@@ -83,7 +83,7 @@
 		                    <li class="active"><a href="{{ url('/index') }}"><i class="glyphicon glyphicon-modal-window"></i> Dashboard </a></li>
 		                    <li><a href="{{ url('/compose') }}"><i class="glyphicon glyphicon-edit"></i> Compose </a></li>
 		                    <li><a href="{{ url('/services') }}"><i class="glyphicon glyphicon-record"></i> System Services </a></li>
-		                    <li><a href="javascript:;"><i class="glyphicon glyphicon-tasks"></i> Candidates </a></li>
+		                    <li><a href="{{ url('/candidates') }}"><i class="glyphicon glyphicon-tasks"></i> Candidates </a></li>
 		                    <li><a href="javascript:;"><i class="glyphicon glyphicon-cog"></i> Settings </a></li>
 
 		                    <li class="nav-divider"></li>

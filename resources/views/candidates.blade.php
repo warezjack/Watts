@@ -18,7 +18,8 @@
     	<!-- Fonts -->
 		<link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet" type="text/css">
 		<link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet" type="text/css">
-	
+		<link rel="stylesheet" type="text/css" href="css/sweetalert.css">
+
 		<!-- Styles -->
 		<style type="text/css">
 			h3 {
@@ -56,17 +57,23 @@
 			    -o-text-overflow: ellipsis;
 			    text-overflow: ellipsis; 
 			}
-			.panel {
-				margin-right: 16px;
-			}
-			.label{
-				font-size: 100%;
-				float: right;
-			}
 		</style>
 	</head>
 	<body>
 		<div class="container-fluid">
+
+			<script src="js/sweetalert.min.js"></script>
+			<script>
+				@if (notify()->ready())
+				    	swal({
+				            title: "{!! notify()->message() !!}",
+				            text: "{!! notify()->option('text') !!}",
+				            type: "{{ notify()->type() }}",
+				            timer: 1000,
+				            showConfirmButton: false
+				        });
+				@endif
+			</script>
 			<h3 align="center">Watts</h3>
 			<hr>
 			 <div class="row">
@@ -75,43 +82,15 @@
 		                <ul class="nav">
 		                    <li><a href="{{ url('/index') }}"><i class="glyphicon glyphicon-modal-window"></i> Dashboard </a></li>
 		                    <li><a href="{{ url('/compose') }}"><i class="glyphicon glyphicon-edit"></i> Compose </a></li>
-		                    <li class="active"><a href="{{ url('/services') }}"><i class="glyphicon glyphicon-record"></i> System Services </a></li>
-		                    <li><a href="{{ url('/candidates') }}"><i class="glyphicon glyphicon-tasks"></i> Candidates </a></li>
+		                    <li><a href="{{ url('/services') }}"><i class="glyphicon glyphicon-record"></i> System Services </a></li>
+		                    <li class="active"><a href="{{ url('/candidates') }}"><i class="glyphicon glyphicon-tasks"></i> Candidates </a></li>
 		                    <li><a href="javascript:;"><i class="glyphicon glyphicon-cog"></i> Settings </a></li>
-		            
+
 		                    <li class="nav-divider"></li>
 		                    <li><a href="{{ url('/logout') }}"><i class="glyphicon glyphicon-log-out"></i> Sign Out </a></li>
 		                </ul>
 		            </nav>
 		        </div>
-		        <div class="col-sm-10">
-		        	<div class="panel panel-info">
-	  					<div class="panel-heading">Hadoop Services</div>
-	  					<div class="panel-body">
-	  						Namenode 
-	  						<span class="label label-info"><?php echo isset($namenode) ? $namenode : 'Not Operational'; ?></span><hr>
-	  						Datanodes
-	  						<span class="label label-info"><?php echo isset($datanode) ? $datanode : 'Not Operational'; ?></span><hr>
-	  						Secondary Namenode
-	  						<span class="label label-info"><?php echo isset($secondaryNamenode) ? $secondaryNamenode : 'Not Operational'; ?></span><hr>
-	  						Node Manager
-	  						<span class="label label-info"><?php echo isset($nodeManager) ? $nodeManager : 'Not Operational'; ?></span><hr>
-	  						Resource Manager
-	  						<span class="label label-info"><?php echo isset($resourceManager) ? $resourceManager : 'Not Operational'; ?></span>
-	  					</div>
-					</div>
-					<div class="panel panel-info">
-	  					<div class="panel-heading">Alluxio Services</div>
-	  					<div class="panel-body">
-	  						Alluxio Master
-	  						<span class="label label-info">Not Operational</span><hr>
-	  						Alluxio Slaves
-	  						<span class="label label-info">Not Operational</span><hr>
-	  					</div>
-					</div>
-					<hr>
-					<label class="label label-info" style="float: left">Please send us email if system is not fully operational.</label>
-				</div>
     		</div>
 		</div>
 	</body>

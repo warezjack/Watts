@@ -45,4 +45,12 @@ Route::post('add', 'ComposeController@add');
 
 Route::get('/compose/show/{id}', 'ComposeController@show');
 
+Route::get('/compose/edit/{id}', 'ComposeController@edit');
+
 Route::resource('compose', 'ComposeController');
+
+Route::delete('/compose/{id}', 'ComposeController@destroy');
+
+Route::put('/compose/{id}', 'ComposeController@update');
+
+Route::get('/candidates', 'CandidatesController@index');

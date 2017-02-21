@@ -11,6 +11,7 @@
 
 		<!-- jQuery library -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/sweetalert.css">
 
 		<!-- Referencing Bootstrap JS that is hosted locally -->
     	{{ Html::script('js/bootstrap.min.js') }}
@@ -88,6 +89,21 @@
 	</head>
 	<body>
 		<div class="container-fluid">
+
+			<script src="js/sweetalert.min.js"></script>
+			<script>
+				@if (notify()->ready())
+				    	swal({
+				            title: "{!! notify()->message() !!}",
+				            text: "{!! notify()->option('text') !!}",
+				            type: "{{ notify()->type() }}",
+				            timer: 1500,
+				            showConfirmButton: false
+				        });
+				@endif
+			</script>
+
+
 			<h3 align="center">Watts</h3>
 			<!-- Modal -->
   			<div class="modal fade" id="myModal" role="dialog">
@@ -176,7 +192,7 @@
 		                    <li><a href="{{ url('/index') }}"><i class="glyphicon glyphicon-modal-window"></i> Dashboard </a></li>
 		                    <li class="active"><a href="{{ url('/index') }}"><i class="glyphicon glyphicon-edit"></i> Compose </a></li>
 		                    <li><a href="{{ url('/services') }}"><i class="glyphicon glyphicon-record"></i> System Services </a></li>
-		                    <li><a href="javascript:;"><i class="glyphicon glyphicon-tasks"></i> Candidates </a></li>
+		                    <li><a href="{{ url('/candidates') }}"><i class="glyphicon glyphicon-tasks"></i> Candidates </a></li>
 		                    <li><a href="javascript:;"><i class="glyphicon glyphicon-cog"></i> Settings </a></li>
 		            
 		                    <li class="nav-divider"></li>
@@ -199,6 +215,7 @@
      						</tr>
      					</thead>
      					<tbody>
+     		
      					@foreach ($behaviours as $behaviour)
      						<tr>
      							<td> {{ $behaviour->id }} </td>	
@@ -217,7 +234,14 @@
 
      							<td><a href="{{ route('compose.show', $behaviour->id)}}"><i class="glyphicon glyphicon-play-circle"></i> View </a></td>
      							<td><a href="{{ route('compose.edit', $behaviour->id)}}"><i class="glyphicon glyphicon-pencil"></i> Edit </a></td>
-     							<td><a href="#"><i class="glyphicon glyphicon-remove"></i> Delete </a></td>
+     							<td>
+     								
+     								{{ Form::open(array('url' => '/compose/' . $behaviour->id )) }}
+                    				{{ Form::hidden('_method', 'DELETE') }}
+                    				{{ Form::submit('Delete', array('class' => 'btn btn-danger')) }}
+                					{{ Form::close() }}
+
+     							</td>
      						</tr>
      					@endforeach
      					</tbody>
