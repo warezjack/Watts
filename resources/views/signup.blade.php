@@ -16,6 +16,7 @@
   		<link rel="stylesheet" href="/resources/demos/style.css">
 
   		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  		<link rel="shortcut icon" href="{{ asset('favicon.ico') }}" >
 
 
 		<!-- Referencing Bootstrap JS that is hosted locally -->
@@ -70,7 +71,8 @@
 
 			<label>Type of User:</label>
   			<label class="radio-inline"><input type="radio" name="type_of_user" value="1">Product Administrator</label>
-  			<label class="radio-inline"><input type="radio" name="type_of_user" value="0">Employee</label> 
+  			<label class="radio-inline"><input type="radio" name="type_of_user" value="0">Employee</label>
+  			<label class="radio-inline"><input type="radio" name="type_of_user" value="2">Candidate</label>  
   			<hr>
   			<div class="panel panel-default">
   				<div class="panel-heading">Basic Information</div>
@@ -144,7 +146,7 @@
 					    <option value="Amazon">Amazon</option>
   					</select>
   					<br>
-  					<label>Date of Joining:</label>
+  					<label>Date of Joining / Registration Date:</label>
   					<input type="text" id="datepicker" class="form-control" name="date_of_joining">
 				</div>
 			</div>

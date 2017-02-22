@@ -207,6 +207,7 @@ class ComposeController extends Controller
 
     	$categoryTypeId = $this->setCategories($categoryType);
 
+        $behaviour->assessment_name = Input::get('assessment_name');
     	$behaviour->emotion_id = $emotionTypeId;
     	$behaviour->category_id = $categoryTypeId;
     	$behaviour->save();

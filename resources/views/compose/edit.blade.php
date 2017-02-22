@@ -92,10 +92,12 @@
 		        </div>
 		        <div class="col-sm-10">
 		        	<h5>Now Editing</h5>
-		        	<h3 id="name"> {{ $behaviour->assessment_name }} </h3>
-		        	&nbsp;
 	
                     {{ Form::model($behaviour, array('route' => array('compose.update', $behaviour->id), 'method' => 'PUT')) }}
+
+                    {{ Form::text('assessment_name', $behaviour->assessment_name, array('class' => 'form-control')) }}
+                    &nbsp;
+
 		        	<h5> Following are selected emotion types for assessment </h5>	
 		        	<table class="table table-striped table-bordered table-hover">
 		      			<thead>

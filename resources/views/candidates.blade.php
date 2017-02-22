@@ -11,6 +11,8 @@
 
 		<!-- jQuery library -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		<link rel="shortcut icon" href="{{ asset('favicon.ico') }}" >
+		
 
 		<!-- Referencing Bootstrap JS that is hosted locally -->
     	{{ Html::script('js/bootstrap.min.js') }}
@@ -58,6 +60,7 @@
 			    text-overflow: ellipsis; 
 			}
 		</style>
+
 	</head>
 	<body>
 		<div class="container-fluid">
@@ -81,15 +84,64 @@
 		            <nav class="nav-sidebar">
 		                <ul class="nav">
 		                    <li><a href="{{ url('/index') }}"><i class="glyphicon glyphicon-modal-window"></i> Dashboard </a></li>
+
+		                    <li><a href="{{ url('/assessments') }}"><i class="glyphicon glyphicon-list-alt"></i> Assessments </a></li>
+
+		                    
+		                    <li><a href="{{ url('/profiles') }}"><i class="glyphicon glyphicon-user"></i> Profiles </a></li>
+		                    
 		                    <li><a href="{{ url('/compose') }}"><i class="glyphicon glyphicon-edit"></i> Compose </a></li>
-		                    <li><a href="{{ url('/services') }}"><i class="glyphicon glyphicon-record"></i> System Services </a></li>
+		                    
 		                    <li class="active"><a href="{{ url('/candidates') }}"><i class="glyphicon glyphicon-tasks"></i> Candidates </a></li>
+
+		                    <li><a href="{{ url('/services') }}"><i class="glyphicon glyphicon-record"></i> Infrastructure Services </a></li>
+
 		                    <li><a href="javascript:;"><i class="glyphicon glyphicon-cog"></i> Settings </a></li>
 
 		                    <li class="nav-divider"></li>
 		                    <li><a href="{{ url('/logout') }}"><i class="glyphicon glyphicon-log-out"></i> Sign Out </a></li>
 		                </ul>
 		            </nav>
+		        </div>
+		        <div class="col-sm-10">
+		        	<table class="table table-striped table-bordered table-hover">
+		      			<thead>
+     						<tr class="bg-info">
+					        	<th>Sr. No</th>
+					         	<th>Name of Candidate</th>
+					         	<th>Gender</th>
+					         	<th>Email</th>
+					         	<th>State</th>
+					         	<th>City</th>
+					         	<th>Organisation</th>
+					         	<th>Date</th>
+					         	<th>Type</th>
+					         	<th>Twitter Status</th>
+     						</tr>
+     					</thead>
+     					<tbody>
+		        	@foreach ($users as $user)
+		        		<tr>
+		        			<td> {{ $user->id }} </td>
+		        			<td> {{ $user->full_name }}</td>
+		        			<td> {{ $user->gender }}</td>
+		        			<td> {{ $user->email }}</td>
+		        			<td> {{ $user->state }}</td>
+		        			<td> {{ $user->city }}</td>
+		        			<td> {{ $user->organisation_name }}</td>
+		        			<td> {{ $user->date_of_joining }}</td>
+		        			
+		        			@if ($user->is_admin == '0')
+		        				<td> Internal </td>
+		        			@elseif($user->is_admin == '2')
+		        				<td> External </td>
+		        			@endif
+		        			
+		        			<td><a href="{{ route('candidates.show', $user->id) }}"><i class="glyphicon glyphicon-download"></i> Download </a></td>
+		        		</tr>
+		        	@endforeach
+		        		</tbody>
+		        	</table>
 		        </div>
     		</div>
 		</div>

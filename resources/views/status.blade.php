@@ -15,39 +15,61 @@
 
 		<!-- Referencing Bootstrap JS that is hosted locally -->
     	{{ Html::script('js/bootstrap.min.js') }}
+    
+    	
+		<link rel="stylesheet" type="text/css" href="css/sweetalert.css">
 
     	<!-- Fonts -->
 		<link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet" type="text/css">
 		<link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet" type="text/css">
-
+		
 		<!-- Styles -->
 		<style type="text/css">
-			.btn {
-				float: right;
-				margin-top: 15px;
-				margin-left: 10px;
-			}
-
 			h3 {
 				font-family: 'Pacifico';
-				font-size: 45px;
+				font-size: 60px;
 			}
 
-			h2 {
-				text-align: center;
-				color: #525252;
-				font-family: 'Quicksand';
+			.input-group {
+				margin-top: 20px;
+				margin-bottom: 20px;
+				margin-left: 20px;
+				margin-right: 20px;
+			}
+
+			.btn {
+				margin-bottom: 20px;
+				width: 350px;
+			}
+
+			.container {
+				margin-top: 140px;
+			}
+
+			.col-sm-4 {
+				margin-left: 390px;
+			}
+
+			hr {
+				width: 180px;
+			}
+
+			h5 {
+				font-family: Quicksand;
 			}
 
 		</style>
 	</head>
 	<body>
-		<div class="container-fluid">
-			<button type="button" class="btn btn-success" onclick="window.location='{{ url("/signup") }}'">Sign Up</button>
-			<button type="button" class="btn btn-success" onclick="window.location='{{ url("/login") }}'">Log In</button>
+		<div class="container" align="center">
 			<h3>Watts</h3>
 			<hr>
-		</div>
-		<h2>Introducing Behavioural Analytics</h2>		
+			<div class="progress">
+    			<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuemax="100" style="width:100%">
+    			</div>
+  			</div>
+  			<h5>Please wait, while we download candidate's tweets</h5>
+  			{{ print_r($processOutput) }}
+		</div>		
 	</body>
 </html>

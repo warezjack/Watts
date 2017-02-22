@@ -33,7 +33,7 @@ class UsersController extends Controller
     public function login(Request $request) {
         $email = $request->get('email');
         $password = $request->get('password');
-        if (Auth::attempt(['email' => $email, 'password' => $password]) && Auth::user()->is_admin) {
+        if (Auth::attempt(['email' => $email, 'password' => $password]) && Auth::user()->is_admin == 1) {
             notify()->flash('You are signed in', 'success');
             return redirect()->intended('index');
         }
