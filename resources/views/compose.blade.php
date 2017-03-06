@@ -20,43 +20,43 @@
     	<!-- Fonts -->
 		<link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet" type="text/css">
 		<link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet" type="text/css">
-	
+
 		<!-- Styles -->
 		<style type="text/css">
 			h3 {
 				font-family: 'Pacifico';
 				font-size: 30px;
 			}
-			.nav-sidebar { 
-    			width: 100%; 
+			.nav-sidebar {
+    			width: 100%;
 			    border-right: 1px solid #ddd;
 			}
-			
+
 			.nav-sidebar a {
 			    color: #333;
 			    -webkit-transition: all 0.08s linear;
 			    -moz-transition: all 0.08s linear;
 			    -o-transition: all 0.08s linear;
 			    transition: all 0.08s linear;
-			    -webkit-border-radius: 4px 0 0 4px; 
-			    -moz-border-radius: 4px 0 0 4px; 
-			    border-radius: 4px 0 0 4px; 
+			    -webkit-border-radius: 4px 0 0 4px;
+			    -moz-border-radius: 4px 0 0 4px;
+			    border-radius: 4px 0 0 4px;
 			}
-			.nav-sidebar .active a { 
+			.nav-sidebar .active a {
 			    cursor: default;
-			    background-color: #428bca; 
-			    color: #fff; 
-			    text-shadow: 1px 1px 1px #666; 
+			    background-color: #428bca;
+			    color: #fff;
+			    text-shadow: 1px 1px 1px #666;
 			}
 			.nav-sidebar .active a:hover {
-			    background-color: #428bca;   
+			    background-color: #428bca;
 			}
 			.nav-sidebar .text-overflow a,
 			.nav-sidebar .text-overflow .media-body {
 			    white-space: nowrap;
 			    overflow: hidden;
 			    -o-text-overflow: ellipsis;
-			    text-overflow: ellipsis; 
+			    text-overflow: ellipsis;
 			}
 			.panel {
 				margin-right: 16px;
@@ -73,7 +73,7 @@
 			}
 			h5 {
 				font-family: Quicksand;
-				font-weight: bold;	
+				font-weight: bold;
 			}
 			.checkbox {
 				font-family: Quicksand;
@@ -82,10 +82,25 @@
 				margin-left: 200px;
 			}
 
-			thead {
+			table {
+				border-radius: 0.25em;
+				border-collapse: collapse;
 				font-family: Quicksand;
-				font-weight: bold;
+				width: 100%;
 			}
+
+			th {
+			  border-bottom: 1px solid #364043;
+			  font-size: 0.90em;
+			  font-weight: bold;
+			  padding: 0.5em 1em;
+			  text-align: left;
+			}
+			td {
+			  font-weight: 400;
+			  padding: 0.65em 1em;
+			}
+
 		</style>
 	</head>
 	<body>
@@ -194,15 +209,15 @@
 
 		                    <li><a href="{{ url('/assessments') }}"><i class="glyphicon glyphicon-list-alt"></i> Assessments </a></li>
 
-		                    
+
 		                    <li><a href="{{ url('/profiles') }}"><i class="glyphicon glyphicon-user"></i> Profiles </a></li>
 
 		                    <li class="active"><a href="{{ url('/index') }}"><i class="glyphicon glyphicon-edit"></i> Compose </a></li>
-		                    
+
 		                    <li><a href="{{ url('/candidates') }}"><i class="glyphicon glyphicon-tasks"></i> Candidates </a></li>
 		                    <li><a href="{{ url('/services') }}"><i class="glyphicon glyphicon-record"></i> Infrastructure Services </a></li>
 		                    <li><a href="javascript:;"><i class="glyphicon glyphicon-cog"></i> Settings </a></li>
-		            
+
 		                    <li class="nav-divider"></li>
 		                    <li><a href="{{ url('/logout') }}"><i class="glyphicon glyphicon-log-out"></i> Sign Out </a></li>
 		                </ul>
@@ -212,9 +227,9 @@
 		        	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-plus"></i> Create New</button>
 		        	<h5 id='recent'>Your Behavioural Assessment Tests</h5>
 		        	<hr>
-		      		<table class="table table-striped table-bordered table-hover">
+		      		<table>
 		      			<thead>
-     						<tr class="bg-success">
+     						<tr>
 					        	<th>Sr. No</th>
 					         	<th>Name of Assessment</th>
 					         	<th>Emotion Types</th>
@@ -223,16 +238,16 @@
      						</tr>
      					</thead>
      					<tbody>
-     		
+
      					@foreach ($behaviours as $behaviour)
      						<tr>
-     							<td> {{ $behaviour->id }} </td>	
+     							<td> {{ $behaviour->id }} </td>
      							<td> {{ $behaviour->assessment_name }} </td>
      							@if (is_null( $behaviour->emotion_id ))
      							<td> No </td>
      							@else
      							<td> Yes </td>
-     							@endif 
+     							@endif
 
      							@if (is_null( $behaviour->category_id ))
      							<td> No </td>
@@ -243,11 +258,11 @@
      							<td><a href="{{ route('compose.show', $behaviour->id)}}"><i class="glyphicon glyphicon-play-circle"></i> View </a></td>
      							<td><a href="{{ route('compose.edit', $behaviour->id)}}"><i class="glyphicon glyphicon-pencil"></i> Edit </a></td>
      							<td>
-     								
+
      								{{ Form::open(array('url' => '/compose/' . $behaviour->id )) }}
-                    				{{ Form::hidden('_method', 'DELETE') }}
-                    				{{ Form::submit('Delete', array('class' => 'btn btn-danger')) }}
-                					{{ Form::close() }}
+                    {{ Form::hidden('_method', 'DELETE') }}
+                    {{ Form::submit('Delete', array('class' => 'btn btn-danger')) }}
+                		{{ Form::close() }}
 
      							</td>
      						</tr>

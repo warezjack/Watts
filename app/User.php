@@ -41,10 +41,10 @@ class User extends Authenticatable
                 'users_details.city',
                 'users_details.organisation_name',  
                 'users_details.date_of_joining'
-            )
-            ->where('users.is_admin', 0)
-            ->orwhere('users.is_admin', 2)
+            ) 
             ->where('organisation_name', $organisation_name)
+            ->where('users.is_admin', 0)
+            ->orWhere('users.is_admin', 2)
             ->get();
         return $users;
     }

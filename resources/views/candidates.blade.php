@@ -59,6 +59,23 @@
 			    -o-text-overflow: ellipsis;
 			    text-overflow: ellipsis; 
 			}
+			
+			table {
+			  border-radius: 0.25em;
+			  border-collapse: collapse;
+			  font-family: Quicksand;
+			}
+			th {
+			  border-bottom: 1px solid #364043;
+			  font-size: 0.90em;
+			  font-weight: bold;
+			  padding: 0.5em 1em;
+			  text-align: left;
+			}
+			td {
+			  font-weight: 400;
+			  padding: 0.65em 1em;
+			}
 		</style>
 
 	</head>
@@ -104,13 +121,13 @@
 		            </nav>
 		        </div>
 		        <div class="col-sm-10">
-		        	<table class="table table-striped table-bordered table-hover">
+		        	<table>
 		      			<thead>
-     						<tr class="bg-info">
+     						<tr>
 					        	<th>Sr. No</th>
 					         	<th>Name of Candidate</th>
 					         	<th>Gender</th>
-					         	<th>Email</th>
+					         	<th>Email Address</th>
 					         	<th>State</th>
 					         	<th>City</th>
 					         	<th>Organisation</th>
@@ -137,7 +154,7 @@
 		        				<td> External </td>
 		        			@endif
 		        			
-		        			<td><a href="{{ route('candidates.show', $user->id) }}"><i class="glyphicon glyphicon-download"></i> Download </a></td>
+		        			<td align="center"><a href="{{ route('candidates.show', $user->id) }}"><i class="glyphicon glyphicon-download"></i></a></td>
 		        		</tr>
 		        	@endforeach
 		        		</tbody>
