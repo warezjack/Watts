@@ -99,15 +99,15 @@
 	  					<div class="panel-heading">Hadoop Services</div>
 	  					<div class="panel-body">
 	  						Namenode
-	  						<span class="label label-info"><?php echo isset($namenode) ? $namenode : 'Not Operational'; ?></span><hr>
+	  						<span class="label label-info"><?php echo isset($nameNode) ? 'Operational' : 'Not Operational'; ?></span><hr>
 	  						Datanodes
-	  						<span class="label label-info"><?php echo isset($datanode) ? $datanode : 'Not Operational'; ?></span><hr>
+	  						<span class="label label-info"><?php echo isset($dataNode) ? 'Operational' : 'Not Operational'; ?></span><hr>
 	  						Secondary Namenode
-	  						<span class="label label-info"><?php echo isset($secondaryNamenode) ? $secondaryNamenode : 'Not Operational'; ?></span><hr>
+	  						<span class="label label-info"><?php echo isset($secondaryNameNode) ? 'Operational' : 'Not Operational'; ?></span><hr>
 	  						Node Manager
-	  						<span class="label label-info"><?php echo isset($nodeManager) ? $nodeManager : 'Not Operational'; ?></span><hr>
+	  						<span class="label label-info"><?php echo isset($nodeManager) ? 'Operational' : 'Not Operational'; ?></span><hr>
 	  						Resource Manager
-	  						<span class="label label-info"><?php echo isset($resourceManager) ? $resourceManager : 'Not Operational'; ?></span>
+	  						<span class="label label-info"><?php echo isset($resourceManager) ? 'Operational' : 'Not Operational'; ?></span>
 	  					</div>
 					</div>
 					<div class="panel panel-info">

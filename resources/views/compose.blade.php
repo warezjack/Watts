@@ -255,8 +255,8 @@
      							<td> Yes </td>
      							@endif
 
-     							<td><a href="{{ route('compose.show', $behaviour->id)}}"><i class="glyphicon glyphicon-play-circle"></i> View </a></td>
-     							<td><a href="{{ route('compose.edit', $behaviour->id)}}"><i class="glyphicon glyphicon-pencil"></i> Edit </a></td>
+     							<td><a href="{{ route('compose.show', $behaviour->id)}}"><i class="btn btn-primary  glyphicon glyphicon-play-circle"></i></a></td>
+     							<td><a href="{{ route('compose.edit', $behaviour->id)}}"><i class="btn btn-primary glyphicon glyphicon-pencil"></i></a></td>
      							<td>
 
      								{{ Form::open(array('url' => '/compose/' . $behaviour->id )) }}
