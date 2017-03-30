@@ -99,33 +99,33 @@
 	  					<div class="panel-heading">Hadoop Services</div>
 	  					<div class="panel-body">
 	  						Namenode
-	  						<span class="label label-info"><?php echo isset($nameNode) ? 'Operational' : 'Not Operational'; ?></span><hr>
+	  						<?php echo isset($nameNode) ? '<span class="label label-success">Operational</span>' : '<span class="label label-danger">Not Operational</span>' ?></span><hr>
 	  						Datanodes
-	  						<span class="label label-info"><?php echo isset($dataNode) ? 'Operational' : 'Not Operational'; ?></span><hr>
+	  						<?php echo isset($dataNode) ? '<span class="label label-success">Operational</span>' : '<span class="label label-danger">Not Operational</span>' ?></span><hr>
 	  						Secondary Namenode
-	  						<span class="label label-info"><?php echo isset($secondaryNameNode) ? 'Operational' : 'Not Operational'; ?></span><hr>
+	  						<?php echo isset($secondaryNameNode) ? '<span class="label label-success">Operational</span>' : '<span class="label label-danger">Not Operational</span>' ?></span><hr>
 	  						Node Manager
-	  						<span class="label label-info"><?php echo isset($nodeManager) ? 'Operational' : 'Not Operational'; ?></span><hr>
+	  						<?php echo isset($nodeManager) ? '<span class="label label-success">Operational</span>' : '<span class="label label-danger">Not Operational</span>' ?></span><hr>
 	  						Resource Manager
-	  						<span class="label label-info"><?php echo isset($resourceManager) ? 'Operational' : 'Not Operational'; ?></span>
+	  						<?php echo isset($resourceManager) ? '<span class="label label-success">Operational</span>' : '<span class="label label-danger">Not Operational</span>' ?></span>
 	  					</div>
 					</div>
 					<div class="panel panel-info">
 	  					<div class="panel-heading">Alluxio Services</div>
 	  					<div class="panel-body">
 	  						Alluxio Master
-	  						<span class="label label-info">Not Operational</span><hr>
+	  						<?php echo isset($alluxioMaster) ? '<span class="label label-success">Operational</span>' : '<span class="label label-danger">Not Operational</span>' ?></span><hr>
 	  						Alluxio Slaves
-	  						<span class="label label-info">Not Operational</span>
+	  						<?php echo isset($alluxioWorker) ? '<span class="label label-success">Operational</span>' : '<span class="label label-danger">Not Operational</span>' ?></span>
 	  					</div>
 					</div>
 					<div class="panel panel-info">
 	  					<div class="panel-heading">Spark Services</div>
 	  					<div class="panel-body">
 	  						Spark Master
-	  						<span class="label label-info">Not Operational</span><hr>
+	  						<?php echo isset($sparkMaster) ? '<span class="label label-success">Operational</span>' : '<span class="label label-danger">Not Operational</span>' ?></span><hr>
 	  						Spark Workers
-	  						<span class="label label-info">Not Operational</span>
+	  						<?php echo isset($sparkWorker) ? '<span class="label label-success">Operational</span>' : '<span class="label label-danger">Not Operational</span>' ?></span>
 	  					</div>
 					</div>
 					<hr>

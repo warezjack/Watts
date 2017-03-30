@@ -12,8 +12,8 @@
 		<!-- jQuery library -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
-  		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  		<link rel="stylesheet" href="/resources/demos/style.css">
+  	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
 
   		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   		<link rel="shortcut icon" href="{{ asset('favicon.ico') }}" >
@@ -30,7 +30,12 @@
         	$(function() {
             	$("#datepicker").datepicker();
         	});
-    	</script>
+					$(document).ready(function(){
+							$('#product').click(function() {
+									//disabled elements not needed by PA.
+							});
+					});
+     </script>
 
 		<!-- Styles -->
 		<style type="text/css">
@@ -50,8 +55,8 @@
 			}
 
 			#datepicker {
-				 position: relative; 
-				 z-index: 100000; 
+				 position: relative;
+				 z-index: 100000;
 			}
 
 		</style>
@@ -65,32 +70,31 @@
 			<div class="container" id="envelope">
 			<form method="post" action="signup">
 			<input type="hidden" name="_token" value="{{ csrf_token() }}">
-			<label>Input code:</label> 
+			<label>Type of User:</label>
+			<label class="radio-inline"><input type="radio" name="type_of_user" value="1" id="product">Product Administrator</label>
+			<label class="radio-inline"><input type="radio" name="type_of_user" value="0" id="employee">Employee</label>
+			<label class="radio-inline"><input type="radio" name="type_of_user" value="2" id="candidate">Candidate</label><br><br>
+			<label>Input code:</label>
 			<input type="text" class="form-control" id="code">
 			<h6 class="text-info"><i>(Please input the code we sent to you in e-mail to continue)</i></h6>
-
-			<label>Type of User:</label>
-  			<label class="radio-inline"><input type="radio" name="type_of_user" value="1">Product Administrator</label>
-  			<label class="radio-inline"><input type="radio" name="type_of_user" value="0">Employee</label>
-  			<label class="radio-inline"><input type="radio" name="type_of_user" value="2">Candidate</label>  
-  			<hr>
-  			<div class="panel panel-default">
-  				<div class="panel-heading">Basic Information</div>
+  		<hr>
+  		<div class="panel panel-default">
+  			<div class="panel-heading">Basic Information</div>
   				<div class="panel-body">
-	  				
+
 	  				<label>Full Name:</label>
 		  			<input type="text" class="form-control" id="name" name="full_name">
 		  			<h6 class="text-info"><i>(Please provide your full name)</i></h6>
-	  				
+
 	  				<label>Gender:</label>
   					<label class="radio-inline"><input type="radio" name="male" value="Male">Male</label>
   					<label class="radio-inline"><input type="radio" name="female" value="Female">Female</label>
   					<br>
-  					
+
   					<label for="comment">Address:</label>
-  					<textarea class="form-control" rows="2" id="comment" name="address"></textarea> 
+  					<textarea class="form-control" rows="2" id="comment" name="address"></textarea>
   					<h6 class="text-info"><i>(Please provide your full address)</i></h6>
-  					
+
   					<label for="sel1">Select State:</label>
   					<select class="form-control" id="sel1" name="state_name">
 					    <option value="Maharashtra">Maharashtra</option>

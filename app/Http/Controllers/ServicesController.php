@@ -27,15 +27,23 @@ class ServicesController extends Controller
 			$secondaryNameNode = $this->checkService($processes, 'SecondaryNameNode');
 
 			//check alluxio services
+			$alluxioMaster = $this->checkService($processes, 'AlluxioMaster');
+			$alluxioWorker = $this->checkService($processes, 'AlluxioWorker');
 
 			//check spark services
-			
+			$sparkMaster = $this->checkService($processes, 'Master');
+			$sparkWorker = $this->checkService($processes, 'Worker');
+
     	return view('services', array(
 				'nameNode' => $nameNode,
 				'dataNode' => $dataNode,
 				'nodeManager' => $nodeManager,
 				'resourceManager' => $resourceManager,
 				'secondaryNameNode' => $secondaryNameNode,
+				'sparkMaster' => $sparkMaster,
+				'sparkWorker' => $sparkWorker,
+				'alluxioMaster' => $alluxioMaster,
+				'alluxioWorker' => $alluxioWorker,
 			));
     }
 
