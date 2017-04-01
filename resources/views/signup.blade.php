@@ -85,8 +85,10 @@
 
 							$('#confirm_pwd').rules("add", {
 								minlength: 8,
+								required: true,
 								equalTo: '#pwd',
 								messages: {
+									required: '<h6 class="text-danger"><i>(Please provide your password)</i></h6>',
 									minlength: '<h6 class="text-danger"><i>(Your password must be at least 8 characters long, consisting of at least one special character, one number and one upper case letter)</i></h6>',
 									equalTo: '<h6 class="text-danger"><i>(Passwords do not match)</i></h6>'
 								}
@@ -94,17 +96,26 @@
 
 							$('#connect_fb').rules("add", {
 									required: true,
-									minlength:8,
+									url: true,
 									messages: {
 										required: '<h6 class="text-danger"><i>(Example: http://www.facebook.com/warezjack)</i></h6>',
+										url: '<h6 class="text-danger"><i>(Example: http://www.facebook.com/warezjack)</i></h6>'
 									}
 							});
 
 							$('#connect_twitter').rules("add", {
 									required: true,
-									minlength:8,
+									url: true,
 									messages: {
 										required: '<h6 class="text-danger"><i>(Example: http://www.twitter.com/warezjack)</i></h6>',
+										url: '<h6 class="text-danger"><i>(Example: http://www.twitter.com/warezjack)</i></h6>'
+									}
+							});
+
+							$('#datepicker').rules("add", {
+									required: true,
+									messages: {
+										required: '<h6 class="text-danger"><i>(Please provide date of joining or date of registration)</i></h6>',
 									}
 							});
 
@@ -117,7 +128,7 @@
 								$('#confirm_pwd').prop('disabled', false);
 							});
 
-							$('#employee').click(function(){
+							$('#employee').click(function() {
 								$('#connect_fb').prop('disabled', false);
 								$('#connect_twitter').prop('disabled',false);
 								$('#input_code').prop('disabled', true);
@@ -125,7 +136,7 @@
 								$('#confirm_pwd').prop('disabled', false);
 							});
 
-							$('#candidate').click(function(){
+							$('#candidate').click(function() {
 								$('#connect_fb').prop('disabled', false);
 								$('#connect_twitter').prop('disabled', false);
 								$('#input_code').prop('disabled', true);
@@ -133,7 +144,7 @@
 								$('#confirm_pwd').prop('disabled', true);
 							});
 
-							$('#agree').click(function(){
+							$('#agree').click(function() {
 								$('#register').prop('disabled', false);
 							});
 					});
@@ -175,7 +186,7 @@
 			<label class="radio-inline"><input type="radio" name="type_of_user" value="0" id="employee">Employee</label>
 			<label class="radio-inline"><input type="radio" name="type_of_user" value="2" id="candidate">Candidate</label><br><br>
 			<label>Input code:</label>
-			<input type="text" class="form-control" id="input_code">
+			<input type="text" class="form-control" id="input_code" name="code">
   		<hr>
   		<div class="panel panel-default">
   			<div class="panel-heading">Basic Information</div>
@@ -186,8 +197,8 @@
 						<br>
 
 	  				<label>Gender:</label>
-  					<label class="radio-inline"><input type="radio" name="male" value="Male">Male</label>
-  					<label class="radio-inline"><input type="radio" name="female" value="Female">Female</label>
+  					<label class="radio-inline"><input type="radio" name="gender" value="Male">Male</label>
+  					<label class="radio-inline"><input type="radio" name="gender" value="Female">Female</label>
   					<br>
 
   					<label for="comment">Address:</label>

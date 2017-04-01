@@ -13,13 +13,12 @@ use Alert;
 class UsersController extends Controller
 {
     public function signup(Request $request) {
-
         //Admin
         $adminsId = $this->storeAuthenticationDetails($request);
 
         //store details
         $this->storeUserDetails($request, $adminsId);
-        
+
         // redirect
         notify()->flash('User Successfully Registered', 'success');
         return redirect()->to('login');
@@ -44,20 +43,14 @@ class UsersController extends Controller
     public function storeUserDetails($request, $adminsId) {
         $userDetails = new UsersDetails;
         $userDetails->full_name = $request->get('full_name');
-        $gender = $request->get('male');
-        if(isset($gender)) {
-            $userDetails->gender = $request->get('male');
-        }
-        else {
-            $userDetails->gender = $request->get('female');
-        } 
+        $userDetails->gender = $request->get('gender');
         $userDetails->address =  $request->get('address');
         $userDetails->state = $request->get('state_name');
         $userDetails->city = $request->get('city_name');
 
         $userDetails->connect_to_fb = $request->get('connect_to_fb');
         $userDetails->connect_to_twitter = $request->get('connect_to_twitter');
-        
+
         $userDetails->organisation_name = $request->get('org_name');
 
         $converted_date = date("Y-m-d", strtotime($request->get('date_of_joining')));
