@@ -22,13 +22,13 @@ class CandidatesController extends Controller
     	$userObject = new Users();
     	$usersDetails = UsersDetails::where('user_id', Auth::user()->id)->first();
     	$users = $userObject->getUserDetails($usersDetails['organisation_name']);
-        return View::make('candidates')->with(compact('users'));
+			return View::make('candidates')->with(compact('users'));
     }
 
     public function show($id) {
     	$userObject = new Users();
     	$twitterUrl = $userObject->fetchTwitterUrl($id);
-        print_r($twitterUrl);	
+        print_r($twitterUrl);
     }
 
     public function fetch() {

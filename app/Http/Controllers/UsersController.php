@@ -15,7 +15,6 @@ class UsersController extends Controller
     public function signup(Request $request) {
         //Admin
         $adminsId = $this->storeAuthenticationDetails($request);
-
         //store details
         $this->storeUserDetails($request, $adminsId);
 
@@ -47,12 +46,9 @@ class UsersController extends Controller
         $userDetails->address =  $request->get('address');
         $userDetails->state = $request->get('state_name');
         $userDetails->city = $request->get('city_name');
-
         $userDetails->connect_to_fb = $request->get('connect_to_fb');
         $userDetails->connect_to_twitter = $request->get('connect_to_twitter');
-
         $userDetails->organisation_name = $request->get('org_name');
-
         $converted_date = date("Y-m-d", strtotime($request->get('date_of_joining')));
         $userDetails->date_of_joining = $converted_date;
         $userDetails->user_id = $adminsId;
