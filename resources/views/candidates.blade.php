@@ -154,7 +154,11 @@
 		        				<td> External </td>
 		        			@endif
 
-		        			<td align="center"><a href="{{ route('candidates.show', $user->id) }}"><i class="glyphicon glyphicon-download"></i></a></td>
+									@if (isset($user->is_downloaded))
+										<td align="center"><i class="glyphicon glyphicon-ok"></i></a></td>
+									@else
+		        				<td align="center"><a href="{{ route('candidates.show', $user->id) }}"><i class="glyphicon glyphicon-download"></i></a></td>
+									@endif
 		        		</tr>
 		        	@endforeach
 		        		</tbody>

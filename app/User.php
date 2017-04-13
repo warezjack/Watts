@@ -31,6 +31,7 @@ class User extends Authenticatable
     public function getUserDetails($organisation_name) {
         $users = DB::table('users')
             ->join('users_details', 'users.id', '=', 'users_details.user_id')
+            ->leftJoin('twitter_statuses', 'users.id', '=', 'twitter_statuses.user_id')
             ->select(
                 'users.id',
                 'users.is_admin',
@@ -40,7 +41,8 @@ class User extends Authenticatable
                 'users_details.state',
                 'users_details.city',
                 'users_details.organisation_name',
-                'users_details.date_of_joining'
+                'users_details.date_of_joining',
+                'twitter_statuses.is_downloaded'
             )
             ->where('organisation_name', $organisation_name)
             ->where(function($query) {

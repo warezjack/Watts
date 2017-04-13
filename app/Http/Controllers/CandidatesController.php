@@ -44,7 +44,7 @@ class CandidatesController extends Controller
 			$twitterStatus->user_id = $id;
 			$twitterStatus->is_downloaded = 1;
 			$twitterStatus->save();
-			
+
 			notify()->flash("Candidate's data has been successfully downloaded", 'success');
 			return redirect()->to('candidates');
     }
