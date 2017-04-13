@@ -130,8 +130,9 @@
         name: 'Polarity',
         innerSize: '50%',
         data: [
-            ['Positive',   10.38],
-            ['Negative',       56.33],
+            ['Positive',  40.38],
+            ['Negative',  56.33],
+						['Offensive', 23.43],
             {
                 name: 'Proprietary or Undetectable',
                 y: 0.2,

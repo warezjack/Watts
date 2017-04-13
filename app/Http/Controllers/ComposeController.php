@@ -21,18 +21,18 @@ class ComposeController extends Controller
 
 
     public function add(Request $request) {
-    	$behaviour = new Behaviours(); 
+    	$behaviour = new Behaviours();
     	$behaviour->assessment_name = $request->get('assessment_name');
-    	
+
     	$getAllCategories = $request->get('category');
-    	
+
     	if(empty($getAllCategories)) {
     		$behaviour->has_categories = 0;
     	}
     	else {
     		$behaviour->has_categories = 1;
     		$categoryTypeId = $this->saveCategories($getAllCategories);
-    		$behaviour->category_id = $categoryTypeId; 
+    		$behaviour->category_id = $categoryTypeId;
     	}
 
   		$getAllEmotions = $request->get('emotion');
@@ -87,16 +87,16 @@ class ComposeController extends Controller
     			case 'Motorcycles':
     				$categoryType->has_motorcycles = 1;
     				break;
-    		}	
+    		}
     	}
-    	
+
     	$categoryType->save();
     	return $categoryType->id;
     }
 
     public function saveEmotions($emotions) {
     	$emotionType = new Emotions();
-    	
+
     	$emotionType->has_fear = 0;
     	$emotionType->has_joy = 0;
     	$emotionType->has_love = 0;
@@ -137,7 +137,7 @@ class ComposeController extends Controller
 
     public function index() {
     	$behaviours = Behaviours::all();
-        return view('compose', compact('behaviours'));
+      return view('compose', compact('behaviours'));
     }
 
     public function destroy($id) {
@@ -145,36 +145,35 @@ class ComposeController extends Controller
     	$emotionType = Emotions::find($behaviour->emotion_id);
     	$categoryType = Categories::find($behaviour->category_id);
 
-        $behaviour->delete();
-        $emotionType->delete();
+    	$behaviour->delete();
+      $emotionType->delete();
     	$categoryType->delete();
 
-        // redirect
-        notify()->flash('Assessment Test Successfully Deleted', 'success');
-        return redirect()->to('compose');
+      // redirect
+      notify()->flash('Assessment Test Successfully Deleted', 'success');
+      return redirect()->to('compose');
     }
 
     public function edit($id) {
     	$behaviour = Behaviours::find($id);
-    	
+
     	if(!is_null($behaviour->emotion_id)) {
-    		$emotionType = Emotions::find($behaviour->emotion_id);	
+    		$emotionType = Emotions::find($behaviour->emotion_id);
     	}
-    	
+
     	if(!is_null($behaviour->category_id)) {
     		$categoryType = Categories::find($behaviour->category_id);
     	}
-        // show the view and pass the nerd to it
-        return View::make('compose.edit')->with(compact('behaviour', 'emotionType', 'categoryType'));
+      return View::make('compose.edit')->with(compact('behaviour', 'emotionType', 'categoryType'));
     }
 
     public function show($id) {
     	$behaviour = Behaviours::find($id);
-    	
+
     	if(!is_null($behaviour->emotion_id)) {
-    		$emotionType = Emotions::find($behaviour->emotion_id);	
+    		$emotionType = Emotions::find($behaviour->emotion_id);
     	}
-    	
+
     	if(!is_null($behaviour->category_id)) {
     		$categoryType = Categories::find($behaviour->category_id);
     	}
@@ -195,7 +194,7 @@ class ComposeController extends Controller
     	}
 
     	$emotionTypeId = $this->setEmotions($emotionType);
-    	
+
     	if(!is_null($behaviour->category_id)) {
     		$categoryType = Categories::find($behaviour->category_id);
     	}
@@ -207,14 +206,14 @@ class ComposeController extends Controller
 
     	$categoryTypeId = $this->setCategories($categoryType);
 
-        $behaviour->assessment_name = Input::get('assessment_name');
+      $behaviour->assessment_name = Input::get('assessment_name');
     	$behaviour->emotion_id = $emotionTypeId;
     	$behaviour->category_id = $categoryTypeId;
     	$behaviour->save();
 
     	//redirect
     	notify()->flash('Assessment Test Successfully Updated', 'success');
-        return redirect()->to('compose');
+      return redirect()->to('compose');
     }
 
     public function setCategories($categoryType) {
@@ -233,7 +232,7 @@ class ComposeController extends Controller
     public function setEmotions($emotionType) {
     	$emotionType->has_fear = empty(Input::get('has_fear')) ? 0 : 1;
     	$emotionType->has_joy = empty(Input::get('has_joy')) ? 0 : 1;
-    	$emotionType->has_love = empty(Input::get('has_love')) ? 0 : 1;	
+    	$emotionType->has_love = empty(Input::get('has_love')) ? 0 : 1;
     	$emotionType->has_disgust = empty(Input::get('has_disgust')) ? 0 : 1;
     	$emotionType->has_sadness = empty(Input::get('has_sadness')) ? 0 : 1;
     	$emotionType->has_surprise = empty(Input::get('has_surprise')) ? 0 : 1;

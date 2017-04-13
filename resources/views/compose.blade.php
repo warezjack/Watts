@@ -230,10 +230,12 @@
 		      		<table>
 		      			<thead>
      						<tr>
-					        	<th>Sr. No</th>
-					         	<th>Name of Assessment</th>
-					         	<th>Emotion Types</th>
-					         	<th>Subject Categories</th>
+					        	<th> Sr. No</th>
+					         	<th> Name of Assessment</th>
+										<th> Date Of Creation </th>
+										<th> Date of Updation </th>
+					         	<th> Emotion Types</th>
+					         	<th> Subject Categories</th>
 					         	<th colspan="3">Actions</th>
      						</tr>
      					</thead>
@@ -242,17 +244,19 @@
      					@foreach ($behaviours as $behaviour)
      						<tr>
      							<td> {{ $behaviour->id }} </td>
-     							<td> {{ $behaviour->assessment_name }} </td>
+     							<td><b> {{ $behaviour->assessment_name }} </b></td>
+									<td> {{ $behaviour->created_at }} </td>
+									<td> {{ $behaviour->updated_at }} </td>
      							@if (is_null( $behaviour->emotion_id ))
-     							<td> No </td>
+     							<td><b> No </b></td>
      							@else
-     							<td> Yes </td>
+     							<td><b> Yes </b></td>
      							@endif
 
      							@if (is_null( $behaviour->category_id ))
-     							<td> No </td>
+     							<td><b> No </b></td>
      							@else
-     							<td> Yes </td>
+     							<td><b> Yes </b></td>
      							@endif
 
      							<td><a href="{{ route('compose.show', $behaviour->id)}}"><i class="btn btn-primary  glyphicon glyphicon-play-circle"></i></a></td>

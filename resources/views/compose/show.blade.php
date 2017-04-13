@@ -246,7 +246,9 @@
      				@else
      					<div align="center"><h4>Attention: You do not have any assigned subject categories</h4></div>
      				@endif
-     				<button class="btn btn-primary" onclick="window.location='{{ url('compose') }}'">Back</button>
+						<div align="center">
+     					<button class="btn btn-primary" onclick="window.location='{{ url('compose') }}'">Back</button>
+						</div>
 		    	</div>
     		</div>
 		</div>
