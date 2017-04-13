@@ -128,7 +128,6 @@
 					         	<th>Name of Candidate</th>
 					         	<th>Gender</th>
 					         	<th>Email Address</th>
-					         	<th>State</th>
 					         	<th>City</th>
 					         	<th>Organisation</th>
 					         	<th>Date</th>
@@ -140,18 +139,17 @@
 		        	@foreach ($users as $user)
 		        		<tr>
 		        			<td> {{ $user->id }} </td>
-		        			<td> {{ $user->full_name }}</td>
-		        			<td> {{ $user->gender }}</td>
-		        			<td> {{ $user->email }}</td>
-		        			<td> {{ $user->state }}</td>
-		        			<td> {{ $user->city }}</td>
-		        			<td> {{ $user->organisation_name }}</td>
-		        			<td> {{ $user->date_of_joining }}</td>
+		        			<td><b> {{ $user->full_name }} </b></td>
+		        			<td> {{ $user->gender }} </td>
+		        			<td><b> {{ $user->email }} </b></td>
+		        			<td> {{ $user->city }} </td>
+		        			<td> {{ $user->organisation_name }} </td>
+		        			<td><b> {{ $user->date_of_joining }} </b></td>
 
 		        			@if ($user->is_admin == '0')
-		        				<td> Internal </td>
+		        				<td><b> Internal </b></td>
 		        			@elseif($user->is_admin == '2')
-		        				<td> External </td>
+		        				<td><b> External </b></td>
 		        			@endif
 
 									@if (isset($user->is_downloaded))
