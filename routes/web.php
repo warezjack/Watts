@@ -54,3 +54,13 @@ Route::delete('/compose/{id}', 'ComposeController@destroy');
 Route::put('/compose/{id}', 'ComposeController@update');
 
 Route::get('/candidates', 'CandidatesController@index');
+
+Route::get('/candidates/show/{id}', 'CandidatesController@show');
+
+Route::resource('candidates', 'CandidatesController');
+
+Route::get('assessments', 'CandidatesController@fetch');
+
+Route::get('profiles', ['middleware' => 'auth', function(){
+	return view('profiles');
+}]);

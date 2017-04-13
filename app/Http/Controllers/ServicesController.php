@@ -15,62 +15,41 @@ class ServicesController extends Controller
 	}
 
     public function status() {
-    	//check hadoop services
+			$process = new Process('jps');
+			$process->run();
+			$processes = $process->getOutput();
 
-    	// $hadoopServiceStatus = "ps -ef | grep hadoop | grep -P  'namenode|datanode|tasktracker|jobtracker|nodemanager|resourcemanager'";
-   
-    	// $namenodeService = $this->namenodeCheck($hadoopServiceStatus);
-    	// $datanodeService = $this->datanodeCheck($hadoopServiceStatus);
-    	// $SecondaryNameNodeService = $this->secondaryNameNodeCheck($hadoopServiceStatus);
-    	// $nodeManagerService = $this->nodeManagerCheck($hadoopServiceStatus);
-    	// $resourceManagerService = $this->resourceManagerCheck($hadoopServiceStatus);
+			//check hadoop services
+			$nameNode = $this->checkService($processes, 'NameNode');
+			$dataNode = $this->checkService($processes, 'DataNode');
+			$nodeManager = $this->checkService($processes, 'NodeManager');
+			$resourceManager = $this->checkService($processes, 'ResourceManager');
+			$secondaryNameNode = $this->checkService($processes, 'SecondaryNameNode');
 
-    	/*return View::make('services', 
-    		array(
-    			'namenode' => $namenodeService,
-    			'datanode' => $datanodeService,
-    			'secondaryNamenode' => $SecondaryNameNodeService,
-    			'nodeManager' => $nodeManagerService,
-    			'resourceManager' => $resourceManagerService
-    		)
-    	);*/
-    	return view('services');
+			//check alluxio services
+			$alluxioMaster = $this->checkService($processes, 'AlluxioMaster');
+			$alluxioWorker = $this->checkService($processes, 'AlluxioWorker');
+
+			//check spark services
+			$sparkMaster = $this->checkService($processes, 'Master');
+			$sparkWorker = $this->checkService($processes, 'Worker');
+
+    	return view('services', array(
+				'nameNode' => $nameNode,
+				'dataNode' => $dataNode,
+				'nodeManager' => $nodeManager,
+				'resourceManager' => $resourceManager,
+				'secondaryNameNode' => $secondaryNameNode,
+				'sparkMaster' => $sparkMaster,
+				'sparkWorker' => $sparkWorker,
+				'alluxioMaster' => $alluxioMaster,
+				'alluxioWorker' => $alluxioWorker,
+			));
     }
 
- //    public function namenodeCheck($hadoopServiceStatus) {
-	// 	/*if (strpos($hadoopServiceStatus, 'org.apache.hadoop.hdfs.server.namenode.NameNode') !== false) {
-	// 		return 'Operational'; 	
-	// 	}
-	// 	return 'Not Operational. Contact Administrator';*/
-	// }
-
-	// public function datanodeCheck($hadoopServiceStatus) {
-	// 	if (strpos($hadoopServiceStatus, 'org.apache.hadoop.hdfs.server.datanode.DataNode') !== false) {
-	// 		return 'Operational';
-	// 	}
-	// 	return 'Not Operational. Contact Administrator';
-	// }
-
-	// public function secondaryNameNodeCheck($hadoopServiceStatus) {
-	// 	if (strpos($hadoopServiceStatus, 'org.apache.hadoop.hdfs.server.namenode.SecondaryNameNode') !== false) {
-	// 		return 'Operational';
-	// 	}
-	// 	return 'Not Operational. Contact Administrator';
-	// }
-
-	// public function resourceManagerCheck($hadoopServiceStatus) {
-	// 	$status = 0;
-	// 	if (strpos($hadoopServiceStatus, 'org.apache.hadoop.yarn.server.resourcemanager.ResourceManager') !== false) {
-	// 		return 'Operational';
-	// 	}
-	// 	return 'Not Operational. Contact Administrator';
-	// }
-
-	// public function nodeManagerCheck($hadoopServiceStatus) {
-	// 	if (strpos($hadoopServiceStatus, 'org.apache.hadoop.yarn.server.nodemanager.NodeManager') !== false) {
-	// 		return 'Operational';
-	// 	}
-	// 	return 'Not Operational. Contact Administrator';	
-	// }
+		public function checkService($process, $service) {
+			if(strpos($process, $service) !== false) {
+					return true;
+			}
+		}
 }
-	

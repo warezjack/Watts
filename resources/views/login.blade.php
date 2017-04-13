@@ -17,6 +17,7 @@
     
     	
 		<link rel="stylesheet" type="text/css" href="css/sweetalert.css">
+		<link rel="shortcut icon" href="{{ asset('favicon.ico') }}" >
 
     	<!-- Fonts -->
 		<link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet" type="text/css">
@@ -86,6 +87,7 @@
 			  			</div>
 					</div>
 					<button type="submit" class="btn btn-primary">Log In</button>
+					<button class="btn btn-default" onclick='window.location="signup"'>Sign Up</button>
 				</div>
 			</form>
 		</div>		

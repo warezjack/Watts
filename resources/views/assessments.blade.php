@@ -13,7 +13,6 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 		<link rel="shortcut icon" href="{{ asset('favicon.ico') }}" >
 
-
 		<!-- Referencing Bootstrap JS that is hosted locally -->
     	{{ Html::script('js/bootstrap.min.js') }}
 
@@ -28,53 +27,49 @@
 				font-family: 'Pacifico';
 				font-size: 30px;
 			}
-			.nav-sidebar {
-    			width: 100%;
+			.nav-sidebar { 
+    			width: 100%; 
 			    border-right: 1px solid #ddd;
 			}
-
+			
 			.nav-sidebar a {
 			    color: #333;
 			    -webkit-transition: all 0.08s linear;
 			    -moz-transition: all 0.08s linear;
 			    -o-transition: all 0.08s linear;
 			    transition: all 0.08s linear;
-			    -webkit-border-radius: 4px 0 0 4px;
-			    -moz-border-radius: 4px 0 0 4px;
-			    border-radius: 4px 0 0 4px;
+			    -webkit-border-radius: 4px 0 0 4px; 
+			    -moz-border-radius: 4px 0 0 4px; 
+			    border-radius: 4px 0 0 4px; 
 			}
-			.nav-sidebar .active a {
+			.nav-sidebar .active a { 
 			    cursor: default;
-			    background-color: #428bca;
-			    color: #fff;
-			    text-shadow: 1px 1px 1px #666;
+			    background-color: #428bca; 
+			    color: #fff; 
+			    text-shadow: 1px 1px 1px #666; 
 			}
 			.nav-sidebar .active a:hover {
-			    background-color: #428bca;
+			    background-color: #428bca;   
 			}
 			.nav-sidebar .text-overflow a,
 			.nav-sidebar .text-overflow .media-body {
 			    white-space: nowrap;
 			    overflow: hidden;
 			    -o-text-overflow: ellipsis;
-			    text-overflow: ellipsis;
+			    text-overflow: ellipsis; 
 			}
-
-			table {
-			  border-radius: 0.25em;
-			  border-collapse: collapse;
-			  font-family: Quicksand;
+			h5, h4 {
+				font-family: Quicksand;
+				font-weight: bold;	
 			}
-			th {
-			  border-bottom: 1px solid #364043;
-			  font-size: 0.90em;
-			  font-weight: bold;
-			  padding: 0.5em 1em;
-			  text-align: left;
+			#begin_assessment {
+				margin-left: 200px;
 			}
-			td {
-			  font-weight: 400;
-			  padding: 0.65em 1em;
+			#log {
+				margin-bottom: -15px;
+				margin-left: 1025px;
+				font-family: Quicksand;
+				font-weight: bold;
 			}
 		</style>
 
@@ -94,6 +89,7 @@
 				        });
 				@endif
 			</script>
+
 			<h3 align="center">Watts</h3>
 			<hr>
 			 <div class="row">
@@ -102,17 +98,14 @@
 		                <ul class="nav">
 		                    <li><a href="{{ url('/index') }}"><i class="glyphicon glyphicon-modal-window"></i> Dashboard </a></li>
 
-		                    <li><a href="{{ url('/assessments') }}"><i class="glyphicon glyphicon-list-alt"></i> Assessments </a></li>
-
+		                    <li class="active"><a href="{{ url('/assessments') }}"><i class="glyphicon glyphicon-list-alt"></i> Assessments </a></li>
 
 		                    <li><a href="{{ url('/profiles') }}"><i class="glyphicon glyphicon-user"></i> Profiles </a></li>
-
+		                    
 		                    <li><a href="{{ url('/compose') }}"><i class="glyphicon glyphicon-edit"></i> Compose </a></li>
-
-		                    <li class="active"><a href="{{ url('/candidates') }}"><i class="glyphicon glyphicon-tasks"></i> Candidates </a></li>
-
+		                    
+		                    <li><a href="{{ url('/candidates') }}"><i class="glyphicon glyphicon-tasks"></i> Candidates </a></li>
 		                    <li><a href="{{ url('/services') }}"><i class="glyphicon glyphicon-record"></i> Infrastructure Services </a></li>
-
 		                    <li><a href="javascript:;"><i class="glyphicon glyphicon-cog"></i> Settings </a></li>
 
 		                    <li class="nav-divider"></li>
@@ -121,47 +114,53 @@
 		            </nav>
 		        </div>
 		        <div class="col-sm-10">
-		        	<table>
-		      			<thead>
-     						<tr>
-					        	<th>Sr. No</th>
-					         	<th>Name of Candidate</th>
-					         	<th>Gender</th>
-					         	<th>Email Address</th>
-					         	<th>City</th>
-					         	<th>Organisation</th>
-					         	<th>Date</th>
-					         	<th>Type</th>
-					         	<th>Twitter Status</th>
-     						</tr>
-     					</thead>
-     					<tbody>
-		        	@foreach ($users as $user)
-		        		<tr>
-		        			<td> {{ $user->id }} </td>
-		        			<td><b> {{ $user->full_name }} </b></td>
-		        			<td> {{ $user->gender }} </td>
-		        			<td><b> {{ $user->email }} </b></td>
-		        			<td> {{ $user->city }} </td>
-		        			<td> {{ $user->organisation_name }} </td>
-		        			<td><b> {{ $user->date_of_joining }} </b></td>
-
-		        			@if ($user->is_admin == '0')
-		        				<td><b> Internal </b></td>
-		        			@elseif($user->is_admin == '2')
-		        				<td><b> External </b></td>
-		        			@endif
-
-									@if (isset($user->is_downloaded))
-										<td align="center"><i class="glyphicon glyphicon-ok"></i></a></td>
-									@else
-		        				<td align="center"><a href="{{ route('candidates.show', $user->id) }}"><i class="glyphicon glyphicon-download"></i></a></td>
-									@endif
-		        		</tr>
-		        	@endforeach
-		        		</tbody>
-		        	</table>
+		        	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-plus"></i> Begin New Assessment</button>
+		        	<h5 id='log'>Activity Log</h5>
+		        	<hr>
 		        </div>
+
+		        <!-- Modal -->
+				<div id="myModal" class="modal fade" role="dialog">
+				  <div class="modal-dialog">
+
+				    <!-- Modal content-->
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <button type="button" class="close" data-dismiss="modal">&times;</button>
+				        <h4 class="modal-title">Begin New Assessment</h4>
+				      </div>
+				      <div class="modal-body">
+				      	<div class="form-group">
+  						<label for="candidate_name">Select Candidates:</label>
+  						<select class="form-control" id="candidate">
+						   @foreach ($users as $user)
+						   		 <option value="{{$user->id}}">{{ $user->full_name }} </option>
+						   @endforeach
+					  	</select>
+
+					  	<br>
+
+					  	<label for="assessment_name">Select Assessment Test:</label>
+  						<select class="form-control" id="assessment">
+						   	@foreach ($behaviours as $behaviour)
+						   		 <option value="{{ $behaviour->id }}">{{ $behaviour->assessment_name }} </option>
+						   @endforeach
+					  	</select>
+
+					  	<br>
+
+					  	<button class="btn btn-primary" id="begin_assessment">Begin Assessment</button>
+
+						</div>	
+				      </div>
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				      </div>
+				    </div>
+
+				  </div>
+				</div>
+
     		</div>
 		</div>
 	</body>
