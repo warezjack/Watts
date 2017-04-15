@@ -113,7 +113,7 @@
 				            title: "{!! notify()->message() !!}",
 				            text: "{!! notify()->option('text') !!}",
 				            type: "{{ notify()->type() }}",
-				            timer: 1500,
+				            timer: 5500,
 				            showConfirmButton: false
 				        });
 				@endif

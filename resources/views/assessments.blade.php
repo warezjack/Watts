@@ -27,40 +27,40 @@
 				font-family: 'Pacifico';
 				font-size: 30px;
 			}
-			.nav-sidebar { 
-    			width: 100%; 
+			.nav-sidebar {
+    			width: 100%;
 			    border-right: 1px solid #ddd;
 			}
-			
+
 			.nav-sidebar a {
 			    color: #333;
 			    -webkit-transition: all 0.08s linear;
 			    -moz-transition: all 0.08s linear;
 			    -o-transition: all 0.08s linear;
 			    transition: all 0.08s linear;
-			    -webkit-border-radius: 4px 0 0 4px; 
-			    -moz-border-radius: 4px 0 0 4px; 
-			    border-radius: 4px 0 0 4px; 
+			    -webkit-border-radius: 4px 0 0 4px;
+			    -moz-border-radius: 4px 0 0 4px;
+			    border-radius: 4px 0 0 4px;
 			}
-			.nav-sidebar .active a { 
+			.nav-sidebar .active a {
 			    cursor: default;
-			    background-color: #428bca; 
-			    color: #fff; 
-			    text-shadow: 1px 1px 1px #666; 
+			    background-color: #428bca;
+			    color: #fff;
+			    text-shadow: 1px 1px 1px #666;
 			}
 			.nav-sidebar .active a:hover {
-			    background-color: #428bca;   
+			    background-color: #428bca;
 			}
 			.nav-sidebar .text-overflow a,
 			.nav-sidebar .text-overflow .media-body {
 			    white-space: nowrap;
 			    overflow: hidden;
 			    -o-text-overflow: ellipsis;
-			    text-overflow: ellipsis; 
+			    text-overflow: ellipsis;
 			}
 			h5, h4 {
 				font-family: Quicksand;
-				font-weight: bold;	
+				font-weight: bold;
 			}
 			#begin_assessment {
 				margin-left: 200px;
@@ -101,9 +101,9 @@
 		                    <li class="active"><a href="{{ url('/assessments') }}"><i class="glyphicon glyphicon-list-alt"></i> Assessments </a></li>
 
 		                    <li><a href="{{ url('/profiles') }}"><i class="glyphicon glyphicon-user"></i> Profiles </a></li>
-		                    
+
 		                    <li><a href="{{ url('/compose') }}"><i class="glyphicon glyphicon-edit"></i> Compose </a></li>
-		                    
+
 		                    <li><a href="{{ url('/candidates') }}"><i class="glyphicon glyphicon-tasks"></i> Candidates </a></li>
 		                    <li><a href="{{ url('/services') }}"><i class="glyphicon glyphicon-record"></i> Infrastructure Services </a></li>
 		                    <li><a href="javascript:;"><i class="glyphicon glyphicon-cog"></i> Settings </a></li>
@@ -117,6 +117,30 @@
 		        	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-plus"></i> Begin New Assessment</button>
 		        	<h5 id='log'>Activity Log</h5>
 		        	<hr>
+							<table class="table table-striped table-bordered table-hover">
+								<thead>
+									<th> Name of Candidate </th>
+									<th> Name of Assessment </th>
+									<th> Start Time </th>
+									<th> End Time </th>
+									<th> Status of Assessment </th>
+								</thead>
+								<tbody>
+									@foreach ($assessments as $assessment)
+										<tr>
+											<td> {{ $assessment->full_name }} </td>
+											<td> {{ $assessment->assessment_name }} </td>
+											<td> {{ $assessment->start_time }} </td>
+											<td> {{ $assessment->end_time }} </td>
+											@if($assessment->is_completed)
+												<td> Yes </td>
+											@else
+												<td> No </td>
+											@endif
+										</tr>
+									@endforeach
+								</tbody>
+						</table>
 		        </div>
 
 		        <!-- Modal -->
@@ -131,17 +155,19 @@
 				      </div>
 				      <div class="modal-body">
 				      	<div class="form-group">
-  						<label for="candidate_name">Select Candidates:</label>
-  						<select class="form-control" id="candidate">
-						   @foreach ($users as $user)
-						   		 <option value="{{$user->id}}">{{ $user->full_name }} </option>
-						   @endforeach
-					  	</select>
+									<form method="post" action="execute">
+										<input type="hidden" name="_token" value="{{ csrf_token() }}">
+  									<label for="candidate_name">Select Candidates:</label>
+  									<select class="form-control" id="candidate" name="candidate_user_id">
+						   				@foreach ($users as $user)
+						   		 			<option value="{{$user->id}}">{{ $user->full_name }} </option>
+						   				@endforeach
+					  				</select>
 
 					  	<br>
 
 					  	<label for="assessment_name">Select Assessment Test:</label>
-  						<select class="form-control" id="assessment">
+  						<select class="form-control" id="assessment" name="behaviour_name">
 						   	@foreach ($behaviours as $behaviour)
 						   		 <option value="{{ $behaviour->id }}">{{ $behaviour->assessment_name }} </option>
 						   @endforeach
@@ -149,9 +175,9 @@
 
 					  	<br>
 
-					  	<button class="btn btn-primary" id="begin_assessment">Begin Assessment</button>
-
-						</div>	
+					  	<button class="btn btn-primary" id="begin_assessment" type="submit">Begin Assessment</button>
+						</form>
+						</div>
 				      </div>
 				      <div class="modal-footer">
 				        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -160,7 +186,6 @@
 
 				  </div>
 				</div>
-
     		</div>
 		</div>
 	</body>

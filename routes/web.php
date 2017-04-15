@@ -61,6 +61,8 @@ Route::resource('candidates', 'CandidatesController');
 
 Route::get('assessments', 'CandidatesController@fetch');
 
+Route::post('execute', 'AssessmentsController@executeSparkCode');
+
 Route::get('profiles', ['middleware' => 'auth', function(){
 	return view('profiles');
 }]);

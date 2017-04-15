@@ -8,6 +8,7 @@ use App\User as Users;
 use App\Behaviour as Behaviours;
 use View;
 use App\UsersDetail as UsersDetails;
+use App\CandidateAssessment as CandidateAssessment;
 use App\TwitterStatus as TwitterStatus;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\ProcessBuilder;
@@ -43,6 +44,7 @@ class CandidatesController extends Controller
 			$twitterStatus = new TwitterStatus;
 			$twitterStatus->user_id = $id;
 			$twitterStatus->is_downloaded = 1;
+			$twitterStatus->csv_location = '/home/warez/dataset/twitter/files/' . $screenName . '_tweets.csv';
 			$twitterStatus->save();
 
 			notify()->flash("Candidate's data has been successfully downloaded", 'success');
@@ -50,11 +52,13 @@ class CandidatesController extends Controller
     }
 
     public function fetch() {
-        $userObject = new Users();
-        $usersDetails = UsersDetails::where('user_id', Auth::user()->id)->first();
-        $users = $userObject->getUserDetails($usersDetails['organisation_name']);
+      $userObject = new Users();
+			$candidateObject = new CandidateAssessment();
 
-        $behaviours = Behaviours::all('id', 'assessment_name');
-        return View::make('assessments')->with(compact('users', 'behaviours'));
+      $usersDetails = UsersDetails::where('user_id', Auth::user()->id)->first();
+      $users = $userObject->getUserDetails($usersDetails['organisation_name']);
+      $behaviours = Behaviours::all('id', 'assessment_name');
+			$assessments = $candidateObject->getCandidateData();
+			return View::make('assessments')->with(compact('users', 'behaviours', 'assessments'));
     }
 }
