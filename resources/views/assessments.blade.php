@@ -71,6 +71,24 @@
 				font-family: Quicksand;
 				font-weight: bold;
 			}
+			table {
+			  border-radius: 0.25em;
+			  border-collapse: collapse;
+				font-size: 14px;
+			  font-family: Quicksand;
+				width: 100%;
+			}
+			th {
+			  border-bottom: 1px solid #364043;
+			  font-size: 0.90em;
+			  font-weight: bold;
+			  padding: 0.5em 1em;
+			  text-align: left;
+			}
+			td {
+			  font-weight: 400;
+			  padding: 0.65em 1em;
+			}
 		</style>
 
 	</head>
@@ -117,10 +135,11 @@
 		        	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-plus"></i> Begin New Assessment</button>
 		        	<h5 id='log'>Activity Log</h5>
 		        	<hr>
-							<table class="table table-striped table-bordered table-hover">
+							<table>
 								<thead>
 									<th> Name of Candidate </th>
 									<th> Name of Assessment </th>
+									<th> Type </th>
 									<th> Start Time </th>
 									<th> End Time </th>
 									<th> Status of Assessment </th>
@@ -128,14 +147,19 @@
 								<tbody>
 									@foreach ($assessments as $assessment)
 										<tr>
-											<td> {{ $assessment->full_name }} </td>
-											<td> {{ $assessment->assessment_name }} </td>
+											<td><b> {{ $assessment->full_name }} </b></td>
+											<td><b> {{ $assessment->assessment_name }} <b></td>
+											@if ($assessment->is_admin == '0')
+					        			<td><b> Internal </b></td>
+					        		@elseif($assessment->is_admin == '2')
+					        			<td><b> External </b></td>
+					        		@endif
 											<td> {{ $assessment->start_time }} </td>
 											<td> {{ $assessment->end_time }} </td>
 											@if($assessment->is_completed)
-												<td> Yes </td>
+												<td><b> Completed &nbsp; <i class="glyphicon glyphicon-ok"></i> </b></td>
 											@else
-												<td> No </td>
+												<td><b> In Progress </b></td>
 											@endif
 										</tr>
 									@endforeach

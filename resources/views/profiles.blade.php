@@ -92,125 +92,6 @@
 	        	data: [42.4, 33.2, 34.5, 39.7, 52.6, 75.5, 57.4, 60.4, 47.6, 39.1, 46.8, 51.1]
 	    	}]
 			});
-
-			var mypolarity = Highcharts.chart('polarity', {
-    		chart: {
-        	plotBackgroundColor: null,
-        	plotBorderWidth: 0,
-        	plotShadow: false
-    		},
-    		title: {
-      		text: 'Candidate<br>Polarity',
-        	align: 'center',
-        	verticalAlign: 'middle',
-					fontFamily: 'Quicksand',
-        	y: 40
-    		},
-    		tooltip: {
-        	pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-    		},
-    		plotOptions: {
-        pie: {
-        	dataLabels: {
-              enabled: true,
-              distance: -50,
-              style: {
-                  fontWeight: 'bold',
-                  color: 'white',
-									fontFamily: 'Quicksand',
-              }
-          },
-          startAngle: -90,
-          endAngle: 90,
-          center: ['50%', '75%']
-        }
-    	},
-    	series: [{
-        type: 'pie',
-        name: 'Polarity',
-        innerSize: '50%',
-        data: [
-            ['Positive',  40.38],
-            ['Negative',  56.33],
-						['Offensive', 23.43],
-            {
-                name: 'Proprietary or Undetectable',
-                y: 0.2,
-                dataLabels: {
-                    enabled: false
-                }
-            }
-        	]
-    		}]
-			});
-
-			var subject = Highcharts.chart('subject', {
-				chart: {
-					type: 'column'
-				},
-				title: {
-					text: 'Month-Wise Subject Classification'
-				},
-				xAxis: {
-					categories: [
-							'Jan',
-							'Feb',
-							'Mar',
-							'Apr',
-							'May',
-							'Jun',
-							'Jul',
-							'Aug',
-							'Sep',
-							'Oct',
-							'Nov',
-							'Dec'
-					],
-					crosshair: true
-			},
-			yAxis: {
-					min: 0,
-					title: {
-							text: 'Percentage'
-					}
-			},
-			tooltip: {
-				headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-				pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-						'<td style="padding:0"><b>{point.y:.1f} </b></td></tr>',
-				footerFormat: '</table>',
-				shared: true,
-				useHTML: true
-			},
-			plotOptions: {
-				column: {
-						pointPadding: 0.2,
-						borderWidth: 0
-				}
-			},
-			series: [{
-						name: 'Anger',
-						data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
-					}, {
-						name: 'Joy',
-						data: [83.6, 78.8, 98.5, 93.4, 106.0, 84.5, 105.0, 104.3, 91.2, 83.5, 106.6, 92.3]
-					}, {
-						name: 'Sadness',
-						data: [48.9, 38.8, 39.3, 41.4, 47.0, 48.3, 59.0, 59.6, 52.4, 65.2, 59.3, 51.2]
-					}, {
-						name: 'Surprise',
-						data: [42.4, 33.2, 34.5, 39.7, 52.6, 75.5, 57.4, 60.4, 47.6, 39.1, 46.8, 51.1]
-					}, {
-						name: 'Disgust',
-						data: [42.4, 33.2, 34.5, 39.7, 52.6, 75.5, 57.4, 60.4, 47.6, 39.1, 46.8, 51.1]
-					}, {
-						name: 'Love',
-						data: [42.4, 33.2, 34.5, 39.7, 52.6, 75.5, 57.4, 60.4, 47.6, 39.1, 46.8, 51.1]
-					}, {
-						name: 'Fear',
-						data: [42.4, 33.2, 34.5, 39.7, 52.6, 75.5, 57.4, 60.4, 47.6, 39.1, 46.8, 51.1]
-				}]
-			});
 		});
 		</script>
 
@@ -310,10 +191,6 @@
 							</form>
 							<br>
 							<div id="emotion" style="width:100%; height:400px;"></div>
-							<br>
-							<div id="polarity" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
-							<br>
-							<div id="subject" style="width:100%; height:400px;"></div>
 		        </div>
     		</div>
 		</div>
