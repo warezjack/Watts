@@ -30,6 +30,9 @@ class ProfilesController extends Controller
       $year = $request->get('year');
       $candidateId = $request->get('candidateId');
       $months = $emotionValue->retrieveMonths($candidateId, $year);
+      
+      //total document in a year
+      $total = $emotionValue->totalDocumentYears($candidateId, $year);
       echo json_encode($months);
     }
 }

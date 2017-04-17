@@ -21,8 +21,15 @@ class EmotionValue extends Model
             ->select('month')
             ->distinct()
             ->Where('user_id', '=', $userId)
-            ->where('year', '=', $year)
+            ->Where('year', '=', $year)
             ->get();
+    }
+
+    public function totalDocumentYears($userId, $year) {
+      return DB::table('emotions_values')
+            ->Where('user_id', '=', $userId)
+            ->Where('year', '=', $year)
+            ->count();
     }
 
     public function retrieveEmotionValues($userId, $year, $month) {

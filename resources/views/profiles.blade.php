@@ -26,6 +26,9 @@
 		<script>
 			$(document).ready(function() {
 
+				$('#month_name').hide();
+				$('#month').hide();
+
 				$("#candidate").change(function(){
 
 					$('#year').empty();
@@ -62,6 +65,22 @@
 							});
     				}
 					});
+				});
+
+				$('#dist').change(function(){
+					var dist_value = $('#dist').val();
+					if(dist_value == 0) {
+						$('#month_name').hide();
+						$('#month').hide();
+					}
+					else if(dist_value == 1) {
+						$('#month_name').show();
+						$('#month').show();
+					}
+					else {
+						$('#month_name').show();
+						$('#month').show();
+					}
 				});
 
 				var myChart = Highcharts.chart('emotion', {
@@ -241,7 +260,7 @@
 			  					<select class="form-control" id="year" name="year_list" style="width:140px">
 			  					</select>
 									&nbsp;
-									<label for="sel1">Select Month: &nbsp;</label>
+									<label for="sel1" id="month_name">Select Month: &nbsp;</label>
 			  					<select class="form-control" id="month" name="month_list" style="width:140px">
 			  					</select>
 								</div>
