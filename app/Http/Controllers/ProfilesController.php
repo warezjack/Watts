@@ -30,9 +30,19 @@ class ProfilesController extends Controller
       $year = $request->get('year');
       $candidateId = $request->get('candidateId');
       $months = $emotionValue->retrieveMonths($candidateId, $year);
-      
+
       //total document in a year
       $total = $emotionValue->totalDocumentYears($candidateId, $year);
-      echo json_encode($months);
+      $specificDocs = $emotionValue->specificDocumentYears($candidateId, $year);
+
+      $emotions = array();
+      $emotions_values = array();
+
+      foreach ($specificDocs as $doc) {
+        $categoryPerc = ($doc->count / $total) * 100;
+        array_push($emotions_values, $categoryPerc);
+        array_push($emotions, $doc->emotion);
+      }
+      echo json_encode(array($months, $emotions, $emotions_values));
     }
 }
