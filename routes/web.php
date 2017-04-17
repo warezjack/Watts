@@ -63,6 +63,8 @@ Route::get('assessments', 'CandidatesController@fetch');
 
 Route::post('execute', 'AssessmentsController@executeSparkCode');
 
-Route::get('profiles', ['middleware' => 'auth', function(){
-	return view('profiles');
-}]);
+Route::get('profiles', 'ProfilesController@fetch');
+
+Route::get('/years', 'ProfilesController@years');
+
+Route::get('/months', 'ProfilesController@months');

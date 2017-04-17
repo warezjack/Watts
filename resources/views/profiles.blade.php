@@ -25,6 +25,45 @@
 
 		<script>
 			$(document).ready(function() {
+
+				$("#candidate").change(function(){
+
+					$('#year').empty();
+					$('#month').empty();
+
+					$.ajax({
+						url: "/years",
+						type: 'GET',
+						data: {
+							candidateId : $("#candidate").val()
+						},
+						success: function(data) {
+							data = $.parseJSON(data)
+							$.each(data, function(index, value) {
+									$("#year").append('<option value="' + data[index].year + '">' + data[index].year + '</option>');
+							});
+    				}
+					});
+				});
+
+				$('#year').change(function(){
+					$('#month').empty();
+					$.ajax({
+						url: "/months",
+						type: 'GET',
+						data: {
+							candidateId : $("#candidate").val(),
+							year: $('#year').val(),
+						},
+						success: function(data) {
+							data = $.parseJSON(data);
+							$.each(data, function(index, value) {
+									$("#month").append('<option value="' + data[index].month + '">' + data[index].month + '</option>');
+							});
+    				}
+					});
+				});
+
 				var myChart = Highcharts.chart('emotion', {
 	    		chart: {
 	        	type: 'column'
@@ -136,6 +175,9 @@
 				font-family: Quicksand;
 				font-weight: bold;
 			}
+			label {
+				font-family: Quicksand;
+			}
 		</style>
 	</head>
 	<body>
@@ -178,18 +220,33 @@
 		            </nav>
 		        </div>
 		        <div class="col-sm-10">
-		        	<form>
+		        	<form class="form-inline">
+								<input type="hidden" name="_token" value="{{ csrf_token() }}">
 		        		<h5>Search Candidates</h5>
-				  			<div class="input-group">
-				    			<input type="text" class="form-control" placeholder="Search">
-				    			<div class="input-group-btn">
-				      			<button class="btn btn-default" type="submit">
-				        		<i class="glyphicon glyphicon-search"></i>
-				      			</button>
-				    			</div>
-				  			</div>
+								<select class="form-control" id="candidate" name="candidate_user_id" style="width:100%">
+									@foreach ($users as $user)
+										<option value="{{$user->id}}">{{ $user->full_name }} </option>
+									@endforeach
+								</select>
+								<hr>
+								<div class="form-group">
+									<label for="sel1">Select Distribution: &nbsp;</label>
+			  					<select class="form-control" id="dist" name="distribution" style="width:140px">
+								    <option value="0">Year Wise</option>
+								    <option value="1">Month Wise</option>
+								    <option value="2">Day Wise</option>>
+			  					</select>
+									&nbsp;
+									<label for="sel1">Select Year: &nbsp;</label>
+			  					<select class="form-control" id="year" name="year_list" style="width:140px">
+			  					</select>
+									&nbsp;
+									<label for="sel1">Select Month: &nbsp;</label>
+			  					<select class="form-control" id="month" name="month_list" style="width:140px">
+			  					</select>
+								</div>
+								<hr>
 							</form>
-							<br>
 							<div id="emotion" style="width:100%; height:400px;"></div>
 		        </div>
     		</div>

@@ -139,6 +139,7 @@
 								<thead>
 									<th> Name of Candidate </th>
 									<th> Name of Assessment </th>
+									<th> Email Address </th>
 									<th> Type </th>
 									<th> Start Time </th>
 									<th> End Time </th>
@@ -149,6 +150,7 @@
 										<tr>
 											<td><b> {{ $assessment->full_name }} </b></td>
 											<td><b> {{ $assessment->assessment_name }} <b></td>
+											<td><b> {{ $assessment->email }} </b></td>
 											@if ($assessment->is_admin == '0')
 					        			<td><b> Internal </b></td>
 					        		@elseif($assessment->is_admin == '2')

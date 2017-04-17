@@ -61,4 +61,21 @@ class User extends Authenticatable
             ->get();
         return $twitterUrl;
     }
+
+    public function getUserCompletedAssessments($organisation_name) {
+        $users = DB::table('users')
+            ->join('candidate_assessments', 'users.id', '=', 'candidate_assessments.user_id')
+            ->leftJoin('users_details', 'users.id', '=', 'users_details.user_id')
+            ->select(
+                'users.id',
+                'users_details.full_name'
+            )
+            ->where('organisation_name', $organisation_name)
+            ->where(function($query) {
+              $query->where('users.is_admin', 0)
+                    ->orWhere('users.is_admin', 2);
+              })
+            ->get();
+        return $users;
+    }
 }

@@ -18,6 +18,7 @@ class CandidateAssessment extends Model
           'users_details.full_name',
           'behaviours.assessment_name',
           'users.is_admin',
+          'users.email',
           'candidate_assessments.start_time',
           'candidate_assessments.end_time',
           'candidate_assessments.is_completed'
