@@ -68,3 +68,5 @@ Route::get('profiles', 'ProfilesController@fetch');
 Route::get('/years', 'ProfilesController@years');
 
 Route::get('/months', 'ProfilesController@months');
+
+Route::get('/yearsWiseData', 'ProfilesController@yearsWiseData');

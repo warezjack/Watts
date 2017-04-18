@@ -42,6 +42,15 @@ class EmotionValue extends Model
             ->toArray();
     }
 
+    public function allDocumentYears($userId) {
+      return DB::table('emotions_values')
+            ->select('year', 'user_id', 'emotion', DB::raw('count(emotion) as count'))
+            ->groupBy('emotion', 'year', 'user_id')
+            ->having('user_id', '=', $userId)
+            ->get()
+            ->toArray();
+    }
+
     public function retrieveEmotionValues($userId, $year, $month) {
 
     }

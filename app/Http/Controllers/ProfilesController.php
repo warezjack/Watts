@@ -45,4 +45,41 @@ class ProfilesController extends Controller
       }
       echo json_encode(array($months, $emotions, $emotions_values));
     }
+
+    public function yearsWiseData(Request $request) {
+      $emotionValue = new EmotionValue;
+      $candidateId = $request->get('candidateId');
+      $allYearsDocs = $emotionValue->allDocumentYears($candidateId);
+      $emotions_names = array("Anger", "Disgust", "Fear", "Joy", "Love", "Sadness", "Surprise");
+
+      $year = array();
+      foreach ($allYearsDocs as $doc) {
+        array_push($year, $doc->year);
+      }
+      $unique_year = array_unique($year);
+
+      foreach($unique_year as $year) {
+        $emotions[$year] = array();
+        $emotions_values[$year] = array();
+        $total = $emotionValue->totalDocumentYears($candidateId, $year);
+        foreach($allYearsDocs as $doc) {
+          if($year == $doc->year) {
+            $categoryPerc = ($doc->count / $total) * 100;
+            array_push($emotions[$year], $categoryPerc);
+            array_push($emotions_values[$year], $doc->emotion);
+          }
+        }
+      }
+      foreach ($unique_year as $year) {
+        $diffArray = array_diff($emotions_names, $emotions_values[$year]);
+        foreach ($diffArray as $arr) {
+          array_push($emotions_values[$year], $arr);
+        }
+        sort($emotions_values[$year]);
+        foreach($diffArray as $key => $val) {
+          array_splice($emotions[$year], $key, 0, 0);
+        }
+      }
+      echo json_encode(array($unique_year, $emotions, $emotions_values));
+    }
 }

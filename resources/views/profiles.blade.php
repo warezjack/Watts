@@ -29,26 +29,47 @@
 
 				$('#month_name').hide();
 				$('#month').hide();
+				$('#year').hide();
+				$('#year_name').hide();
 
-				$("#candidate").change(function(){
-
+				$("#candidate").change(function() {
 					$('#year').empty();
 					$('#month').empty();
 
 					$.ajax({
-						url: "/years",
+						url: "/yearsWiseData",
 						type: 'GET',
 						data: {
 							candidateId : $("#candidate").val()
 						},
 						success: function(data) {
-							data = $.parseJSON(data)
-							$.each(data, function(index, value) {
-									$("#year").append('<option value="' + data[index].year + '">' + data[index].year + '</option>');
-							});
+							data = $.parseJSON(data);
+								for(i = 0; i <= 6; i++) {
+									var years = [];
+									$.each(data[0], function(index, value) {
+										year = data[0][index];
+										years.push(data[1][year][i]);
+									});
+									options.series[i].data = years;
+								}
+							var chart = new Highcharts.Chart(options);
+							chart.xAxis[0].setCategories(data[0]);
+						 }
+					 });
+				});
 
-    				}
-					});
+				$.ajax({
+					url: "/years",
+					type: 'GET',
+					data: {
+						candidateId : $("#candidate").val()
+					},
+					success: function(data) {
+						data = $.parseJSON(data)
+						$.each(data, function(index, value) {
+								$("#year").append('<option value="' + data[index].year + '">' + data[index].year + '</option>');
+						});
+					}
 				});
 
 				var options = {
@@ -60,7 +81,7 @@
 	        	text: 'Year-Wise Emotion Classification',
 	    		},
 	    		xAxis: {
-		        categories: ['2016'],
+						categories: [],
 		        crosshair: true
 	    		},
 		    	yAxis: {
@@ -83,6 +104,21 @@
 	            borderWidth: 0
 	        	}
 	    		},
+					series: [{
+        		name: 'Anger',
+					}, {
+        		name: 'Disgust',
+					}, {
+        		name: 'Fear',
+					}, {
+        		name: 'Joy',
+					}, {
+        		name: 'Love',
+					}, {
+        		name: 'Sadness',
+					}, {
+        		name: 'Surprise',
+					}]
 				};
 
 				$('#year').change(function(){
@@ -96,31 +132,43 @@
 						},
 						success: function(data) {
 							data = $.parseJSON(data);
-
 							$.each(data[0], function(index, value) {
 								$("#month").append('<option value="' + data[0][index].month + '">' + data[0][index].month + '</option>');
 							});
-							var chart = new Highcharts.Chart(options);
-
-							$.each(data[1], function(index, value) {
-								chart.addSeries({
-									name: data[1][index],
-									data: [data[2][index]]
-								});
-    					});
 						}
 					});
 				});
 
-				$('#dist').change(function(){
+				$.ajax({
+					url: "/yearsWiseData",
+					type: 'GET',
+					data: {
+						candidateId : $("#candidate").val()
+					},
+					success: function(data) {
+						data = $.parseJSON(data);
+						for(i = 0; i <= 6; i++) {
+							var years = [];
+							$.each(data[0], function(index, value) {
+								year = data[0][index];
+								years.push(data[1][year][i]);
+							});
+							options.series[i].data = years;
+						}
+						var chart = new Highcharts.Chart(options);
+						chart.xAxis[0].setCategories(data[0]);
+					}
+				});
+
+				$('#dist').change(function() {
 					var dist_value = $('#dist').val();
 					if(dist_value == 0) {
 						$('#month_name').hide();
 						$('#month').hide();
 					}
 					else if(dist_value == 1) {
-						$('#month_name').show();
-						$('#month').show();
+						$('#year').show();
+						$('#year_name').show();
 					}
 					else {
 						$('#month_name').show();
@@ -233,7 +281,7 @@
 								    <option value="2">Day Wise</option>>
 			  					</select>
 									&nbsp;
-									<label for="sel1">Select Year: &nbsp;</label>
+									<label for="sel1" id="year_name">Select Year: &nbsp;</label>
 			  					<select class="form-control" id="year" name="year_list" style="width:140px">
 			  					</select>
 									&nbsp;
