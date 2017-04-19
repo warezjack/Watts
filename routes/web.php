@@ -70,3 +70,7 @@ Route::get('/years', 'ProfilesController@years');
 Route::get('/months', 'ProfilesController@months');
 
 Route::get('/yearsWiseData', 'ProfilesController@yearsWiseData');
+
+Route::get('/monthsWiseData', 'ProfilesController@monthsWiseData');
+
+Route::get('/daysWiseData', 'ProfilesController@daysWiseData');

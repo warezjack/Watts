@@ -51,7 +51,41 @@ class EmotionValue extends Model
             ->toArray();
     }
 
-    public function retrieveEmotionValues($userId, $year, $month) {
+    public function totalDocumentMonths($userId, $year, $month) {
+      return DB::table('emotions_values')
+            ->Where('user_id', '=', $userId)
+            ->Where('year', '=', $year)
+            ->Where('month', '=', $month)
+            ->count();
+    }
 
+    public function allDocumentMonths($userId, $year) {
+      return DB::table('emotions_values')
+            ->select('year', 'month', 'user_id', 'emotion', DB::raw('count(emotion) as count'))
+            ->groupBy('emotion', 'year', 'user_id', 'month')
+            ->having('user_id', '=', $userId)
+            ->having('year', '=', $year)
+            ->get()
+            ->toArray();
+    }
+
+    public function allDocumentDays($userId, $year, $month) {
+      return DB::table('emotions_values')
+            ->select('year', 'month', 'day', 'user_id', 'emotion', DB::raw('count(emotion) as count'))
+            ->groupBy('emotion', 'year', 'user_id', 'month', 'day')
+            ->having('user_id', '=', $userId)
+            ->having('year', '=', $year)
+            ->having('month', '=', $month)
+            ->get()
+            ->toArray();
+    }
+
+    public function totalDocumentDays($userId, $year, $month, $day) {
+      return DB::table('emotions_values')
+            ->Where('user_id', '=', $userId)
+            ->Where('year', '=', $year)
+            ->Where('month', '=', $month)
+            ->Where('day', '=', $day)
+            ->count();
     }
 }

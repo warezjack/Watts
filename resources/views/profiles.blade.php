@@ -56,29 +56,26 @@
 							chart.xAxis[0].setCategories(data[0]);
 						 }
 					 });
-				});
 
-				$.ajax({
-					url: "/years",
-					type: 'GET',
-					data: {
-						candidateId : $("#candidate").val()
-					},
-					success: function(data) {
-						data = $.parseJSON(data)
-						$.each(data, function(index, value) {
-								$("#year").append('<option value="' + data[index].year + '">' + data[index].year + '</option>');
-						});
-					}
+					 $.ajax({
+						 url: "/years",
+						 type: 'GET',
+						 data: {
+							 candidateId : $("#candidate").val()
+						 },
+						 success: function(data) {
+							 data = $.parseJSON(data)
+							 $.each(data, function(index, value) {
+									 $("#year").append('<option value="' + data[index].year + '">' + data[index].year + '</option>');
+							 });
+						 }
+					 });
 				});
 
 				var options = {
 	    		chart: {
 						renderTo: 'emotion',
 	        	type: 'column',
-	    		},
-	    		title: {
-	        	text: 'Year-Wise Emotion Classification',
 	    		},
 	    		xAxis: {
 						categories: [],
@@ -121,24 +118,6 @@
 					}]
 				};
 
-				$('#year').change(function(){
-					$('#month').empty();
-					$.ajax({
-						url: "/months",
-						type: 'GET',
-						data: {
-							candidateId : $("#candidate").val(),
-							year: $('#year').val(),
-						},
-						success: function(data) {
-							data = $.parseJSON(data);
-							$.each(data[0], function(index, value) {
-								$("#month").append('<option value="' + data[0][index].month + '">' + data[0][index].month + '</option>');
-							});
-						}
-					});
-				});
-
 				$.ajax({
 					url: "/yearsWiseData",
 					type: 'GET',
@@ -157,22 +136,116 @@
 						}
 						var chart = new Highcharts.Chart(options);
 						chart.xAxis[0].setCategories(data[0]);
+						chart.setTitle({ text: 'Yearwise Emotion Classification'});
+					}
+				});
+
+				$.ajax({
+					url: "/years",
+					type: 'GET',
+					data: {
+						candidateId : $("#candidate").val()
+					},
+					success: function(data) {
+						data = $.parseJSON(data)
+						$.each(data, function(index, value) {
+								$("#year").append('<option value="' + data[index].year + '">' + data[index].year + '</option>');
+						});
 					}
 				});
 
 				$('#dist').change(function() {
 					var dist_value = $('#dist').val();
 					if(dist_value == 0) {
+						$('#year').hide();
+						$('#year_name').hide();
 						$('#month_name').hide();
 						$('#month').hide();
 					}
 					else if(dist_value == 1) {
 						$('#year').show();
 						$('#year_name').show();
+						$('#year').change(function() {
+
+							$.ajax({
+								url: "/monthsWiseData",
+								type: 'GET',
+								data: {
+									candidateId : $("#candidate").val(),
+									year: $("#year").val()
+								},
+
+								success: function(data) {
+									data = $.parseJSON(data);
+									console.log(data);
+									for(i = 0; i <= 6; i++) {
+										var years = [];
+										$.each(data[0], function(index, value) {
+											year = data[0][index];
+											years.push(data[2][year][i]);
+										});
+										options.series[i].data = years;
+									}
+									var chart = new Highcharts.Chart(options);
+									chart.xAxis[0].setCategories(data[0]);
+									chart.setTitle({ text: 'Month Wise Emotion Classification For' + ' ' + $("#year").val() });
+								}
+							});
+
+						});
 					}
 					else {
+						$('#year').show();
+						$('#year_name').show();
 						$('#month_name').show();
 						$('#month').show();
+
+						$('#year').change(function() {
+							$('#month').empty();
+
+							$.ajax({
+								url: "/months",
+								type: 'GET',
+								data: {
+									candidateId : $("#candidate").val(),
+									year: $('#year').val(),
+								},
+								success: function(data) {
+									data = $.parseJSON(data)
+									$.each(data, function(index, value) {
+											$("#month").append('<option value="' + data[index].month + '">' + data[index].month + '</option>');
+									});
+								}
+							});
+						});
+
+						$('#month').change(function() {
+
+							$.ajax({
+								url: "/daysWiseData",
+								type: 'GET',
+								data: {
+									candidateId : $("#candidate").val(),
+									year: $('#year').val(),
+									month: $('#month').val(),
+								},
+								success: function(data) {
+									data = $.parseJSON(data);
+									for(i = 0; i <= 6; i++) {
+										var days = [];
+										$.each(data[0], function(index, value) {
+											year = data[0][index];
+											days.push(data[2][year][i]);
+										});
+										options.series[i].data = days;
+									}
+									var chart = new Highcharts.Chart(options);
+									chart.xAxis[0].setCategories(data[0]);
+									chart.setTitle({ text: 'Day Wise Emotion Classification For' + ' ' + $("#month").val() });
+								}
+							});
+						});
+
 					}
 				});
 		});

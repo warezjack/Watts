@@ -30,20 +30,7 @@ class ProfilesController extends Controller
       $year = $request->get('year');
       $candidateId = $request->get('candidateId');
       $months = $emotionValue->retrieveMonths($candidateId, $year);
-
-      //total document in a year
-      $total = $emotionValue->totalDocumentYears($candidateId, $year);
-      $specificDocs = $emotionValue->specificDocumentYears($candidateId, $year);
-
-      $emotions = array();
-      $emotions_values = array();
-
-      foreach ($specificDocs as $doc) {
-        $categoryPerc = ($doc->count / $total) * 100;
-        array_push($emotions_values, $categoryPerc);
-        array_push($emotions, $doc->emotion);
-      }
-      echo json_encode(array($months, $emotions, $emotions_values));
+      echo json_encode($months);
     }
 
     public function yearsWiseData(Request $request) {
@@ -51,12 +38,7 @@ class ProfilesController extends Controller
       $candidateId = $request->get('candidateId');
       $allYearsDocs = $emotionValue->allDocumentYears($candidateId);
       $emotions_names = array("Anger", "Disgust", "Fear", "Joy", "Love", "Sadness", "Surprise");
-
-      $year = array();
-      foreach ($allYearsDocs as $doc) {
-        array_push($year, $doc->year);
-      }
-      $unique_year = array_unique($year);
+      $unique_year = $this->getUniqueElements($allYearsDocs, 1);
 
       foreach($unique_year as $year) {
         $emotions[$year] = array();
@@ -81,5 +63,87 @@ class ProfilesController extends Controller
         }
       }
       echo json_encode(array($unique_year, $emotions, $emotions_values));
+    }
+
+    public function monthsWiseData(Request $request) {
+      $emotionValue = new EmotionValue;
+      $candidateId = $request->get('candidateId');
+      $year = $request->get('year');
+      $allDocs = $emotionValue->allDocumentMonths($candidateId, $year);
+      $emotions_names = array("Anger", "Disgust", "Fear", "Joy", "Love", "Sadness", "Surprise");
+      $unique_months = $this->getUniqueElements($allDocs, 0);
+
+      foreach($unique_months as $month) {
+        $emotions[$month] = array();
+        $emotions_values[$month] = array();
+
+        $total = $emotionValue->totalDocumentMonths($candidateId, $year, $month);
+        foreach($allDocs as $doc) {
+          if($month == $doc->month) {
+            $categoryPerc = ($doc->count / $total) * 100;
+            array_push($emotions_values[$month], $categoryPerc);
+            array_push($emotions[$month], $doc->emotion);
+          }
+        }
+      }
+      foreach ($unique_months as $month) {
+        $diffArray = array_diff($emotions_names, $emotions[$month]);
+        foreach ($diffArray as $arr) {
+          array_push($emotions[$month], $arr);
+        }
+        sort($emotions[$month]);
+        foreach($diffArray as $key => $val) {
+          array_splice($emotions_values[$month], $key, 0, 0);
+        }
+      }
+      echo json_encode(array($unique_months, $emotions, $emotions_values));
+    }
+
+    public function daysWiseData(Request $request) {
+      $emotionValue = new EmotionValue;
+      $candidateId = $request->get('candidateId');
+      $year = $request->get('year');
+      $month = $request->get('month');
+      $allDocs = $emotionValue->allDocumentDays($candidateId, $year, $month);
+      $emotions_names = array("Anger", "Disgust", "Fear", "Joy", "Love", "Sadness", "Surprise");
+
+      $elements = array();
+      foreach ($allDocs as $doc) {
+        array_push($elements, $doc->day);
+      }
+      $unique_days = array_unique($elements);
+
+      foreach($unique_days as $day) {
+        $emotions[$day] = array();
+        $emotions_values[$day] = array();
+
+        $total = $emotionValue->totalDocumentDays($candidateId, $year, $month, $day);
+        foreach($allDocs as $doc) {
+          if($day == $doc->day) {
+            $categoryPerc = ($doc->count / $total) * 100;
+            array_push($emotions_values[$day], $categoryPerc);
+            array_push($emotions[$day], $doc->emotion);
+          }
+        }
+      }
+      foreach ($unique_days as $day) {
+        $diffArray = array_diff($emotions_names, $emotions[$day]);
+        foreach ($diffArray as $arr) {
+          array_push($emotions[$day], $arr);
+        }
+        sort($emotions[$day]);
+        foreach($diffArray as $key => $val) {
+          array_splice($emotions_values[$day], $key, 0, 0);
+        }
+      }
+      echo json_encode(array($unique_days, $emotions, $emotions_values));
+    }
+
+    public function getUniqueElements($arr, $status) {
+      $elements = array();
+      foreach ($arr as $doc) {
+        array_push($elements, $status ? $doc->year : $doc->month);
+      }
+      return array_unique($elements);
     }
 }
