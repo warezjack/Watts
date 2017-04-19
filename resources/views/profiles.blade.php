@@ -25,6 +25,8 @@
 
 		<script>
 
+			var monthNames = JSON.parse('{"1":"Jan", "2":"Feb", "3":"Mar", "4":"Apr", "5":"May", "6":"Jun","7":"Jul", "8":"Aug", "9":"Sept", "10":"Oct", "11":"Nov", "12":"Dec"}');
+
 			$(document).ready(function() {
 
 				$('#month_name').hide();
@@ -54,6 +56,7 @@
 								}
 							var chart = new Highcharts.Chart(options);
 							chart.xAxis[0].setCategories(data[0]);
+							chart.setTitle({ text: 'Yearwise Emotion Classification'});
 						 }
 					 });
 
@@ -165,6 +168,9 @@
 					else if(dist_value == 1) {
 						$('#year').show();
 						$('#year_name').show();
+						$('#month').hide();
+						$('#month_name').hide();
+
 						$('#year').change(function() {
 
 							$.ajax({
@@ -177,7 +183,6 @@
 
 								success: function(data) {
 									data = $.parseJSON(data);
-									console.log(data);
 									for(i = 0; i <= 6; i++) {
 										var years = [];
 										$.each(data[0], function(index, value) {
@@ -186,8 +191,13 @@
 										});
 										options.series[i].data = years;
 									}
+
+									var monthNamesArray = [];
+									$.each(data[0], function(index, value) {
+											monthNamesArray.push(monthNames[data[0][index]]);
+									});
 									var chart = new Highcharts.Chart(options);
-									chart.xAxis[0].setCategories(data[0]);
+									chart.xAxis[0].setCategories(monthNamesArray);
 									chart.setTitle({ text: 'Month Wise Emotion Classification For' + ' ' + $("#year").val() });
 								}
 							});
@@ -213,7 +223,7 @@
 								success: function(data) {
 									data = $.parseJSON(data)
 									$.each(data, function(index, value) {
-											$("#month").append('<option value="' + data[index].month + '">' + data[index].month + '</option>');
+											$("#month").append('<option value="' + data[index].month + '">' + monthNames[data[index].month] + '</option>');
 									});
 								}
 							});
@@ -241,7 +251,7 @@
 									}
 									var chart = new Highcharts.Chart(options);
 									chart.xAxis[0].setCategories(data[0]);
-									chart.setTitle({ text: 'Day Wise Emotion Classification For' + ' ' + $("#month").val() });
+									chart.setTitle({ text: 'Day Wise Emotion Classification For' + ' ' + monthNames[$("#month").val()] });
 								}
 							});
 						});

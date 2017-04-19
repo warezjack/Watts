@@ -22,6 +22,7 @@ class ProfilesController extends Controller
       $emotionValue = new EmotionValue;
       $candidateId = $request->get('candidateId');
       $years = $emotionValue->retrieveYears($candidateId);
+      sort($years);
       echo json_encode($years);
     }
 
@@ -30,6 +31,7 @@ class ProfilesController extends Controller
       $year = $request->get('year');
       $candidateId = $request->get('candidateId');
       $months = $emotionValue->retrieveMonths($candidateId, $year);
+      sort($months);
       echo json_encode($months);
     }
 

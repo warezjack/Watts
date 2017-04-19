@@ -13,7 +13,8 @@ class EmotionValue extends Model
             ->select('year')
             ->distinct()
             ->where('user_id', '=', $userId)
-            ->get();
+            ->get()
+            ->toArray();
     }
 
     public function retrieveMonths($userId, $year) {
@@ -22,7 +23,8 @@ class EmotionValue extends Model
             ->distinct()
             ->Where('user_id', '=', $userId)
             ->Where('year', '=', $year)
-            ->get();
+            ->get()
+            ->toArray();
     }
 
     public function totalDocumentYears($userId, $year) {
@@ -65,6 +67,7 @@ class EmotionValue extends Model
             ->groupBy('emotion', 'year', 'user_id', 'month')
             ->having('user_id', '=', $userId)
             ->having('year', '=', $year)
+            ->orderBy('month', 'asc')
             ->get()
             ->toArray();
     }
@@ -76,6 +79,7 @@ class EmotionValue extends Model
             ->having('user_id', '=', $userId)
             ->having('year', '=', $year)
             ->having('month', '=', $month)
+            ->orderBy('day', 'asc')
             ->get()
             ->toArray();
     }
