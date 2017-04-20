@@ -79,7 +79,6 @@ class EmotionValue extends Model
             ->having('user_id', '=', $userId)
             ->having('year', '=', $year)
             ->having('month', '=', $month)
-            ->orderBy('day', 'asc')
             ->get()
             ->toArray();
     }
@@ -91,5 +90,24 @@ class EmotionValue extends Model
             ->Where('month', '=', $month)
             ->Where('day', '=', $day)
             ->count();
+    }
+
+    public function getPastYear($userId) {
+      return DB::table('emotions_values')
+            ->select('year')
+            ->distinct()
+            ->Where('user_id', '=', $userId)
+            ->limit(1)
+            ->get()
+            ->toArray();
+    }
+
+    public function getPastYearDocumentCount($userId, $year) {
+      return DB::table('emotions_values')
+            ->select('emotion', 'year', 'user_id', DB::raw('count(emotion) as count'))
+            ->groupBy('emotion', 'year', 'user_id')
+            ->having('user_id', '=', $userId)
+            ->having('year', '=', $year)
+            ->get();
     }
 }

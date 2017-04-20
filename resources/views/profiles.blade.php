@@ -34,7 +34,7 @@
 				$('#year').hide();
 				$('#year_name').hide();
 
-				$("#candidate").change(function() {
+				$("#candidate").click(function() {
 					$('#year').empty();
 					$('#month').empty();
 
@@ -101,7 +101,7 @@
 	    		plotOptions: {
 	      		column: {
 	            pointPadding: 0.2,
-	            borderWidth: 0
+	            borderWidth: 0,
 	        	}
 	    		},
 					series: [{
@@ -157,7 +157,7 @@
 					}
 				});
 
-				$('#dist').change(function() {
+				$('#dist').click(function() {
 					var dist_value = $('#dist').val();
 					if(dist_value == 0) {
 						$('#year').hide();
@@ -171,7 +171,7 @@
 						$('#month').hide();
 						$('#month_name').hide();
 
-						$('#year').change(function() {
+						$('#year').click(function() {
 
 							$.ajax({
 								url: "/monthsWiseData",
@@ -210,7 +210,7 @@
 						$('#month_name').show();
 						$('#month').show();
 
-						$('#year').change(function() {
+						$('#year').click(function() {
 							$('#month').empty();
 
 							$.ajax({
@@ -229,7 +229,7 @@
 							});
 						});
 
-						$('#month').change(function() {
+						$('#month').click(function() {
 
 							$.ajax({
 								url: "/daysWiseData",
@@ -255,7 +255,6 @@
 								}
 							});
 						});
-
 					}
 				});
 		});
@@ -340,7 +339,10 @@
 		                    <li><a href="{{ url('/candidates') }}"><i class="glyphicon glyphicon-tasks"></i> Candidates </a></li>
 		                    <li><a href="{{ url('/services') }}"><i class="glyphicon glyphicon-record"></i> Infrastructure Services </a></li>
 		                    <li><a href="javascript:;"><i class="glyphicon glyphicon-cog"></i> Settings </a></li>
-
+												<li class="nav-divider"></li>
+												<li><a href="{{ url('/storage') }}"><i class="glyphicon glyphicon-th-large"></i> Storage Analyzer </a></li>
+												<li><a href="{{ url('/regression') }}"><i class="glyphicon glyphicon-hourglass"></i> Regression </a></li>
+												<li><a href="{{ url('/comparator') }}"><i class="glyphicon glyphicon-stats"></i> Comparator </a></li>
 		                    <li class="nav-divider"></li>
 		                    <li><a href="{{ url('/logout') }}"><i class="glyphicon glyphicon-log-out"></i> Sign Out </a></li>
 		                </ul>

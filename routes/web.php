@@ -74,3 +74,7 @@ Route::get('/yearsWiseData', 'ProfilesController@yearsWiseData');
 Route::get('/monthsWiseData', 'ProfilesController@monthsWiseData');
 
 Route::get('/daysWiseData', 'ProfilesController@daysWiseData');
+
+Route::get('/comparator', 'ComparatorController@index');
+
+Route::get('/yearsWiseComparison', 'ComparatorController@yearsWiseComparison');

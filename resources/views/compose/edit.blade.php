@@ -105,9 +105,11 @@
 											<li><a href="{{ url('/services') }}"><i class="glyphicon glyphicon-record"></i> Infrastructure Services </a></li>
 											<li><a href="javascript:;"><i class="glyphicon glyphicon-cog"></i> Settings </a></li>
 											<li class="nav-divider"></li>
+											<li><a href="{{ url('/storage') }}"><i class="glyphicon glyphicon-th-large"></i> Storage Analyzer </a></li>
+											<li><a href="{{ url('/regression') }}"><i class="glyphicon glyphicon-hourglass"></i> Regression </a></li>
+											<li><a href="{{ url('/comparator') }}"><i class="glyphicon glyphicon-stats"></i> Comparator </a></li>
+											<li class="nav-divider"></li>
 											<li><a href="{{ url('/logout') }}"><i class="glyphicon glyphicon-log-out"></i> Sign Out </a></li>
-		                  <li class="nav-divider"></li>
-		                  <li><a href="{{ url('/logout') }}"><i class="glyphicon glyphicon-log-out"></i> Sign Out </a></li>
 		                </ul>
 		            </nav>
 		        </div>
