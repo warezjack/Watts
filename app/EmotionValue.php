@@ -27,6 +27,17 @@ class EmotionValue extends Model
             ->toArray();
     }
 
+    public function retrieveDays($userId, $year, $month) {
+      return DB::table('emotions_values')
+            ->select('day')
+            ->distinct()
+            ->Where('user_id', '=', $userId)
+            ->Where('year', '=', $year)
+            ->Where('month', '=', $month)
+            ->get()
+            ->toArray();
+    }
+
     public function totalDocumentYears($userId, $year) {
       return DB::table('emotions_values')
             ->Where('user_id', '=', $userId)
@@ -92,22 +103,33 @@ class EmotionValue extends Model
             ->count();
     }
 
-    public function getPastYear($userId) {
-      return DB::table('emotions_values')
-            ->select('year')
-            ->distinct()
-            ->Where('user_id', '=', $userId)
-            ->limit(1)
-            ->get()
-            ->toArray();
-    }
-
-    public function getPastYearDocumentCount($userId, $year) {
+    public function getYearsDocumentsCount($userId, $year) {
       return DB::table('emotions_values')
             ->select('emotion', 'year', 'user_id', DB::raw('count(emotion) as count'))
             ->groupBy('emotion', 'year', 'user_id')
             ->having('user_id', '=', $userId)
             ->having('year', '=', $year)
+            ->get();
+    }
+
+    public function getMonthsDocumentsCount($userId, $year, $month) {
+      return DB::table('emotions_values')
+            ->select('emotion', 'year', 'month', 'user_id', DB::raw('count(emotion) as count'))
+            ->groupBy('emotion', 'year', 'month', 'user_id')
+            ->having('user_id', '=', $userId)
+            ->having('year', '=', $year)
+            ->having('month', '=', $month)
+            ->get();
+    }
+
+    public function getDaysDocumentsCount($userId, $year, $month, $day) {
+      return DB::table('emotions_values')
+            ->select('emotion', 'year', 'month', 'day', 'user_id', DB::raw('count(emotion) as count'))
+            ->groupBy('emotion', 'year', 'month', 'day', 'user_id')
+            ->having('user_id', '=', $userId)
+            ->having('year', '=', $year)
+            ->having('month', '=', $month)
+            ->having('day', '=', $day)
             ->get();
     }
 }

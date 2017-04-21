@@ -24,7 +24,23 @@
 		<script src="https://code.highcharts.com/modules/exporting.js"></script>
 
     <script>
+
+			var monthNames = JSON.parse('{"1":"Jan", "2":"Feb", "3":"Mar", "4":"Apr", "5":"May", "6":"Jun","7":"Jul", "8":"Aug", "9":"Sept", "10":"Oct", "11":"Nov", "12":"Dec"}');
+
       $(document).ready(function() {
+
+				$('#firstYearWise').hide();
+				$('#secondYearWise').hide();
+				$('#firstMonthWise').hide();
+				$('#secondMonthWise').hide();
+				$('#firstDayWise').hide();
+				$('#secondDayWise').hide();
+				$('#year_name').hide();
+				$('#month_name').hide();
+				$('#day_name').hide();
+				$('#year_icon').hide();
+				$('#month_icon').hide();
+				$('#day_icon').hide();
 
         var options = {
           chart: {
@@ -71,31 +87,240 @@
           series: [{}, {}]
         };
 
+				function yearWiseComparison(firstYear, secondYear) {
+					$.ajax({
+					 url: "/yearsWiseComparison",
+					 type: 'GET',
+					 data: {
+						 firstCandidateId : $("#first_candidate").val(),
+						 secondCandidateId : $("#second_candidate").val(),
+						 firstCandidateYear : firstYear,
+						 secondCandidateYear : secondYear,
+					 },
+					 success: function(data) {
+						 data = $.parseJSON(data);
+						 options.series[0].name = $('#first_candidate option:selected').text() + ' - ' + firstYear;
+						 options.series[0].data = data[0];
+
+						 options.series[1].name = $('#second_candidate option:selected').text() + ' - ' + secondYear;
+						 options.series[1].data = data[1];
+
+						 var chart = new Highcharts.Chart(options);
+						 chart.setTitle({ text: 'Comparison Between' + ' ' + $('#first_candidate option:selected').text() +  ' And ' + $('#second_candidate option:selected').text() });
+					 }
+					});
+				}
+
+				function getMonths(candidateId, year, monthSelect) {
+					$.ajax({
+						url: "/getMonths",
+						type: 'GET',
+						data: {
+							candidateId : candidateId,
+							candidateYear: year,
+						},
+						success: function(data) {
+							data = data = $.parseJSON(data);
+							$.each(data, function(index, value) {
+								 $(monthSelect).append('<option value="' + data[index].month + '">' + monthNames[data[index].month] + '</option>');
+							});
+							$(monthSelect).show();
+							$('#month_name').show();
+						 }
+					});
+				}
+
+				function getYears(firstId, secondId) {
+					$.ajax({
+						url: "/getYears",
+						type: 'GET',
+						data: {
+							firstCandidateId : firstId,
+							secondCandidateId : secondId,
+						},
+						success: function(data) {
+							data = data = $.parseJSON(data);
+							$.each(data[0], function(index, value) {
+								 $("#firstYearWise").append('<option value="' + data[0][index].year + '">' + data[0][index].year + '</option>');
+							});
+							$.each(data[1], function(index, value) {
+								 $("#secondYearWise").append('<option value="' + data[1][index].year + '">' + data[1][index].year + '</option>');
+							});
+							$('#firstYearWise').show();
+							$('#secondYearWise').show();
+							$('#year_name').show();
+							$('#year_icon').show();
+
+							if($("#difference").val() == 1) {
+								getMonths($('#first_candidate').val(), $('#firstYearWise').val(), "#firstMonthWise");
+								$("#month_icon").show();
+								getMonths($('#second_candidate').val(), $('#secondYearWise').val(), "#secondMonthWise");
+							}
+						 }
+					});
+				}
+
+				function getDays(candidateId, year, month, daySelect) {
+					$.ajax({
+					 url: "/getDays",
+					 type: 'GET',
+					 data: {
+						 candidateId : candidateId,
+						 candidateYear: year,
+						 candidateMonth: month,
+					 },
+					 success: function(data) {
+						 data = data = $.parseJSON(data);
+						 $.each(data, function(index, value) {
+								$(daySelect).append('<option value="' + data[index].day + '">' + data[index].day + '</option>');
+						 });
+					 }
+					});
+				}
+
+				function monthsWiseComparison(firstCandidateId, secondCandidateId, firstCandidateYear, secondCandidateYear, firstCandidateMonth, secondCandidateMonth) {
+					$.ajax({
+					 url: "/monthsWiseComparison",
+					 type: 'GET',
+					 data: {
+						 firstCandidateId : firstCandidateId,
+						 secondCandidateId : secondCandidateId,
+						 firstCandidateYear : firstCandidateYear,
+						 secondCandidateYear : secondCandidateYear,
+						 firstCandidateMonth : firstCandidateMonth,
+						 secondCandidateMonth : secondCandidateMonth,
+					 },
+					 success: function(data) {
+						 data = $.parseJSON(data);
+						 options.series[0].name = $('#first_candidate option:selected').text() + ' - ' + monthNames[firstCandidateMonth];
+						 options.series[0].data = data[0];
+
+						 options.series[1].name = $('#second_candidate option:selected').text() + ' - ' + monthNames[secondCandidateMonth];
+						 options.series[1].data = data[1];
+
+						 var chart = new Highcharts.Chart(options);
+						 chart.setTitle({ text: 'Comparison Between' + ' ' + $('#first_candidate option:selected').text() +  ' And ' + $('#second_candidate option:selected').text() });
+					 }
+					});
+				}
+
+				function daysWiseComparison(firstCandidateId, secondCandidateId, firstCandidateYear, secondCandidateYear, firstCandidateMonth, secondCandidateMonth, firstCandidateDay, secondCandidateDay) {
+					$.ajax({
+					 url: "/daysWiseComparison",
+					 type: 'GET',
+					 data: {
+						 firstCandidateId : firstCandidateId,
+						 secondCandidateId : secondCandidateId,
+						 firstCandidateYear : firstCandidateYear,
+						 secondCandidateYear : secondCandidateYear,
+						 firstCandidateMonth : firstCandidateMonth,
+						 secondCandidateMonth : secondCandidateMonth,
+						 firstCandidateDay : firstCandidateDay,
+						 secondCandidateDay : secondCandidateDay,
+					 },
+					 success: function(data) {
+						 data = $.parseJSON(data);
+						 options.series[0].name = $('#first_candidate option:selected').text() + ' - ' + firstCandidateDay;
+						 options.series[0].data = data[0];
+
+						 options.series[1].name = $('#second_candidate option:selected').text() + ' - ' + secondCandidateDay;
+						 options.series[1].data = data[1];
+
+						 var chart = new Highcharts.Chart(options);
+						 chart.setTitle({ text: 'Comparison Between' + ' ' + $('#first_candidate option:selected').text() +  ' And ' + $('#second_candidate option:selected').text() });
+					 }
+					});
+				}
+
         $('#difference').click(function() {
-          if($('#first_candidate').val() == $('#second_candidate').val()) {
-            alert('Please select another candidate for comparison');
-          }
-          else {
-            $.ajax({
-  						url: "/yearsWiseComparison",
-  						type: 'GET',
-  						data: {
-  							firstCandidateId : $("#first_candidate").val(),
-                secondCandidateId : $("#second_candidate").val(),
-  						},
-  						success: function(data) {
-                data = $.parseJSON(data);
-                options.series[0].name = $('#first_candidate option:selected').text();
-  							options.series[0].data = data[0];
 
-                options.series[1].name = $('#second_candidate option:selected').text();
-  							options.series[1].data = data[1];
+					if($('#first_candidate').val() == $('#second_candidate').val()) {
+						alert("Please select another candidate for comparison");
+					}
 
-                var chart = new Highcharts.Chart(options);
-                chart.setTitle({ text: 'Comparison Between' + ' ' + $('#first_candidate option:selected').text() +  ' And ' + $('#second_candidate option:selected').text() });
-  						 }
-  					});
-          }
+					else {
+						if($('#difference').val() == 0) {
+							$('#firstYearWise').empty();
+							$('#secondYearWise').empty();
+
+							getYears($('#first_candidate').val(), $('#second_candidate').val());
+
+							$('#firstYearWise').click(function() {
+								yearWiseComparison($("#firstYearWise").val(), $("#secondYearWise").val());
+							});
+
+							$('#secondYearWise').click(function() {
+								yearWiseComparison($("#firstYearWise").val(), $("#secondYearWise").val());
+							});
+						}
+
+						else if($('#difference').val() == 1) {
+
+							$('#firstYearWise').empty();
+							$('#secondYearWise').empty();
+
+							getYears($('#first_candidate').val(), $('#second_candidate').val());
+
+							$('#firstYearWise').click(function() {
+								$('#firstMonthWise').empty();
+								getMonths($('#first_candidate').val(), $('#firstYearWise').val(), "#firstMonthWise");
+								$('#month_icon').show();
+							});
+
+							$('#secondYearWise').click(function() {
+								$('#secondMonthWise').empty();
+								getMonths($('#second_candidate').val(), $('#secondYearWise').val(), "#secondMonthWise");
+							});
+
+							$('#firstMonthWise').click(function() {
+								monthsWiseComparison($('#first_candidate').val(), $('#second_candidate').val(), $('#firstYearWise').val(), $('#secondYearWise').val(), $('#firstMonthWise').val(), $('#secondMonthWise').val());
+							});
+
+							$('#secondMonthWise').click(function () {
+									monthsWiseComparison($('#first_candidate').val(), $('#second_candidate').val(), $('#firstYearWise').val(), $('#secondYearWise').val(), $('#firstMonthWise').val(), $('#secondMonthWise').val());
+							});
+						}
+
+						else {
+							$('#firstYearWise').empty();
+							$('#secondYearWise').empty();
+
+							getYears($('#first_candidate').val(), $('#second_candidate').val());
+
+							$('#firstYearWise').click(function() {
+								$('#firstMonthWise').empty();
+								getMonths($('#first_candidate').val(), $('#firstYearWise').val(), "#firstMonthWise");
+								$('#month_icon').show();
+							});
+
+							$('#secondYearWise').click(function() {
+								$('#secondMonthWise').empty();
+								getMonths($('#second_candidate').val(), $('#secondYearWise').val(), "#secondMonthWise");
+							});
+
+							$('#firstMonthWise').click(function () {
+								$('#firstDayWise').empty();
+								getDays($('#first_candidate').val(), $('#firstYearWise').val(), $('#firstMonthWise').val(), "#firstDayWise");
+								$('#firstDayWise').show();
+								$('#day_name').show();
+							});
+
+							$('#secondMonthWise').click(function () {
+								$('#secondDayWise').empty();
+								getDays($('#second_candidate').val(), $('#secondYearWise').val(), $('#secondMonthWise').val(), "#secondDayWise");
+								$('#day_icon').show();
+								$('#secondDayWise').show();
+							});
+
+							$('#firstDayWise').click(function() {
+								daysWiseComparison($('#first_candidate').val(), $('#second_candidate').val(), $('#firstYearWise').val(), $('#secondYearWise').val(), $('#firstMonthWise').val(), $('#secondMonthWise').val(), $('#firstDayWise').val(), $('#secondDayWise').val());
+							});
+
+							$('#secondDayWise').click(function() {
+									daysWiseComparison($('#first_candidate').val(), $('#second_candidate').val(), $('#firstYearWise').val(), $('#secondYearWise').val(), $('#firstMonthWise').val(), $('#secondMonthWise').val(), $('#firstDayWise').val(), $('#secondDayWise').val());
+							});
+						}
+					}
         });
       });
     </script>
@@ -146,7 +371,7 @@
 			}
       #second_candidate {
         float: right;
-        width: 50%;
+        width: 51%;
       }
 		</style>
 	</head>
@@ -189,7 +414,7 @@
 		        <div class="col-sm-10">
               <h5>Search Candidates for Comparison</h5>
               <form class="form-inline">
-                <select class="form-control" id="first_candidate" name="candidate_user_id" style="width:48%">
+                <select class="form-control" id="first_candidate" name="candidate_user_id" style="width:47%">
                   @foreach ($users as $user)
                     <option value="{{$user->id}}">{{ $user->full_name }} </option>
                   @endforeach
@@ -201,12 +426,41 @@
                   @endforeach
                 </select>
                 <hr>
-                <label for="sel1">Select Comparator Parameter: &nbsp;</label>
+                <label for="sel1">Select Comparator Distribution: &nbsp;</label>
                 <select class="form-control" id="difference" name="distribution" style="width:140px">
-                  <option value="0">Past Year</option>
+                  <option value="0">Year Wise</option>
+									<option value="1">Month Wise</option>
+									<option value="2">Day Wise</option>
                 </select>
+
+								<br><br>
+
+								<label for="sel1" id="year_name">Select Years for comparison: &nbsp;</label>
+								<br>
+								<select class="form-control" id="firstYearWise" style="width:140px">
+								</select>
+								<i class="glyphicon glyphicon-option-vertical" id="year_icon"></i>
+								<select class="form-control" id="secondYearWise" style="width:140px">
+								</select>
+								<br><br>
+
+								<label for="sel1" id="month_name">Select Months for comparison: &nbsp;</label>
+								<br>
+								<select class="form-control" id="firstMonthWise" style="width:140px">
+								</select>
+								<i class="glyphicon glyphicon-option-vertical" id="month_icon"></i>
+								<select class="form-control" id="secondMonthWise" style="width:140px">
+								</select>
+								<br><br>
+
+								<label for="sel1" id="day_name">Select Days for comparison: &nbsp;</label>
+								<br>
+								<select class="form-control" id="firstDayWise" style="width:140px">
+								</select>
+								<i class="glyphicon glyphicon-option-vertical" id="day_icon"></i>
+								<select class="form-control" id="secondDayWise" style="width:140px">
+								</select>
               </form>
-              <hr>
               <div id="comparison" style="width:100%; height:400px;"></div>
 		        </div>
     		</div>

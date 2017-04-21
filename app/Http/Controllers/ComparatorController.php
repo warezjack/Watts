@@ -22,26 +22,68 @@ class ComparatorController extends Controller
       $emotionValue = new EmotionValue();
       $firstCandidateId = $request->get('firstCandidateId');
       $secondCandidateId = $request->get('secondCandidateId');
-      $pastYearFirstCandidate = $emotionValue->getPastYear($firstCandidateId);
-      $pastYearSecondCandidate = $emotionValue->getPastYear($secondCandidateId);
+      $firstYearCandidate = $request->get('firstCandidateYear');
+      $secondYearCandidate = $request->get('secondCandidateYear');
 
-      $getPastYearFirstCandidateDocuments = $emotionValue->getPastYearDocumentCount($firstCandidateId, $pastYearFirstCandidate[0]->year);
-      $getPastYearSecondCandidateDocuments = $emotionValue->getPastYearDocumentCount($secondCandidateId, $pastYearSecondCandidate[0]->year);
+      $getYearsFirstCandidateDocuments = $emotionValue->getYearsDocumentsCount($firstCandidateId, $firstYearCandidate);
+      $getYearsSecondCandidateDocuments = $emotionValue->getYearsDocumentsCount($secondCandidateId, $secondYearCandidate);
 
-      $totalFirstCandidateDocs = $emotionValue->totalDocumentYears($firstCandidateId, $pastYearFirstCandidate[0]->year);
-      $totalSecondCandidateDocs = $emotionValue->totalDocumentYears($secondCandidateId, $pastYearSecondCandidate[0]->year);
+      $totalFirstCandidateDocs = $emotionValue->totalDocumentYears($firstCandidateId, $firstYearCandidate);
+      $totalSecondCandidateDocs = $emotionValue->totalDocumentYears($secondCandidateId, $secondYearCandidate);
 
-      $firstCandidateEmotionsValues = $this->retrieveEmotionsValues($getPastYearFirstCandidateDocuments, $totalFirstCandidateDocs);
-      $secondCandidateEmotionsValues = $this->retrieveEmotionsValues($getPastYearSecondCandidateDocuments, $totalSecondCandidateDocs);
+      $firstCandidateEmotionsValues = $this->retrieveEmotionsValues($getYearsFirstCandidateDocuments, $totalFirstCandidateDocs);
+      $secondCandidateEmotionsValues = $this->retrieveEmotionsValues($getYearsSecondCandidateDocuments, $totalSecondCandidateDocs);
       echo json_encode(array($firstCandidateEmotionsValues, $secondCandidateEmotionsValues));
     }
 
-    public function retrieveEmotionsValues($getPastYearCandidateDocuments, $totalDocuments) {
+    public function monthsWiseComparison(Request $request) {
+      $emotionValue = new EmotionValue();
+      $firstCandidateId = $request->get('firstCandidateId');
+      $secondCandidateId = $request->get('secondCandidateId');
+      $firstYearCandidate = $request->get('firstCandidateYear');
+      $secondYearCandidate = $request->get('secondCandidateYear');
+      $firstCandidateMonth = $request->get('firstCandidateMonth');
+      $secondCandidateMonth = $request->get('secondCandidateMonth');
+
+      $getMonthsFirstCandidateDocuments = $emotionValue->getMonthsDocumentsCount($firstCandidateId, $firstYearCandidate, $firstCandidateMonth);
+      $getMonthsSecondCandidateDocuments = $emotionValue->getMonthsDocumentsCount($secondCandidateId, $secondYearCandidate, $secondCandidateMonth);
+
+      $totalFirstCandidateDocs = $emotionValue->totalDocumentMonths($firstCandidateId, $firstYearCandidate, $firstCandidateMonth);
+      $totalSecondCandidateDocs = $emotionValue->totalDocumentMonths($secondCandidateId, $secondYearCandidate, $secondCandidateMonth);
+
+      $firstCandidateEmotionsValues = $this->retrieveEmotionsValues($getMonthsFirstCandidateDocuments, $totalFirstCandidateDocs);
+      $secondCandidateEmotionsValues = $this->retrieveEmotionsValues($getMonthsSecondCandidateDocuments, $totalSecondCandidateDocs);
+      echo json_encode(array($firstCandidateEmotionsValues, $secondCandidateEmotionsValues));
+    }
+
+    public function daysWiseComparison(Request $request) {
+      $emotionValue = new EmotionValue();
+      $firstCandidateId = $request->get('firstCandidateId');
+      $secondCandidateId = $request->get('secondCandidateId');
+      $firstYearCandidate = $request->get('firstCandidateYear');
+      $secondYearCandidate = $request->get('secondCandidateYear');
+      $firstCandidateMonth = $request->get('firstCandidateMonth');
+      $secondCandidateMonth = $request->get('secondCandidateMonth');
+      $firstCandidateDay = $request->get('firstCandidateDay');
+      $secondCandidateDay = $request->get('secondCandidateDay');
+
+      $getDaysFirstCandidateDocuments = $emotionValue->getDaysDocumentsCount($firstCandidateId, $firstYearCandidate, $firstCandidateMonth, $firstCandidateDay);
+      $getDaysSecondCandidateDocuments = $emotionValue->getDaysDocumentsCount($secondCandidateId, $secondYearCandidate, $secondCandidateMonth, $secondCandidateDay);
+
+      $totalFirstCandidateDocs = $emotionValue->totalDocumentDays($firstCandidateId, $firstYearCandidate, $firstCandidateMonth, $firstCandidateDay);
+      $totalSecondCandidateDocs = $emotionValue->totalDocumentDays($secondCandidateId, $secondYearCandidate, $secondCandidateMonth, $secondCandidateDay);
+
+      $firstCandidateEmotionsValues = $this->retrieveEmotionsValues($getDaysFirstCandidateDocuments, $totalFirstCandidateDocs);
+      $secondCandidateEmotionsValues = $this->retrieveEmotionsValues($getDaysSecondCandidateDocuments, $totalSecondCandidateDocs);
+      echo json_encode(array($firstCandidateEmotionsValues, $secondCandidateEmotionsValues));
+    }
+
+    public function retrieveEmotionsValues($getCandidatesDocuments, $totalDocuments) {
       $emotionNames = array("Anger", "Disgust", "Fear", "Joy", "Love", "Sadness", "Surprise");
       $emotionNamesFromDoc = array();
       $emotionValues = array();
 
-      foreach($getPastYearCandidateDocuments as $doc) {
+      foreach($getCandidatesDocuments as $doc) {
           array_push($emotionNamesFromDoc, $doc->emotion);
           array_push($emotionValues, ($doc->count / $totalDocuments) * 100);
       }
@@ -55,5 +97,34 @@ class ComparatorController extends Controller
         array_splice($emotionValues, $key, 0, 0);
       }
       return $emotionValues;
+    }
+
+    public function getYears(Request $request) {
+      $emotionValue = new EmotionValue();
+      $firstCandidateId = $request->get('firstCandidateId');
+      $secondCandidateId = $request->get('secondCandidateId');
+      $firstCandidateYears = $emotionValue->retrieveYears($firstCandidateId);
+      $secondCandidateYears = $emotionValue->retrieveYears($secondCandidateId);
+      sort($firstCandidateYears);
+      sort($secondCandidateYears);
+      echo json_encode(array($firstCandidateYears, $secondCandidateYears));
+    }
+
+    public function getMonths(Request $request) {
+      $emotionValue = new EmotionValue();
+      $candidateId = $request->get('candidateId');
+      $candidateYear = $request->get('candidateYear');
+      $candidateMonths = $emotionValue->retrieveMonths($candidateId, $candidateYear);
+      sort($candidateMonths);
+      echo json_encode($candidateMonths);
+    }
+
+    public function getDays(Request $request) {
+      $emotionValue = new EmotionValue();
+      $candidateId = $request->get('candidateId');
+      $candidateYear = $request->get('candidateYear');
+      $candidateMonth = $request->get('candidateMonth');
+      $candidateDays = $emotionValue->retrieveDays($candidateId, $candidateYear, $candidateMonth);
+      echo json_encode($candidateDays);
     }
 }

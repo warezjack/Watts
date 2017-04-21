@@ -56,7 +56,7 @@ class CandidatesController extends Controller
 			$candidateObject = new CandidateAssessment();
 
       $usersDetails = UsersDetails::where('user_id', Auth::user()->id)->first();
-      $users = $userObject->getUserDetails($usersDetails['organisation_name']);
+      $users = $userObject->getUserDownloadedData($usersDetails['organisation_name']);
       $behaviours = Behaviours::all('id', 'assessment_name');
 			$assessments = $candidateObject->getCandidateData();
 			return View::make('assessments')->with(compact('users', 'behaviours', 'assessments'));

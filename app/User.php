@@ -78,4 +78,18 @@ class User extends Authenticatable
             ->get();
         return $users;
     }
+
+    public function getUserDownloadedData($organisation_name) {
+        $users = DB::table('users')
+            ->join('twitter_statuses', 'users.id', '=', 'twitter_statuses.user_id')
+            ->leftjoin('users_details', 'users.id', '=', 'users_details.user_id')
+            ->select('users.id', 'users_details.full_name')
+            ->where('organisation_name', $organisation_name)
+            ->where(function($query) {
+              $query->where('users.is_admin', 0)
+                    ->orWhere('users.is_admin', 2);
+              })
+            ->get();
+          return $users;
+    }
 }

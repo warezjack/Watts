@@ -78,3 +78,13 @@ Route::get('/daysWiseData', 'ProfilesController@daysWiseData');
 Route::get('/comparator', 'ComparatorController@index');
 
 Route::get('/yearsWiseComparison', 'ComparatorController@yearsWiseComparison');
+
+Route::get('/getYears', 'ComparatorController@getYears');
+
+Route::get('/getMonths', 'ComparatorController@getMonths');
+
+Route::get('/getDays', 'ComparatorController@getDays');
+
+Route::get('/monthsWiseComparison', 'ComparatorController@monthsWiseComparison');
+
+Route::get('/daysWiseComparison', 'ComparatorController@daysWiseComparison');
