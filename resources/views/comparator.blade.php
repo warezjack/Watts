@@ -235,7 +235,7 @@
         $('#difference').click(function() {
 
 					if($('#first_candidate').val() == $('#second_candidate').val()) {
-						alert("Please select another candidate for comparison");
+						swal('You can\'t compare same candidate', 'Please choose another candidate for comparison.', 'error')
 					}
 
 					else {

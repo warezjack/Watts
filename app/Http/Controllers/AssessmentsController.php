@@ -28,9 +28,9 @@ class AssessmentsController extends Controller
 
         $csv_file = $getCandidateCSV->csv_location;
         $builder = new ProcessBuilder();
-  			$builder->setPrefix('/bin/sh');
+  			$builder->setPrefix('/home/warez/spark/bin/spark-submit');
   			$builder->setTimeout(3600000);
-  			$builder->setArguments(array('/home/warez/spark/code/classifier.sh', '/home/warez/spark/code/emotions.scala', $csv_file, $userId))->getProcess()->getCommandLine();
+  			$builder->setArguments(array('/home/warez/spark/code/classifier/target/scala-2.11/classification-module_2.11-1.0.jar', $csv_file, $userId))->getProcess()->getCommandLine();
   		  $builder->getProcess()->run();
 
         $candidateAssessment->end_time = $now->format('Y-m-d H:i:s');
