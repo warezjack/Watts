@@ -8,6 +8,8 @@ use DB;
 class EmotionValue extends Model
 {
 
+    protected $table = 'emotions_values';
+
     public function retrieveYears($userId) {
       return DB::table('emotions_values')
             ->select('year')
@@ -131,5 +133,9 @@ class EmotionValue extends Model
             ->having('month', '=', $month)
             ->having('day', '=', $day)
             ->get();
+    }
+
+    public function removeUserEntries($userId) {
+      return DB::table('emotions_values')->where('user_id', '=', $userId)->delete();
     }
 }

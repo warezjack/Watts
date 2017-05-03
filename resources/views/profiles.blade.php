@@ -183,6 +183,7 @@
 
 								success: function(data) {
 									data = $.parseJSON(data);
+									console.log(data);
 									for(i = 0; i <= 6; i++) {
 										var years = [];
 										$.each(data[0], function(index, value) {

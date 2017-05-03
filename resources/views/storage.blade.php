@@ -13,14 +13,19 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 		<link rel="shortcut icon" href="{{ asset('favicon.ico') }}" >
 
-
 		<!-- Referencing Bootstrap JS that is hosted locally -->
-    	{{ Html::script('js/bootstrap.min.js') }}
+    {{ Html::script('js/bootstrap.min.js') }}
 
     	<!-- Fonts -->
 		<link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet" type="text/css">
 		<link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet" type="text/css">
 		<link rel="stylesheet" type="text/css" href="css/sweetalert.css">
+		<script src="http://code.highcharts.com/highcharts.js"></script>
+		<script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+    <script>
+
+    </script>
 
 		<!-- Styles -->
 		<style type="text/css">
@@ -59,8 +64,14 @@
 			    -o-text-overflow: ellipsis;
 			    text-overflow: ellipsis;
 			}
-
-			table {
+			h5{
+				font-family: Quicksand;
+				font-weight: bold;
+			}
+			label {
+				font-family: Quicksand;
+			}
+      table {
 			  border-radius: 0.25em;
 			  border-collapse: collapse;
 			  font-family: Quicksand;
@@ -77,11 +88,9 @@
 			  padding: 0.65em 1em;
 			}
 		</style>
-
 	</head>
 	<body>
 		<div class="container-fluid">
-
 			<script src="js/sweetalert.min.js"></script>
 			<script>
 				@if (notify()->ready())
@@ -104,11 +113,11 @@
 		                    <li><a href="{{ url('/assessments') }}"><i class="glyphicon glyphicon-list-alt"></i> Assessments </a></li>
 		                    <li><a href="{{ url('/profiles') }}"><i class="glyphicon glyphicon-user"></i> Profiles </a></li>
 		                    <li><a href="{{ url('/compose') }}"><i class="glyphicon glyphicon-edit"></i> Compose </a></li>
-		                    <li class="active"><a href="{{ url('/candidates') }}"><i class="glyphicon glyphicon-tasks"></i> Candidates </a></li>
+		                    <li><a href="{{ url('/candidates') }}"><i class="glyphicon glyphicon-tasks"></i> Candidates </a></li>
 		                    <li><a href="{{ url('/services') }}"><i class="glyphicon glyphicon-record"></i> Infrastructure Services </a></li>
 		                    <li><a href="javascript:;"><i class="glyphicon glyphicon-cog"></i> Settings </a></li>
 												<li class="nav-divider"></li>
-												<li><a href="{{ url('/storage') }}"><i class="glyphicon glyphicon-th-large"></i> Storage Analyzer </a></li>
+												<li class="active"><a href="{{ url('/storage') }}"><i class="glyphicon glyphicon-th-large"></i> Storage Analyzer </a></li>
 												<li><a href="{{ url('/regression') }}"><i class="glyphicon glyphicon-hourglass"></i> Regression </a></li>
 												<li><a href="{{ url('/comparator') }}"><i class="glyphicon glyphicon-stats"></i> Comparator </a></li>
 		                    <li class="nav-divider"></li>
@@ -117,45 +126,69 @@
 		            </nav>
 		        </div>
 		        <div class="col-sm-10">
-		        	<table>
-		      			<thead>
-     						<tr>
-					         	<th>Name of Candidate</th>
-					         	<th>Gender</th>
-					         	<th>Email Address</th>
-					         	<th>City</th>
-					         	<th>Organisation</th>
-					         	<th>Date</th>
-					         	<th>Type</th>
-					         	<th>Twitter Status</th>
-     						</tr>
-     					</thead>
-     					<tbody>
-		        	@foreach ($users as $user)
-		        		<tr>
-		        			<td><b> {{ $user->full_name }} </b></td>
-		        			<td> {{ $user->gender }} </td>
-		        			<td><b> {{ $user->email }} </b></td>
-		        			<td> {{ $user->city }} </td>
-		        			<td> {{ $user->organisation_name }} </td>
-		        			<td><b> {{ $user->date_of_joining }} </b></td>
+              <table>
+                <thead>
+                  <th>Name of candidate</th>
+                  <th>Type</th>
+                  <th>Email Address</th>
+                  <th>Twitter Status</th>
+                  <th>Assessment Status</th>
+                  <th>Name of the Assessment</th>
+                  <th colspan="2">Actions</th>
+                </thead>
+                <tbody>
+                  @foreach ($usersDownloadedData as $user)
+                    <tr>
+                      <td> {{ $user->full_name }} </td>
 
-		        			@if ($user->is_admin == '0')
-		        				<td><b> Internal </b></td>
-		        			@elseif($user->is_admin == '2')
-		        				<td><b> External </b></td>
-		        			@endif
+                      @if ($user->is_admin == '0')
+    		        				<td><b> Internal </b></td>
+    		        			@elseif($user->is_admin == '2')
+    		        				<td><b> External </b></td>
+    		        			@endif
 
-									@if (isset($user->is_downloaded))
-										<td align="center"><i class="glyphicon glyphicon-ok"></i></a></td>
-									@else
-		        				<td align="center"><a href="{{ route('candidates.show', $user->id) }}"><i class="glyphicon glyphicon-download"></i></a></td>
-									@endif
-		        		</tr>
-		        	@endforeach
-		        		</tbody>
-		        	</table>
-		        </div>
+                      <td> {{ $user->email }} </td>
+                      <td><i class="glyphicon glyphicon-ok"><i></td>
+                      @if (isset($user->is_completed))
+      		        	    <td><i class="glyphicon glyphicon-ok"><i></td>
+      		            @else
+      		        			<td><i class="glyphicon glyphicon-remove"><i></td>
+      		        		@endif
+
+                      @if (isset($user->assessment_name))
+      		        	    <td><b>{{ $user->assessment_name }}</b></td>
+      		            @else
+      		        			<td><b>Not Yet Assessed</b></td>
+      		        		@endif
+
+											@if(isset($user->is_downloaded))
+	                      <td>
+	         								{{ Form::open(array('url' => '/deleteCSV/' . $user->twitterId)) }}
+	                        {{ Form::hidden('_method', 'DELETE') }}
+	                        {{ Form::submit('Delete Data', array('class' => 'btn btn-danger')) }}
+	                    		{{ Form::close() }}
+	         							</td>
+											@else
+												<td><i class="glyphicon glyphicon-remove"><i></td>
+											@endif
+
+                      @if (isset($user->assessment_name))
+                        <td>
+                          {{ Form::open(array('url' => '/deleteRecords/' . $user->id )) }}
+                          {{ Form::hidden('_method', 'DELETE') }}
+                          {{ Form::submit('Delete Records', array('class' => 'btn btn-danger')) }}
+                      		{{ Form::close() }}
+                        </td>
+                      @else
+                        <td><b>Not Yet Assessed</b></td>
+                      @endif
+
+                    </tr>
+                  @endforeach
+                </tbody>
+              </table>
+							<h5 class="text-danger"><i>(Caution: Deleting Data, removes only CSV file from storage but keeps records. Deleting records, removes candidate details and assessment records.)</i></h5>
+            </div>
     		</div>
 		</div>
 	</body>

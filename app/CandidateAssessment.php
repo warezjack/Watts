@@ -24,4 +24,8 @@ class CandidateAssessment extends Model
           'candidate_assessments.is_completed'
         )->get();
     }
+
+    public function removeCandidateRecord($userId) {
+      return DB::table('candidate_assessments')->where('user_id', '=', $userId)->delete();
+    }
 }

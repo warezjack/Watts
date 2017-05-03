@@ -29,7 +29,7 @@ class AssessmentsController extends Controller
         $csv_file = $getCandidateCSV->csv_location;
         $builder = new ProcessBuilder();
   			$builder->setPrefix('/home/warez/spark/bin/spark-submit');
-  			$builder->setTimeout(3600000);
+  			$builder->setTimeout(36000000000);
   			$builder->setArguments(array('/home/warez/spark/code/classifier/target/scala-2.11/classification-module_2.11-1.0.jar', $csv_file, $userId))->getProcess()->getCommandLine();
   		  $builder->getProcess()->run();
 

@@ -77,6 +77,8 @@ Route::get('/daysWiseData', 'ProfilesController@daysWiseData');
 
 Route::get('/comparator', 'ComparatorController@index');
 
+Route::get('/storage', 'StorageController@index');
+
 Route::get('/yearsWiseComparison', 'ComparatorController@yearsWiseComparison');
 
 Route::get('/getYears', 'ComparatorController@getYears');
@@ -88,3 +90,7 @@ Route::get('/getDays', 'ComparatorController@getDays');
 Route::get('/monthsWiseComparison', 'ComparatorController@monthsWiseComparison');
 
 Route::get('/daysWiseComparison', 'ComparatorController@daysWiseComparison');
+
+Route::delete('/deleteCSV/{id}', 'StorageController@destroyCSV');
+
+Route::delete('/deleteRecords/{id}', 'StorageController@deleteRecords');

@@ -7,5 +7,5 @@ use DB;
 
 class TwitterStatus extends Model
 {
-  //
+  protected $table = 'twitter_statuses';
 }
