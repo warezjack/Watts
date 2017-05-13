@@ -34,7 +34,6 @@ class PolarityValue extends Model
           ->groupBy('polarity', 'year', 'user_id', 'month')
           ->having('user_id', '=', $userId)
           ->having('year', '=', $year)
-          ->orderBy('month', 'asc')
           ->get()
           ->toArray();
   }
@@ -56,4 +55,34 @@ class PolarityValue extends Model
           ->Where('day', '=', $day)
           ->count();
   }
+  public function getYearsDocumentsCount($userId, $year) {
+    return DB::table('polarity_values')
+          ->select('polarity', 'year', 'user_id', DB::raw('count(polarity) as count'))
+          ->groupBy('polarity', 'year', 'user_id')
+          ->having('user_id', '=', $userId)
+          ->having('year', '=', $year)
+          ->get();
+  }
+
+  public function getMonthsDocumentsCount($userId, $year, $month) {
+    return DB::table('polarity_values')
+          ->select('polarity', 'year', 'month', 'user_id', DB::raw('count(polarity) as count'))
+          ->groupBy('polarity', 'year', 'month', 'user_id')
+          ->having('user_id', '=', $userId)
+          ->having('year', '=', $year)
+          ->having('month', '=', $month)
+          ->get();
+  }
+
+  public function getDaysDocumentsCount($userId, $year, $month, $day) {
+    return DB::table('polarity_values')
+          ->select('polarity', 'year', 'month', 'day', 'user_id', DB::raw('count(polarity) as count'))
+          ->groupBy('polarity', 'year', 'month', 'day', 'user_id')
+          ->having('user_id', '=', $userId)
+          ->having('year', '=', $year)
+          ->having('month', '=', $month)
+          ->having('day', '=', $day)
+          ->get();
+  }
+
 }

@@ -87,6 +87,51 @@
           series: [{}, {}]
         };
 
+				var polarityOptions = {
+          chart: {
+            renderTo: 'polarityComparison',
+            type: 'areaspline'
+          },
+          legend: {
+              layout: 'vertical',
+              align: 'left',
+              verticalAlign: 'top',
+              x: 150,
+              y: 100,
+              floating: true,
+              borderWidth: 1,
+              backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+          },
+          xAxis: {
+              categories: [
+                  'Negative', 'Offensive', 'Positive'
+              ],
+              plotBands: [{
+                  from: 4.5,
+                  to: 6.5,
+                  color: 'rgba(68, 170, 213, .2)'
+              }]
+          },
+          yAxis: {
+              title: {
+                  text: 'Percentage of Documents'
+              }
+          },
+          tooltip: {
+              shared: true,
+              valueSuffix: '%'
+          },
+          credits: {
+              enabled: false
+          },
+          plotOptions: {
+              areaspline: {
+                  fillOpacity: 0.5
+              }
+          },
+          series: [{}, {}]
+        };
+
 				function yearWiseComparison(firstYear, secondYear) {
 					$.ajax({
 					 url: "/yearsWiseComparison",
@@ -99,14 +144,25 @@
 					 },
 					 success: function(data) {
 						 data = $.parseJSON(data);
+						 console.log(data);
 						 options.series[0].name = $('#first_candidate option:selected').text() + ' - ' + firstYear;
 						 options.series[0].data = data[0];
 
 						 options.series[1].name = $('#second_candidate option:selected').text() + ' - ' + secondYear;
 						 options.series[1].data = data[1];
 
+						 polarityOptions.series[0].name = $('#first_candidate option:selected').text() + ' - ' + firstYear;
+						 polarityOptions.series[0].data = data[2];
+
+						 polarityOptions.series[1].name = $('#second_candidate option:selected').text() + ' - ' + secondYear;
+						 polarityOptions.series[1].data = data[3];
+
 						 var chart = new Highcharts.Chart(options);
-						 chart.setTitle({ text: 'Comparison Between' + ' ' + $('#first_candidate option:selected').text() +  ' And ' + $('#second_candidate option:selected').text() });
+						 var polarityChart = new Highcharts.Chart(polarityOptions);
+						 
+						 chart.setTitle({ text: 'Emotional Comparison Between' + ' ' + $('#first_candidate option:selected').text() +  ' And ' + $('#second_candidate option:selected').text() });
+						 polarityChart.setTitle({ text: 'Polarity Comparison Between' + ' ' + $('#first_candidate option:selected').text() +  ' And ' + $('#second_candidate option:selected').text() });
+
 					 }
 					});
 				}
@@ -198,8 +254,17 @@
 						 options.series[1].name = $('#second_candidate option:selected').text() + ' - ' + monthNames[secondCandidateMonth];
 						 options.series[1].data = data[1];
 
+						 polarityOptions.series[0].name = $('#first_candidate option:selected').text() + ' - ' + monthNames[firstCandidateMonth];
+						 polarityOptions.series[0].data = data[2];
+
+						 polarityOptions.series[1].name = $('#second_candidate option:selected').text() + ' - ' + monthNames[secondCandidateMonth];
+						 polarityOptions.series[1].data = data[3];
+
 						 var chart = new Highcharts.Chart(options);
+						 var polarityChart = new Highcharts.Chart(polarityOptions);
+
 						 chart.setTitle({ text: 'Comparison Between' + ' ' + $('#first_candidate option:selected').text() +  ' And ' + $('#second_candidate option:selected').text() });
+						 polarityChart.setTitle({ text: 'Comparison Between' + ' ' + $('#first_candidate option:selected').text() +  ' And ' + $('#second_candidate option:selected').text() });
 					 }
 					});
 				}
@@ -462,6 +527,8 @@
 								</select>
               </form>
               <div id="comparison" style="width:100%; height:400px;"></div>
+							<hr>
+							<div id="polarityComparison" style="width:100%; height:400px;"></div>
 		        </div>
     		</div>
 		</div>

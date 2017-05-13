@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User as Users;
 use App\EmotionValue as EmotionValue;
+use App\PolarityValue as PolarityValue;
 use App\UsersDetail as UsersDetails;
 use View;
 use Auth;
@@ -20,6 +21,8 @@ class ComparatorController extends Controller
 
     public function yearsWiseComparison(Request $request) {
       $emotionValue = new EmotionValue();
+      $polarityValue = new PolarityValue();
+
       $firstCandidateId = $request->get('firstCandidateId');
       $secondCandidateId = $request->get('secondCandidateId');
       $firstYearCandidate = $request->get('firstCandidateYear');
@@ -28,16 +31,27 @@ class ComparatorController extends Controller
       $getYearsFirstCandidateDocuments = $emotionValue->getYearsDocumentsCount($firstCandidateId, $firstYearCandidate);
       $getYearsSecondCandidateDocuments = $emotionValue->getYearsDocumentsCount($secondCandidateId, $secondYearCandidate);
 
+      $getYearsFirstCandidatePolarityDocuments = $polarityValue->getYearsDocumentsCount($firstCandidateId, $firstYearCandidate);
+      $getYearsSecondCandidatePolarityDocuments = $polarityValue->getYearsDocumentsCount($secondCandidateId, $secondYearCandidate);
+
       $totalFirstCandidateDocs = $emotionValue->totalDocumentYears($firstCandidateId, $firstYearCandidate);
+      $totalFirstCandidatePolarityDocs = $polarityValue->totalDocumentYears($firstCandidateId, $firstYearCandidate);
+
       $totalSecondCandidateDocs = $emotionValue->totalDocumentYears($secondCandidateId, $secondYearCandidate);
+      $totalSecondCandidatePolarityDocs = $polarityValue->totalDocumentYears($secondCandidateId, $secondYearCandidate);
 
       $firstCandidateEmotionsValues = $this->retrieveEmotionsValues($getYearsFirstCandidateDocuments, $totalFirstCandidateDocs);
+      $firstCandidatePolarityValues = $this->retrievePolarityValues($getYearsFirstCandidatePolarityDocuments, $totalFirstCandidatePolarityDocs);
+
       $secondCandidateEmotionsValues = $this->retrieveEmotionsValues($getYearsSecondCandidateDocuments, $totalSecondCandidateDocs);
-      echo json_encode(array($firstCandidateEmotionsValues, $secondCandidateEmotionsValues));
+      $secondCandidatePolarityValues = $this->retrievePolarityValues($getYearsSecondCandidatePolarityDocuments, $totalSecondCandidatePolarityDocs);
+      echo json_encode(array($firstCandidateEmotionsValues, $secondCandidateEmotionsValues, $firstCandidatePolarityValues, $secondCandidatePolarityValues));
     }
 
     public function monthsWiseComparison(Request $request) {
       $emotionValue = new EmotionValue();
+      $polarityValue = new PolarityValue();
+
       $firstCandidateId = $request->get('firstCandidateId');
       $secondCandidateId = $request->get('secondCandidateId');
       $firstYearCandidate = $request->get('firstCandidateYear');
@@ -48,12 +62,21 @@ class ComparatorController extends Controller
       $getMonthsFirstCandidateDocuments = $emotionValue->getMonthsDocumentsCount($firstCandidateId, $firstYearCandidate, $firstCandidateMonth);
       $getMonthsSecondCandidateDocuments = $emotionValue->getMonthsDocumentsCount($secondCandidateId, $secondYearCandidate, $secondCandidateMonth);
 
+      $getMonthsFirstCandidatePolarityDocuments = $polarityValue->getMonthsDocumentsCount($firstCandidateId, $firstYearCandidate, $firstCandidateMonth);
+      $getMonthsSecondCandidatePolarityDocuments = $polarityValue->getMonthsDocumentsCount($secondCandidateId, $secondYearCandidate, $secondCandidateMonth);
+
       $totalFirstCandidateDocs = $emotionValue->totalDocumentMonths($firstCandidateId, $firstYearCandidate, $firstCandidateMonth);
       $totalSecondCandidateDocs = $emotionValue->totalDocumentMonths($secondCandidateId, $secondYearCandidate, $secondCandidateMonth);
 
+      $totalFirstCandidatePolarityDocs = $polarityValue->totalDocumentMonths($firstCandidateId, $firstYearCandidate, $firstCandidateMonth);
+      $totalSecondCandidatePolarityDocs = $polarityValue->totalDocumentMonths($secondCandidateId, $secondYearCandidate, $secondCandidateMonth);
+
       $firstCandidateEmotionsValues = $this->retrieveEmotionsValues($getMonthsFirstCandidateDocuments, $totalFirstCandidateDocs);
       $secondCandidateEmotionsValues = $this->retrieveEmotionsValues($getMonthsSecondCandidateDocuments, $totalSecondCandidateDocs);
-      echo json_encode(array($firstCandidateEmotionsValues, $secondCandidateEmotionsValues));
+
+      $firstCandidatePolarityValues = $this->retrievePolarityValues($getMonthsFirstCandidatePolarityDocuments, $totalFirstCandidatePolarityDocs);
+      $secondCandidatePolarityValues = $this->retrievePolarityValues($getMonthsSecondCandidatePolarityDocuments, $totalSecondCandidatePolarityDocs);
+      echo json_encode(array($firstCandidateEmotionsValues, $secondCandidateEmotionsValues, $firstCandidatePolarityValues, $secondCandidatePolarityValues));
     }
 
     public function daysWiseComparison(Request $request) {
@@ -97,6 +120,27 @@ class ComparatorController extends Controller
         array_splice($emotionValues, $key, 0, 0);
       }
       return $emotionValues;
+    }
+
+    public function retrievePolarityValues($getCandidatesDocuments, $totalDocuments) {
+      $polarityNames = array("Negative", "Offensive", "Positive");
+      $polarityNamesFromDoc = array();
+      $polarityValues = array();
+
+      foreach($getCandidatesDocuments as $doc) {
+          array_push($polarityNamesFromDoc, $doc->polarity);
+          array_push($polarityValues, ($doc->count / $totalDocuments) * 100);
+      }
+      $diffArray = array_diff($polarityNames, $polarityNamesFromDoc);
+
+      foreach($diffArray as $arr) {
+        array_push($polarityNamesFromDoc, $arr);
+      }
+
+      foreach($diffArray as $key => $val) {
+        array_splice($polarityValues, $key, 0, 0);
+      }
+      return $polarityValues;
     }
 
     public function getYears(Request $request) {
