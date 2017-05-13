@@ -46,18 +46,30 @@
 						},
 						success: function(data) {
 							data = $.parseJSON(data);
-								for(i = 0; i <= 6; i++) {
-									var years = [];
-									$.each(data[0], function(index, value) {
-										year = data[0][index];
-										years.push(data[1][year][i]);
-									});
-									options.series[i].data = years;
-								}
+							for(i = 0; i <= 6; i++) {
+								var years = [];
+								$.each(data[0], function(index, value) {
+									year = data[0][index];
+									years.push(data[1][year][i]);
+								});
+								options.series[i].data = years;
+							}
+							for(i = 0; i <= 2; i++) {
+								var polarityYears = [];
+								$.each(data[0], function(index, value) {
+									year = data[0][index];
+									polarityYears.push(data[3][year][i]);
+								});
+								polarityOptions.series[i].data = polarityYears;
+							}
 							var chart = new Highcharts.Chart(options);
+							var polarityChart = new Highcharts.Chart(polarityOptions);
+
 							chart.xAxis[0].setCategories(data[0]);
+							polarityChart.xAxis[0].setCategories(data[0]);
 							chart.setTitle({ text: 'Yearwise Emotion Classification'});
-						 }
+							polarityChart.setTitle({ text: 'Yearwise Polarity Classification'});
+						}
 					 });
 
 					 $.ajax({
@@ -121,6 +133,44 @@
 					}]
 				};
 
+				var polarityOptions = {
+	    		chart: {
+						renderTo: 'polarity',
+	        	type: 'column',
+	    		},
+	    		xAxis: {
+						categories: [],
+		        crosshair: true
+	    		},
+		    	yAxis: {
+		        min: 0,
+		        title: {
+		            text: 'Total Percentage Of Documents'
+		        }
+		    	},
+	    		tooltip: {
+	      		headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+	        	pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+	            '<td style="padding:0"><b>{point.y:.1f} </b></td></tr>',
+	        	footerFormat: '</table>',
+	        	shared: true,
+	        	useHTML: true
+	    		},
+	    		plotOptions: {
+	      		column: {
+	            pointPadding: 0.2,
+	            borderWidth: 0,
+	        	}
+	    		},
+					series: [{
+        		name: 'Negative',
+					}, {
+        		name: 'Offensive',
+					}, {
+        		name: 'Positive',
+					}]
+				};
+
 				$.ajax({
 					url: "/yearsWiseData",
 					type: 'GET',
@@ -137,9 +187,21 @@
 							});
 							options.series[i].data = years;
 						}
+						for(i = 0; i <= 2; i++) {
+							var polarityYears = [];
+							$.each(data[0], function(index, value) {
+								year = data[0][index];
+								polarityYears.push(data[3][year][i]);
+							});
+							polarityOptions.series[i].data = polarityYears;
+						}
 						var chart = new Highcharts.Chart(options);
+						var polarityChart = new Highcharts.Chart(polarityOptions);
+
 						chart.xAxis[0].setCategories(data[0]);
+						polarityChart.xAxis[0].setCategories(data[0]);
 						chart.setTitle({ text: 'Yearwise Emotion Classification'});
+						polarityChart.setTitle({ text: 'Yearwise Polarity Classification'});
 					}
 				});
 
@@ -193,13 +255,28 @@
 										options.series[i].data = years;
 									}
 
+									for(i = 0; i <= 2; i++) {
+										var polarityYears = [];
+										$.each(data[0], function(index, value) {
+											year = data[0][index];
+											polarityYears.push(data[4][year][i]);
+										});
+										polarityOptions.series[i].data = polarityYears;
+									}
+
 									var monthNamesArray = [];
 									$.each(data[0], function(index, value) {
 											monthNamesArray.push(monthNames[data[0][index]]);
 									});
+
 									var chart = new Highcharts.Chart(options);
+									var polarityChart = new Highcharts.Chart(polarityOptions);
+
 									chart.xAxis[0].setCategories(monthNamesArray);
+									polarityChart.xAxis[0].setCategories(monthNamesArray);
 									chart.setTitle({ text: 'Month Wise Emotion Classification For' + ' ' + $("#year").val() });
+									polarityChart.setTitle({ text: 'Month Wise Polarity Classification For' + ' ' + $("#year").val() });
+
 								}
 							});
 
@@ -250,9 +327,21 @@
 										});
 										options.series[i].data = days;
 									}
+									for(i = 0; i <= 2; i++) {
+										var polarityYears = [];
+										$.each(data[0], function(index, value) {
+											year = data[0][index];
+											polarityYears.push(data[4][year][i]);
+										});
+										polarityOptions.series[i].data = polarityYears;
+									}
 									var chart = new Highcharts.Chart(options);
+									var polarityChart = new Highcharts.Chart(polarityOptions);
 									chart.xAxis[0].setCategories(data[0]);
+									polarityChart.xAxis[0].setCategories(data[0]);
 									chart.setTitle({ text: 'Day Wise Emotion Classification For' + ' ' + monthNames[$("#month").val()] });
+									polarityChart.setTitle({ text: 'Day Wise Polarity Classification For' + ' ' + monthNames[$("#month").val()] });
+
 								}
 							});
 						});
@@ -378,6 +467,8 @@
 								<hr>
 							</form>
 							<div id="emotion" style="width:100%; height:400px;"></div>
+							<hr>
+							<div id="polarity" style="width:100%; height:400px;"></div>
 		        </div>
     		</div>
 		</div>
