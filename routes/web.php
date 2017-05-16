@@ -94,3 +94,5 @@ Route::get('/daysWiseComparison', 'ComparatorController@daysWiseComparison');
 Route::delete('/deleteCSV/{id}', 'StorageController@destroyCSV');
 
 Route::delete('/deleteRecords/{id}', 'StorageController@deleteRecords');
+
+Route::get('/queues', 'QueuesController@index');

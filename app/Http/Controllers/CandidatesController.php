@@ -33,7 +33,8 @@ class CandidatesController extends Controller
 			list($screenName) = explode('"}]', $second);
 
 			//dispatch queue
-			$this->dispatch(new DownloadCandidateTweets($screenName, $id));
+			$job = (new DownloadCandidateTweets($screenName, $id))->onQueue('Tweets');
+			$this->dispatch($job);
 
 			notify()->flash("Candidate's tweets are put on download queue", 'success');
 			return redirect()->to('candidates');

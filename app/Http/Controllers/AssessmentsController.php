@@ -9,7 +9,6 @@ use App\TwitterStatus as TwitterStatus;
 use App\CandidateAssessment as CandidateAssessment;
 use Symfony\Component\Process\ProcessBuilder;
 use Symfony\Component\Process\Exception\ProcessFailedException;
-use DateTime;
 
 class AssessmentsController extends Controller
 {
@@ -21,9 +20,10 @@ class AssessmentsController extends Controller
       if(isset($getCandidateCSV)) {
 
         //dispatch queue
-        $this->dispatch(new CommenceCandidateAssessment($getCandidateCSV->csv_location, $userId, $assessmentName));
+        $job = (new CommenceCandidateAssessment($getCandidateCSV->csv_location, $userId, $assessmentName))->onQueue('Assessment');
+        $this->dispatch($job);
 
-        notify()->flash("Candidate's data has been successfully analyzed", 'success');
+        notify()->flash("Candidate's has been submitted for Assessment", 'success');
   			return redirect()->to('assessments');
       }
       else {
