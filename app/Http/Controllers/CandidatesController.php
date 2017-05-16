@@ -4,15 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Jobs\DownloadCandidateTweets;
 use App\User as Users;
 use App\Behaviour as Behaviours;
 use View;
 use App\UsersDetail as UsersDetails;
 use App\CandidateAssessment as CandidateAssessment;
 use App\TwitterStatus as TwitterStatus;
-use Symfony\Component\Process\Process;
-use Symfony\Component\Process\ProcessBuilder;
-use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class CandidatesController extends Controller
 {
@@ -34,20 +32,10 @@ class CandidatesController extends Controller
 			list($proto, $second) = explode('[{"connect_to_twitter":"http:\/\/www.twitter.com\/', $twitterUrl);
 			list($screenName) = explode('"}]', $second);
 
-			$builder = new ProcessBuilder();
-			$builder->setPrefix('python');
-			$builder->setTimeout(3600);
-			$builder->disableOutput();
-			$builder->setArguments(array('/home/warez/dataset/twitter/tweet_dumper.py', $screenName))->getProcess()->getCommandLine();
-			$builder->getProcess()->run();
+			//dispatch queue
+			$this->dispatch(new DownloadCandidateTweets($screenName, $id));
 
-			$twitterStatus = new TwitterStatus;
-			$twitterStatus->user_id = $id;
-			$twitterStatus->is_downloaded = 1;
-			$twitterStatus->csv_location = '/home/warez/dataset/twitter/files/' . $screenName . '_tweets.csv';
-			$twitterStatus->save();
-
-			notify()->flash("Candidate's data has been successfully downloaded", 'success');
+			notify()->flash("Candidate's tweets are put on download queue", 'success');
 			return redirect()->to('candidates');
     }
 
