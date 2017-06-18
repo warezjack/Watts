@@ -96,3 +96,7 @@ Route::delete('/deleteCSV/{id}', 'StorageController@destroyCSV');
 Route::delete('/deleteRecords/{id}', 'StorageController@deleteRecords');
 
 Route::get('/queues', 'QueuesController@index');
+
+Route::get('regression', 'RegressionController@fetch');
+
+Route::get('/predictBehavior', 'RegressionController@predict');
