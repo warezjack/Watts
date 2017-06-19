@@ -25,7 +25,47 @@
 
 		<script>
       $(document).ready(function() {
-        $('#candidate').click(function(){
+				var options = {
+    			chart: {
+						renderTo: 'container',
+        		type: 'spline'
+    			},
+			    yAxis: {
+			        title: {
+			            text: 'Total Percentage of Documents'
+			        }
+			    },
+			    tooltip: {
+			        crosshairs: true,
+			        shared: true
+			    },
+			    plotOptions: {
+			        spline: {
+			            marker: {
+			                radius: 4,
+			                lineColor: '#666666',
+			                lineWidth: 1
+			            }
+			        }
+			    },
+					series: [{
+        		name: 'Anger',
+					}, {
+        		name: 'Disgust',
+					}, {
+        		name: 'Fear',
+					}, {
+						name: 'Joy',
+					}, {
+						name: 'Love',
+					}, {
+						name: 'Sadness',
+					}, {
+						name: 'Surprise',
+					}]
+				};
+
+        $('#candidate').click(function() {
           $.ajax({
             url: "/predictBehavior",
             type: 'GET',
@@ -33,6 +73,22 @@
               candidateId : $("#candidate").val()
             },
             success: function(data) {
+							data = $.parseJSON(data);
+							emotions = ['Anger', 'Disgust', 'Fear', 'Joy', 'Love', 'Sadness', 'Surprise'];
+							var years = [];
+							$.each(data[0], function(index, value) {
+								years.push(data[0][index]['year']);
+							});
+							for(i = 0; i <= 6; i++) {
+								var predicted_values = [];
+								for(j = 0; j <=4; j++) {
+									predicted_values.push(parseInt(data[1][emotions[i]][j][1]));
+								}
+								options.series[i].data = predicted_values;
+							}
+							var chart = new Highcharts.Chart(options);
+							chart.xAxis[0].setCategories(years);
+							chart.setTitle({ text: 'Emotional Future Prediction of' + ' ' + $('#candidate option:selected').text()});
             }
            });
         });
@@ -132,6 +188,7 @@
 									@endforeach
 								</select>
 								<hr>
+								<div id="container" style="width:100%; height:400px;"></div>
 							</form>
 		        </div>
     		</div>
