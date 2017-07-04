@@ -34,7 +34,7 @@ class PredictFutureBehavior implements ShouldQueue
     {
       $builder = new ProcessBuilder();
       $builder->setPrefix('python');
-      $builder->setTimeout(3600);
+      $builder->setTimeout(360000);
       $builder->disableOutput();
       $builder->setArguments(array('/home/warez/emotion_regression/emoRegress.py', $this->userId))->getProcess()->getCommandLine();
       $builder->getProcess()->run();
