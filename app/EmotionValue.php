@@ -138,4 +138,13 @@ class EmotionValue extends Model
     public function removeUserEntries($userId) {
       return DB::table('emotions_values')->where('user_id', '=', $userId)->delete();
     }
+
+    public function distinctYears($userId) {
+      return DB::table('emotions_values')
+            ->select('year')
+            ->distinct()
+            ->where('user_id', '=', $userId)
+            ->get()
+            ->toArray();
+    }
 }

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Jobs\PredictFutureBehavior;
 use App\User as Users;
 use App\PredictedValue as PredictedValue;
+use App\EmotionValue as EmotionValue;
 use View;
 use App\UsersDetail as UsersDetails;
 
@@ -23,15 +24,22 @@ class RegressionController extends Controller
     $predict = new PredictedValue();
     $predictedValues = $predict->getPredictedValues($candidateId);
     $distinctYears = $predict->distinctYears($candidateId);
-    if(empty($predictedValues)) {
-      $job = (new PredictFutureBehavior($candidateId))->onQueue('Prediction');
-			$this->dispatch($job);
-      $emotion = $this->emotionValues($predictedValues);
+    $em = new EmotionValue();
+    $distinctEmotionsYears = $em->distinctYears($candidateId);
+    if(count($distinctEmotionsYears) <= 2) {
+      echo json_encode(1);
     }
     else {
-      $emotion = $this->emotionValues($predictedValues);
+      if(empty($predictedValues)) {
+        $job = (new PredictFutureBehavior($candidateId))->onQueue('Prediction');
+  			$this->dispatch($job);
+        $emotion = $this->emotionValues($predictedValues);
+      }
+      else {
+        $emotion = $this->emotionValues($predictedValues);
+      }
+      echo json_encode(array($distinctYears, $emotion));
     }
-    echo json_encode(array($distinctYears, $emotion));
   }
   public function emotionValues($predictedValues) {
     $emotions = ['Anger', 'Disgust', 'Fear', 'Joy', 'Love', 'Sadness', 'Surprise'];

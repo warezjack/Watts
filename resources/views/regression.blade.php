@@ -25,6 +25,7 @@
 
 		<script>
       $(document).ready(function() {
+				$("#noPrediction").hide();
 				var options = {
     			chart: {
 						renderTo: 'container',
@@ -73,22 +74,31 @@
               candidateId : $("#candidate").val()
             },
             success: function(data) {
-							data = $.parseJSON(data);
-							emotions = ['Anger', 'Disgust', 'Fear', 'Joy', 'Love', 'Sadness', 'Surprise'];
-							var years = [];
-							$.each(data[0], function(index, value) {
-								years.push(data[0][index]['year']);
-							});
-							for(i = 0; i <= 6; i++) {
-								var predicted_values = [];
-								for(j = 0; j <=4; j++) {
-									predicted_values.push(parseInt(data[1][emotions[i]][j][1]));
-								}
-								options.series[i].data = predicted_values;
+							if(data == 1) {
+								$("#noPrediction").show();
+								$("#container").hide();
 							}
-							var chart = new Highcharts.Chart(options);
-							chart.xAxis[0].setCategories(years);
-							chart.setTitle({ text: 'Emotional Future Prediction of' + ' ' + $('#candidate option:selected').text()});
+							else {
+								$("#container").show();
+								$("#noPrediction").hide();
+
+	 							data = $.parseJSON(data);
+								emotions = ['Anger', 'Disgust', 'Fear', 'Joy', 'Love', 'Sadness', 'Surprise'];
+								var years = [];
+								$.each(data[0], function(index, value) {
+									years.push(data[0][index]['year']);
+								});
+								for(i = 0; i <= 6; i++) {
+									var predicted_values = [];
+									for(j = 0; j <=4; j++) {
+										predicted_values.push(parseInt(data[1][emotions[i]][j][1]));
+									}
+									options.series[i].data = predicted_values;
+								}
+								var chart = new Highcharts.Chart(options);
+								chart.xAxis[0].setCategories(years);
+								chart.setTitle({ text: 'Emotional Future Prediction of' + ' ' + $('#candidate option:selected').text()});
+							}
             }
            });
         });
@@ -188,6 +198,9 @@
 									@endforeach
 								</select>
 								<hr>
+								<div class="alert alert-danger" id="noPrediction">
+  								<strong>We cannot predict!</strong> Candidate's collected data may be limited up to 2 years.
+								</div>
 								<div id="container" style="width:100%; height:400px;"></div>
 							</form>
 		        </div>
