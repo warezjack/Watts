@@ -109,9 +109,11 @@
 							if(data == 1) {
 								$("#noPrediction").show();
 								$("#container").hide();
+								$("polarity_container").hide();
 							}
 							else {
 								$("#container").show();
+								$("#polarity_container").show();
 								$("#noPrediction").hide();
 
 	 							data = $.parseJSON(data);

@@ -24,4 +24,8 @@ class PredictedValue extends Model
             ->get()
             ->toArray();
     }
+
+    public function removeUserEntries($userId) {
+      return DB::table('predicted_values')->where('user_id', '=', $userId)->delete();
+    }
 }

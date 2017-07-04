@@ -85,4 +85,8 @@ class PolarityValue extends Model
           ->get();
   }
 
+  public function removeUserEntries($userId) {
+    return DB::table('polarity_values')->where('user_id', '=', $userId)->delete();
+  }
+
 }

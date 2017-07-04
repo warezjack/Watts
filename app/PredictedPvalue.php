@@ -15,4 +15,8 @@ class PredictedPvalue extends Model
             ->get()
             ->toArray();
     }
+
+    public function removeUserEntries($userId) {
+      return DB::table('predicted_pvalues')->where('user_id', '=', $userId)->delete();
+    }
 }
