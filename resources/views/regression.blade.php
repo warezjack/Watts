@@ -66,6 +66,38 @@
 					}]
 				};
 
+				var polarity_options = {
+    			chart: {
+						renderTo: 'polarity_container',
+        		type: 'spline'
+    			},
+			    yAxis: {
+			        title: {
+			            text: 'Total Percentage of Documents'
+			        }
+			    },
+			    tooltip: {
+			        crosshairs: true,
+			        shared: true
+			    },
+			    plotOptions: {
+			        spline: {
+			            marker: {
+			                radius: 4,
+			                lineColor: '#666666',
+			                lineWidth: 1
+			            }
+			        }
+			    },
+					series: [{
+        		name: 'Positive',
+					}, {
+        		name: 'Negative',
+					}, {
+        		name: 'Offensive',
+					}]
+				};
+
         $('#candidate').click(function() {
           $.ajax({
             url: "/predictBehavior",
@@ -84,6 +116,8 @@
 
 	 							data = $.parseJSON(data);
 								emotions = ['Anger', 'Disgust', 'Fear', 'Joy', 'Love', 'Sadness', 'Surprise'];
+								polarity = ['Positive', 'Negative', 'Offensive'];
+
 								var years = [];
 								$.each(data[0], function(index, value) {
 									years.push(data[0][index]['year']);
@@ -95,9 +129,21 @@
 									}
 									options.series[i].data = predicted_values;
 								}
+								for(i = 0; i<= 2; i++) {
+									var predicted_polarity_values = [];
+									for(j = 0; j <= 4; j++) {
+										predicted_polarity_values.push(parseInt(data[2][polarity[i]][j][1]));
+									}
+									polarity_options.series[i].data = predicted_polarity_values;
+								}
 								var chart = new Highcharts.Chart(options);
+								var polarityChart = new Highcharts.Chart(polarity_options);
+
 								chart.xAxis[0].setCategories(years);
+								polarityChart.xAxis[0].setCategories(years);
+
 								chart.setTitle({ text: 'Emotional Future Prediction of' + ' ' + $('#candidate option:selected').text()});
+								polarityChart.setTitle({ text: 'Polarity Future Prediction of' + ' ' + $('#candidate option:selected').text()});
 							}
             }
            });
@@ -202,6 +248,8 @@
   								<strong>We cannot predict!</strong> Candidate's collected data may be limited up to 2 years.
 								</div>
 								<div id="container" style="width:100%; height:400px;"></div>
+								<br><br>
+								<div id="polarity_container" style="width:100%; height:400px;"></div>
 							</form>
 		        </div>
     		</div>
