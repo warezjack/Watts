@@ -227,101 +227,41 @@
      						</thead>
 								<tbody>
 	     						<tr>
-						      	<td>Sports</td>
-										@if ( isset($categoryType->has_sports) )
-												 @if ($categoryType->has_sports)
-															<td>{{ Form::checkbox('has_sports', 1, true) }}</td>
+						      	<td>Positive</td>
+										@if ( isset($categoryType->is_positive) )
+												 @if ($categoryType->has_positive)
+															<td>{{ Form::checkbox('is_positive', 1, true) }}</td>
 												 @else
-															<td> {{ Form::checkbox('has_sports', 1, false) }} </td>
+															<td> {{ Form::checkbox('is_positive', 1, false) }} </td>
 												 @endif
 										@else
-										<td> {{ Form::checkbox('has_sports', 1, false) }} </td>
+										<td> {{ Form::checkbox('is_positive', 1, false) }} </td>
 										@endif
 									</tr>
 									<tr>
-										<td>Medicine</td>
-										@if ( isset($categoryType->has_medicine) )
-												 @if ($categoryType->has_medicine)
-															<td>{{ Form::checkbox('has_medicine', 1, true) }}</td>
+										<td>Negative</td>
+										@if ( isset($categoryType->is_negative) )
+												 @if ($categoryType->is_negative)
+															<td>{{ Form::checkbox('is_negative', 1, true) }}</td>
 												 @else
-															<td> {{ Form::checkbox('has_medicine', 1, false) }} </td>
+															<td> {{ Form::checkbox('is_negative', 1, false) }} </td>
 												 @endif
 										@else
-										<td> {{ Form::checkbox('has_medicine', 1, false) }} </td>
+										<td> {{ Form::checkbox('is_negative', 1, false) }} </td>
 										@endif
 									</tr>
 									<tr>
-						        <td>Computers</td>
-										@if ( isset($categoryType->has_computers) )
-												 @if ($categoryType->has_computers)
-															<td>{{ Form::checkbox('has_computers', 1, true) }}</td>
+						        <td>Offensive</td>
+										@if ( isset($categoryType->is_offensive) )
+												 @if ($categoryType->is_offensive)
+															<td>{{ Form::checkbox('is_offensive', 1, true) }}</td>
 												 @else
-															<td> {{ Form::checkbox('has_computers', 1, false) }} </td>
+															<td> {{ Form::checkbox('is_offensive', 1, false) }} </td>
 												 @endif
 										@else
-										<td> {{ Form::checkbox('has_computers', 1, false) }} </td>
+										<td> {{ Form::checkbox('is_offensive', 1, false) }} </td>
 										@endif
 									</tr>
-									<tr>
-						        <td>Politics</td>
-										@if ( isset($categoryType->has_politics) )
-												 @if ($categoryType->has_politics)
-															<td>{{ Form::checkbox('has_politics', 1, true) }}</td>
-												 @else
-															<td> {{ Form::checkbox('has_politics', 1, false) }} </td>
-												 @endif
-										@else
-										<td> {{ Form::checkbox('has_politics', 1, false) }} </td>
-										@endif
-									</tr>
-									<tr>
-						        <td>Religion</td>
-										@if ( isset($categoryType->has_religion) )
-												 @if ($categoryType->has_religion)
-															<td>{{ Form::checkbox('has_religion', 1, true) }}</td>
-												 @else
-															<td> {{ Form::checkbox('has_religion', 1, false) }} </td>
-												 @endif
-										@else
-										<td> {{ Form::checkbox('has_religion', 1, false) }} </td>
-										@endif
-									</tr>
-									<tr>
-						        <td>Electronics</td>
-										@if ( isset($categoryType->has_electronics) )
-												 @if ($categoryType->has_electronics)
-															<td>{{ Form::checkbox('has_electronics', 1, true) }}</td>
-												 @else
-															<td> {{ Form::checkbox('has_electronics', 1, false) }} </td>
-												 @endif
-										@else
-										<td> {{ Form::checkbox('has_electronics', 1, false) }} </td>
-										@endif
-									</tr>
-									<tr>
-						      	<td>Space</td>
-										@if ( isset($categoryType->has_space) )
-												 @if ($categoryType->has_space)
-															<td>{{ Form::checkbox('has_space', 1, true) }}</td>
-												 @else
-															<td> {{ Form::checkbox('has_space', 1, false) }} </td>
-												 @endif
-										@else
-										<td> {{ Form::checkbox('has_space', 1, false) }} </td>
-										@endif
-									</tr>
-									<tr>
-						         	<td>Motorcycles and Automobiles</td>
-											@if ( isset($categoryType->has_motorcycles) )
-													 @if ($categoryType->has_motorcycles)
-																<td>{{ Form::checkbox('has_motorcycles', 1, true) }}</td>
-													 @else
-																<td> {{ Form::checkbox('has_motorcycles', 1, false) }} </td>
-													 @endif
-											@else
-											<td> {{ Form::checkbox('has_motorcycles', 1, false) }} </td>
-											@endif
-	     						</tr>
      						</tbody>
      				</table>
             	<div align="center">
@@ -329,8 +269,7 @@
             		{{ Form::close() }}
 								<br>
 								<br>
-								<button class="btn btn-primary" onclick="window.location='{{ url('compose') }}'">Back</button>
-						</div>
+							</div>
 		    	</div>
     		</div>
 		</div>

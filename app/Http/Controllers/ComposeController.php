@@ -52,40 +52,20 @@ class ComposeController extends Controller
     public function saveCategories($categories) {
     	$categoryType = new Categories();
 
-    	$categoryType->has_sports = 0;
-    	$categoryType->has_medicine = 0;
-    	$categoryType->has_computers = 0;
-    	$categoryType->has_politics = 0;
-    	$categoryType->has_religion = 0;
-    	$categoryType->has_electronics = 0;
-    	$categoryType->has_space = 0;
-    	$categoryType->has_motorcycles = 0;
+    	$categoryType->is_positive = 0;
+    	$categoryType->is_negative = 0;
+    	$categoryType->is_offensive = 0;
 
     	foreach ($categories as $category) {
     		switch($category) {
-    			case 'Sports':
-    				$categoryType->has_sports = 1;
+    			case 'Positive':
+    				$categoryType->is_positive = 1;
     				break;
-    			case 'Medicine':
-    				$categoryType->has_medicine = 1;
+    			case 'Negative':
+    				$categoryType->is_negative = 1;
     				break;
-    			case 'Computers':
-    				$categoryType->has_computers = 1;
-    				break;
-    			case 'Politics':
-    				$categoryType->has_politics = 1;
-    				break;
-    			case 'Religion':
-    				$categoryType->has_religion = 1;
-    				break;
-    			case 'Electronics':
-    				$categoryType->has_electronics = 1;
-    				break;
-    			case 'Space':
-    				$categoryType->has_space = 1;
-    				break;
-    			case 'Motorcycles':
-    				$categoryType->has_motorcycles = 1;
+    			case 'Offensive':
+    				$categoryType->is_offensive = 1;
     				break;
     		}
     	}
@@ -217,14 +197,9 @@ class ComposeController extends Controller
     }
 
     public function setCategories($categoryType) {
-    	$categoryType->has_sports = empty(Input::get('has_sports')) ? 0 : 1;
-    	$categoryType->has_medicine = empty(Input::get('has_medicine')) ? 0 : 1;
-    	$categoryType->has_computers = empty(Input::get('has_computers')) ? 0 : 1;
-    	$categoryType->has_politics = empty(Input::get('has_politics')) ? 0 : 1;
-    	$categoryType->has_religion = empty(Input::get('has_religion')) ? 0 : 1;
-    	$categoryType->has_electronics = empty(Input::get('has_electronics')) ? 0 : 1;
-    	$categoryType->has_space = empty(Input::get('has_space')) ? 0 : 1;
-    	$categoryType->has_motorcycles = empty(Input::get('has_motorcycles')) ? 0 : 1;
+    	$categoryType->is_positive = empty(Input::get('is_positive')) ? 0 : 1;
+    	$categoryType->is_negative = empty(Input::get('is_negative')) ? 0 : 1;
+    	$categoryType->is_offensive = empty(Input::get('is_offensive')) ? 0 : 1;
     	$categoryType->save();
     	return $categoryType->id;
     }

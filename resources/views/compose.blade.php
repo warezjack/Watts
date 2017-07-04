@@ -139,30 +139,15 @@
 		          			<hr>
 		          			<div class="row">
 		          				<div class="col-sm-6">
-				          			<h5>Select Categories</h5>
+				          			<h5>Select Polarity</h5>
 				          			<div class="checkbox">
-									 	<label><input type="checkbox" value="Sports" name="category[]">Sports</label>
+									 	<label><input type="checkbox" value="Positive" name="category[]">Positive</label>
 									</div>
 									<div class="checkbox">
-									 	<label><input type="checkbox" value="Medicine" name="category[]">Medicine</label>
+									 	<label><input type="checkbox" value="Negative" name="category[]">Negative</label>
 									</div>
 									<div class="checkbox">
-									 	<label><input type="checkbox" value="Computers" name="category[]">Computers</label>
-									</div>
-									<div class="checkbox">
-									 	<label><input type="checkbox" value="Politics" name="category[]">Politics</label>
-									</div>
-									<div class="checkbox">
-									 	<label><input type="checkbox" value="Religion" name="category[]">Religion</label>
-									</div>
-									<div class="checkbox">
-									 	<label><input type="checkbox" value="Electronics" name="category[]">Electronics</label>
-									</div>
-									<div class="checkbox">
-									 	<label><input type="checkbox" value="Space" name="category[]">Space</label>
-									</div>
-									<div class="checkbox">
-									 	<label><input type="checkbox" value="Motorcycles" name="category[]">Motorcycles and Automobiles</label>
+									 	<label><input type="checkbox" value="Offensive" name="category[]">Offensive</label>
 									</div>
 		          				</div>
 		          				<div class="col-sm-6">
@@ -234,7 +219,7 @@
 										<th> Date Of Creation </th>
 										<th> Date of Updation </th>
 					         	<th> Emotion Types</th>
-					         	<th> Subject Categories</th>
+					         	<th> Polarity</th>
 					         	<th colspan="3">Actions</th>
      						</tr>
      					</thead>

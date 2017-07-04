@@ -182,69 +182,29 @@
 								</thead>
 								<tbody>
      						<tr>
-					      	<td>Sports</td>
-									@if ( $categoryType->has_sports )
+					      	<td>Positive</td>
+									@if ( $categoryType->is_positive )
      							<td>Yes</td>
      							@else
      							<td>No</td>
      							@endif
 								</tr>
 								<tr>
-					      	<td>Medicine</td>
-									@if ( $categoryType->has_medicine )
+					      	<td>Negative</td>
+									@if ( $categoryType->is_negative )
      							<td>Yes</td>
      							@else
      							<td>No</td>
      							@endif
 								</tr>
 								<tr>
-					      	<td>Computers</td>
-									@if ( $categoryType->has_computers )
+					      	<td>Offensive</td>
+									@if ( $categoryType->is_offensive )
      							<td>Yes</td>
      							@else
      							<td>No</td>
      							@endif
 								</tr>
-								<tr>
-					      	<td>Politics</td>
-									@if ( $categoryType->has_politics )
-     							<td>Yes</td>
-     							@else
-     							<td>No</td>
-     							@endif
-								</tr>
-								<tr>
-					      	<td>Religion</td>
-									@if ( $categoryType->has_religion )
-     							<td>Yes</td>
-     							@else
-     							<td>No</td>
-     							@endif
-								</tr>
-								<tr>
-					      	<td>Electronics</td>
-									@if ( $categoryType->has_electronics )
-     							<td>Yes</td>
-     							@else
-     							<td>No</td>
-     							@endif
-								</tr>
-								<tr>
-					      	<td>Space</td>
-									@if ( $categoryType->has_space )
-     							<td>Yes</td>
-     							@else
-     							<td>No</td>
-     							@endif
-								</tr>
-								<tr>
-					      	<td>Motorcycles and Automobiles</td>
-									@if ( $categoryType->has_motorcycles )
-     							<td>Yes</td>
-     							@else
-     							<td>No</td>
-     							@endif
-     						</tr>
      					</tbody>
      				</table>
      				@else
