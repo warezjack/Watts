@@ -229,7 +229,7 @@
 	     						<tr>
 						      	<td>Positive</td>
 										@if ( isset($categoryType->is_positive) )
-												 @if ($categoryType->has_positive)
+												 @if ($categoryType->is_positive)
 															<td>{{ Form::checkbox('is_positive', 1, true) }}</td>
 												 @else
 															<td> {{ Form::checkbox('is_positive', 1, false) }} </td>
