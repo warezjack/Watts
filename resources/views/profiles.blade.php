@@ -19,6 +19,8 @@
     	<!-- Fonts -->
 		<link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet" type="text/css">
 		<link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet" type="text/css">
+		<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+		<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="css/sweetalert.css">
 		<script src="http://code.highcharts.com/highcharts.js"></script>
 		<script src="https://code.highcharts.com/modules/exporting.js"></script>
@@ -67,8 +69,8 @@
 
 							chart.xAxis[0].setCategories(data[0]);
 							polarityChart.xAxis[0].setCategories(data[0]);
-							chart.setTitle({ text: 'Yearwise Emotion Classification'});
-							polarityChart.setTitle({ text: 'Yearwise Polarity Classification'});
+							chart.setTitle({ text: 'Yearwise Emotion Classification of' + ' ' + $('#candidate option:selected').text()});
+							polarityChart.setTitle({ text: 'Yearwise Polarity Classification of' + ' ' + $('#candidate option:selected').text()});
 						}
 					 });
 
@@ -200,8 +202,8 @@
 
 						chart.xAxis[0].setCategories(data[0]);
 						polarityChart.xAxis[0].setCategories(data[0]);
-						chart.setTitle({ text: 'Yearwise Emotion Classification'});
-						polarityChart.setTitle({ text: 'Yearwise Polarity Classification'});
+						chart.setTitle({ text: 'Yearwise Emotion Classification of' + ' ' + $('#candidate option:selected').text()});
+						polarityChart.setTitle({ text: 'Yearwise Polarity Classification of' + ' ' + $('#candidate option:selected').text()});
 					}
 				});
 
@@ -274,8 +276,8 @@
 
 									chart.xAxis[0].setCategories(monthNamesArray);
 									polarityChart.xAxis[0].setCategories(monthNamesArray);
-									chart.setTitle({ text: 'Month Wise Emotion Classification For' + ' ' + $("#year").val() });
-									polarityChart.setTitle({ text: 'Month Wise Polarity Classification For' + ' ' + $("#year").val() });
+									chart.setTitle({ text: 'Month Wise Emotion Classification of' + ' ' + $('#candidate option:selected').text() + ' for ' + $("#year").val() });
+									polarityChart.setTitle({ text: 'Month Wise Polarity Classification of' + ' ' + $('#candidate option:selected').text() + ' for ' + $("#year").val() });
 
 								}
 							});
@@ -339,12 +341,23 @@
 									var polarityChart = new Highcharts.Chart(polarityOptions);
 									chart.xAxis[0].setCategories(data[0]);
 									polarityChart.xAxis[0].setCategories(data[0]);
-									chart.setTitle({ text: 'Day Wise Emotion Classification For' + ' ' + monthNames[$("#month").val()] });
-									polarityChart.setTitle({ text: 'Day Wise Polarity Classification For' + ' ' + monthNames[$("#month").val()] });
+									chart.setTitle({ text: 'Day Wise Emotion Classification of' + ' ' + $('#candidate option:selected').text() + ' for ' + monthNames[$("#month").val()] });
+									polarityChart.setTitle({ text: 'Day Wise Polarity Classification of' + ' ' + $('#candidate option:selected').text() + ' for ' + monthNames[$("#month").val()] });
 
 								}
 							});
 						});
+					}
+				});
+				$("#polarity").hide();
+				$("#toggler").change(function() {
+					if($(this).prop('checked')) {
+						$("#polarity").show();
+						$("#emotion").hide();
+					}
+					else {
+						$("#polarity").hide();
+						$("#emotion").show();
 					}
 				});
 		});
@@ -387,12 +400,28 @@
 			    -o-text-overflow: ellipsis;
 			    text-overflow: ellipsis;
 			}
-			h5{
+			h5 {
 				font-family: Quicksand;
 				font-weight: bold;
 			}
 			label {
 				font-family: Quicksand;
+			}
+			.toggle {
+				float: right;
+			}
+			hr {
+				margin-top: 15px;
+				margin-bottom: 15px;
+			}
+			.btn-primary {
+				background-color: #DC143C;
+				border-color: #DC143C;
+			}
+			.btn-default.active {
+				background-color: #008080;
+				border-color: #008080;
+				color: #fff;
 			}
 		</style>
 	</head>
@@ -418,14 +447,9 @@
 		            <nav class="nav-sidebar">
 		                <ul class="nav">
 		                    <li><a href="{{ url('/index') }}"><i class="glyphicon glyphicon-modal-window"></i> Dashboard </a></li>
-
 		                    <li><a href="{{ url('/assessments') }}"><i class="glyphicon glyphicon-list-alt"></i> Assessments </a></li>
-
-
 		                    <li class="active"><a href="{{ url('/profiles') }}"><i class="glyphicon glyphicon-signal"></i> Profiles </a></li>
-
 		                    <li><a href="{{ url('/compose') }}"><i class="glyphicon glyphicon-edit"></i> Compose </a></li>
-
 		                    <li><a href="{{ url('/candidates') }}"><i class="glyphicon glyphicon-tasks"></i> Candidates </a></li>
 		                    <li><a href="{{ url('/services') }}"><i class="glyphicon glyphicon-record"></i> Infrastructure Services </a></li>
 		                    <li><a href="javascript:;"><i class="glyphicon glyphicon-cog"></i> Settings </a></li>
@@ -465,10 +489,10 @@
 			  					<select class="form-control" id="month" name="month_list" style="width:140px">
 			  					</select>
 								</div>
+								<input type="checkbox" data-toggle="toggle" data-on="Polarity" data-off="Emotion" id="toggler">
 								<hr>
 							</form>
 							<div id="emotion" style="width:100%; height:400px;"></div>
-							<hr>
 							<div id="polarity" style="width:100%; height:400px;"></div>
 		        </div>
     		</div>

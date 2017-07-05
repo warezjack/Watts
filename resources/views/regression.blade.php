@@ -19,6 +19,8 @@
     	<!-- Fonts -->
 		<link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet" type="text/css">
 		<link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet" type="text/css">
+		<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+		<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="css/sweetalert.css">
 		<script src="http://code.highcharts.com/highcharts.js"></script>
 		<script src="https://code.highcharts.com/modules/exporting.js"></script>
@@ -109,14 +111,23 @@
 							if(data == 1) {
 								$("#noPrediction").show();
 								$("#container").hide();
-								$("polarity_container").hide();
+								$("#polarity_container").hide();
+								$(".btn").hide();
 							}
 							else {
-								$("#container").show();
-								$("#polarity_container").show();
+								$(".btn").show();
 								$("#noPrediction").hide();
 
-	 							data = $.parseJSON(data);
+								if($('#toggler').prop('checked')) {
+									$("#polarity_container").show();
+									$("#container").hide();
+								}
+								else {
+									$("#polarity_container").hide();
+									$("#container").show();
+								}
+
+								data = $.parseJSON(data);
 								emotions = ['Anger', 'Disgust', 'Fear', 'Joy', 'Love', 'Sadness', 'Surprise'];
 								polarity = ['Positive', 'Negative', 'Offensive'];
 
@@ -150,6 +161,17 @@
             }
            });
         });
+				$("#toggler").change(function() {
+					if($(this).prop('checked')) {
+						$("#polarity_container").show();
+						$("#container").hide();
+					}
+					else {
+						$("#polarity_container").hide();
+						$("#container").show();
+					}
+				});
+				$("#polarity_container").hide();
       });
 		</script>
 
@@ -190,12 +212,24 @@
 			    -o-text-overflow: ellipsis;
 			    text-overflow: ellipsis;
 			}
-			h5{
+			h5 {
 				font-family: Quicksand;
 				font-weight: bold;
 			}
 			label {
 				font-family: Quicksand;
+			}
+			.btn-primary {
+				background-color: #DC143C;
+				border-color: #DC143C;
+			}
+			.btn-default.active {
+				background-color: #008080;
+				border-color: #008080;
+				color: #fff;
+			}
+			.toggle {
+				float: right;
 			}
 		</style>
 	</head>
@@ -245,14 +279,14 @@
 										<option value="{{$user->id}}">{{ $user->full_name }} </option>
 									@endforeach
 								</select>
-								<hr>
+							</form>
+							<br>
+								<input type="checkbox" data-toggle="toggle" data-on="Polarity" data-off="Emotion" id="toggler">
 								<div class="alert alert-danger" id="noPrediction">
   								<strong>We cannot predict!</strong> Candidate's collected data may be limited up to 2 years.
 								</div>
 								<div id="container" style="width:100%; height:400px;"></div>
-								<br><br>
 								<div id="polarity_container" style="width:100%; height:400px;"></div>
-							</form>
 		        </div>
     		</div>
 		</div>
