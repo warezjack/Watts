@@ -81,6 +81,8 @@ class ComparatorController extends Controller
 
     public function daysWiseComparison(Request $request) {
       $emotionValue = new EmotionValue();
+      $polarityValue = new polarityValue();
+
       $firstCandidateId = $request->get('firstCandidateId');
       $secondCandidateId = $request->get('secondCandidateId');
       $firstYearCandidate = $request->get('firstCandidateYear');
@@ -93,12 +95,22 @@ class ComparatorController extends Controller
       $getDaysFirstCandidateDocuments = $emotionValue->getDaysDocumentsCount($firstCandidateId, $firstYearCandidate, $firstCandidateMonth, $firstCandidateDay);
       $getDaysSecondCandidateDocuments = $emotionValue->getDaysDocumentsCount($secondCandidateId, $secondYearCandidate, $secondCandidateMonth, $secondCandidateDay);
 
+      $getDaysFirstCandidatePolarityDocuments = $polarityValue->getDaysDocumentsCount($firstCandidateId, $firstYearCandidate, $firstCandidateMonth, $firstCandidateDay);
+      $getDaysSecondCandidatePolarityDocuments = $polarityValue->getDaysDocumentsCount($secondCandidateId, $secondYearCandidate, $secondCandidateMonth, $secondCandidateDay);
+
       $totalFirstCandidateDocs = $emotionValue->totalDocumentDays($firstCandidateId, $firstYearCandidate, $firstCandidateMonth, $firstCandidateDay);
       $totalSecondCandidateDocs = $emotionValue->totalDocumentDays($secondCandidateId, $secondYearCandidate, $secondCandidateMonth, $secondCandidateDay);
 
+      $totalFirstCandidatePolarityDocs = $polarityValue->totalDocumentDays($firstCandidateId, $firstYearCandidate, $firstCandidateMonth, $firstCandidateDay);
+      $totalSecondCandidatePolarityDocs = $polarityValue->totalDocumentDays($secondCandidateId, $secondYearCandidate, $secondCandidateMonth, $secondCandidateDay);
+
       $firstCandidateEmotionsValues = $this->retrieveEmotionsValues($getDaysFirstCandidateDocuments, $totalFirstCandidateDocs);
       $secondCandidateEmotionsValues = $this->retrieveEmotionsValues($getDaysSecondCandidateDocuments, $totalSecondCandidateDocs);
-      echo json_encode(array($firstCandidateEmotionsValues, $secondCandidateEmotionsValues));
+
+      $firstCandidatePolarityValues = $this->retrievePolarityValues($getDaysFirstCandidatePolarityDocuments, $totalFirstCandidatePolarityDocs);
+      $secondCandidatePolarityValues = $this->retrievePolarityValues($getDaysSecondCandidatePolarityDocuments, $totalSecondCandidatePolarityDocs);
+
+      echo json_encode(array($firstCandidateEmotionsValues, $secondCandidateEmotionsValues, $firstCandidatePolarityValues, $secondCandidatePolarityValues));
     }
 
     public function retrieveEmotionsValues($getCandidatesDocuments, $totalDocuments) {

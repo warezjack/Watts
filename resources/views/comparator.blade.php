@@ -19,6 +19,8 @@
     	<!-- Fonts -->
 		<link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet" type="text/css">
 		<link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet" type="text/css">
+		<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+		<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="css/sweetalert.css">
 		<script src="http://code.highcharts.com/highcharts.js"></script>
 		<script src="https://code.highcharts.com/modules/exporting.js"></script>
@@ -263,8 +265,8 @@
 						 var chart = new Highcharts.Chart(options);
 						 var polarityChart = new Highcharts.Chart(polarityOptions);
 
-						 chart.setTitle({ text: 'Comparison Between' + ' ' + $('#first_candidate option:selected').text() +  ' And ' + $('#second_candidate option:selected').text() });
-						 polarityChart.setTitle({ text: 'Comparison Between' + ' ' + $('#first_candidate option:selected').text() +  ' And ' + $('#second_candidate option:selected').text() });
+						 chart.setTitle({ text: 'Emotional Comparison Between' + ' ' + $('#first_candidate option:selected').text() +  ' And ' + $('#second_candidate option:selected').text() });
+						 polarityChart.setTitle({ text: 'Polarity Comparison Between' + ' ' + $('#first_candidate option:selected').text() +  ' And ' + $('#second_candidate option:selected').text() });
 					 }
 					});
 				}
@@ -291,8 +293,17 @@
 						 options.series[1].name = $('#second_candidate option:selected').text() + ' - ' + secondCandidateDay;
 						 options.series[1].data = data[1];
 
+						 polarityOptions.series[0].name = $('#first_candidate option:selected').text() + ' - ' + firstCandidateDay;
+						 polarityOptions.series[0].data = data[2];
+
+						 polarityOptions.series[1].name = $('#second_candidate option:selected').text() + ' - ' + secondCandidateDay;
+						 polarityOptions.series[1].data = data[3];
+
 						 var chart = new Highcharts.Chart(options);
-						 chart.setTitle({ text: 'Comparison Between' + ' ' + $('#first_candidate option:selected').text() +  ' And ' + $('#second_candidate option:selected').text() });
+						 var polarityChart = new Highcharts.Chart(polarityOptions);
+
+						 chart.setTitle({ text: 'Emotional Comparison Between' + ' ' + $('#first_candidate option:selected').text() +  ' And ' + $('#second_candidate option:selected').text() });
+						 polarityChart.setTitle({ text: 'Polarity Comparison Between' + ' ' + $('#first_candidate option:selected').text() +  ' And ' + $('#second_candidate option:selected').text() });
 					 }
 					});
 				}
@@ -387,6 +398,17 @@
 						}
 					}
         });
+				$("#polarityComparison").hide();
+				$("#toggler").change(function() {
+					if($(this).prop('checked')) {
+						$("#polarityComparison").show();
+						$("#comparison").hide();
+					}
+					else {
+						$("#polarityComparison").hide();
+						$("#comparison").show();
+					}
+				});
       });
     </script>
 
@@ -438,6 +460,29 @@
         float: right;
         width: 51%;
       }
+			.col-sm-3 {
+				width: 22%;
+			}
+			hr {
+				margin-top: 11px;
+				margin-bottom: 11px;
+			}
+			.toggle {
+				float: right;
+				margin-top: 25px;
+			}
+			.btn-primary {
+				background-color: #DC143C;
+				border-color: #DC143C;
+			}
+			.btn-default.active {
+				background-color: #008080;
+				border-color: #008080;
+				color: #fff;
+			}
+			.col-sm-1 {
+				float: right;
+			}
 		</style>
 	</head>
 	<body>
@@ -492,43 +537,50 @@
                   @endforeach
                 </select>
                 <hr>
-                <label for="sel1">Select Comparator Distribution: &nbsp;</label>
-                <select class="form-control" id="difference" name="distribution" style="width:140px">
-                  <option value="0">Year Wise</option>
-									<option value="1">Month Wise</option>
-									<option value="2">Day Wise</option>
-                </select>
-
-								<br><br>
-
-								<label for="sel1" id="year_name">Select Years for comparison: &nbsp;</label>
-								<br>
-								<select class="form-control" id="firstYearWise" style="width:140px">
-								</select>
-								<i class="glyphicon glyphicon-option-vertical" id="year_icon"></i>
-								<select class="form-control" id="secondYearWise" style="width:140px">
-								</select>
-								<br><br>
-
-								<label for="sel1" id="month_name">Select Months for comparison: &nbsp;</label>
-								<br>
-								<select class="form-control" id="firstMonthWise" style="width:140px">
-								</select>
-								<i class="glyphicon glyphicon-option-vertical" id="month_icon"></i>
-								<select class="form-control" id="secondMonthWise" style="width:140px">
-								</select>
-								<br><br>
-
-								<label for="sel1" id="day_name">Select Days for comparison: &nbsp;</label>
-								<br>
-								<select class="form-control" id="firstDayWise" style="width:140px">
-								</select>
-								<i class="glyphicon glyphicon-option-vertical" id="day_icon"></i>
-								<select class="form-control" id="secondDayWise" style="width:140px">
-								</select>
+								<div class="row">
+    							<div class="col-sm-3">
+										<label for="sel1">Select Comparator Distribution: &nbsp;</label>
+										<br>
+		                <select class="form-control" id="difference" name="distribution" style="width:129px">
+		                  <option value="0">Year Wise</option>
+											<option value="1">Month Wise</option>
+											<option value="2">Day Wise</option>
+		                </select>
+									</div>
+    							<div class="col-sm-3">
+										<label for="sel1" id="year_name">Select Years for comparison: &nbsp;</label>
+										<br>
+										<select class="form-control" id="firstYearWise" style="width:80px">
+										</select>
+										<i class="glyphicon glyphicon-option-vertical" id="year_icon"></i>
+										<select class="form-control" id="secondYearWise" style="width:80px">
+										</select>
+									</div>
+    							<div class="col-sm-3">
+										<label for="sel1" id="month_name">Select Months for comparison: &nbsp;</label>
+										<br>
+										<select class="form-control" id="firstMonthWise" style="width:80px">
+										</select>
+										<i class="glyphicon glyphicon-option-vertical" id="month_icon"></i>
+										<select class="form-control" id="secondMonthWise" style="width:80px">
+										</select>
+									</div>
+									<div class="col-sm-3">
+										<label for="sel1" id="day_name">Select Days for comparison: &nbsp;</label>
+										<br>
+										<select class="form-control" id="firstDayWise" style="width:80px">
+										</select>
+										<i class="glyphicon glyphicon-option-vertical" id="day_icon"></i>
+										<select class="form-control" id="secondDayWise" style="width:80px">
+										</select>
+									</div>
+									<div class="col-sm-1">
+										<input type="checkbox" data-toggle="toggle" data-on="Polarity" data-off="Emotion" id="toggler">
+									</div>
+								</div>
               </form>
-              <div id="comparison" style="width:100%; height:400px;"></div>
 							<hr>
+              <div id="comparison" style="width:100%; height:400px;"></div>
 							<div id="polarityComparison" style="width:100%; height:400px;"></div>
 		        </div>
     		</div>
