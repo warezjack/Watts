@@ -470,6 +470,7 @@
 			.toggle {
 				float: right;
 				margin-top: 25px;
+				border-radius: 50px;
 			}
 			.btn-primary {
 				background-color: #DC143C;

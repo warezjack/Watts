@@ -409,6 +409,7 @@
 			}
 			.toggle {
 				float: right;
+				border-radius: 50px;
 			}
 			hr {
 				margin-top: 15px;

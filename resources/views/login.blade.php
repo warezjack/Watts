@@ -14,8 +14,8 @@
 
 		<!-- Referencing Bootstrap JS that is hosted locally -->
     	{{ Html::script('js/bootstrap.min.js') }}
-    
-    	
+
+
 		<link rel="stylesheet" type="text/css" href="css/sweetalert.css">
 		<link rel="shortcut icon" href="{{ asset('favicon.ico') }}" >
 
@@ -53,11 +53,16 @@
 				width: 180px;
 			}
 
+			#login {
+				background-color: #DC143C;
+				border-color: #DC143C;
+			}
+
 		</style>
 	</head>
 	<body>
 		<div class="container" align="center">
-			
+
 			<script src="js/sweetalert.min.js"></script>
 			<script>
 				@if (notify()->ready())
@@ -86,10 +91,10 @@
 			    			<input id="password" type="password" class="form-control" name="password" placeholder="Password" required autofocus>
 			  			</div>
 					</div>
-					<button type="submit" class="btn btn-primary">Log In</button>
+					<button type="submit" class="btn btn-primary" id="login" >Log In</button>
 					<button class="btn btn-default" onclick='window.location="signup"'>Sign Up</button>
 				</div>
 			</form>
-		</div>		
+		</div>
 	</body>
 </html>

@@ -230,6 +230,7 @@
 			}
 			.toggle {
 				float: right;
+				border-radius: 50px;
 			}
 		</style>
 	</head>
