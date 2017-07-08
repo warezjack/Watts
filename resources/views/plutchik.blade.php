@@ -45,6 +45,105 @@
 				});
       });
 
+      function resetEmotions() {
+        $("#anger").css("background-color", "white");
+        $("#anger").css("color", "black");
+
+        $("#disgust").css("background-color", "white");
+        $("#disgust").css("color", "black");
+
+        $("#fear").css("background-color", "white");
+        $("#fear").css("color", "black");
+
+        $("#joy").css("background-color", "white");
+        $("#joy").css("color", "black");
+
+        $("#surprise").css("background-color", "white");
+        $("#surprise").css("color", "black");
+
+        $("#sadness").css("background-color", "white");
+        $("#sadness").css("color", "black");
+
+        $("#trust").css("background-color", "white");
+        $("#trust").css("color", "black");
+
+        $("#anticipation").css("background-color", "white");
+        $("#anticipation").css("color", "black");
+
+        $("#submission").css("background-color", "white");
+        $("#submission").css("color", "black");
+
+        $("#alarm").css("background-color", "white");
+        $("#alarm").css("color", "black");
+
+        $("#disappointment").css("background-color", "white");
+        $("#disappointment").css("color", "black");
+
+        $("#remorse").css("background-color", "white");
+        $("#remorse").css("color", "black");
+
+        $("#contempt").css("background-color", "white");
+        $("#contempt").css("color", "black");
+
+        $("#aggression").css("background-color", "white");
+        $("#aggression").css("color", "black");
+
+        $("#optimism").css("background-color", "white");
+        $("#optimism").css("color", "black");
+
+        $("#guilt").css("background-color", "white");
+        $("#guilt").css("color", "black");
+
+        $("#curiosity").css("background-color", "white");
+        $("#curiosity").css("color", "black");
+
+        $("#despair").css("background-color", "white");
+        $("#despair").css("color", "black");
+
+        $("#envy").css("background-color", "white");
+        $("#envy").css("color", "black");
+
+        $("#cynisim").css("background-color", "white");
+        $("#cynisim").css("color", "black");
+
+        $("#pride").css("background-color", "white");
+        $("#pride").css("color", "black");
+
+        $("#fatalism").css("background-color", "white");
+        $("#fatalism").css("color", "black");
+
+        $("#delight").css("background-color", "white");
+        $("#delight").css("color", "black");
+
+        $("#sentimentality").css("background-color", "white");
+        $("#sentimentality").css("color", "black");
+
+        $("#shame").css("background-color", "white");
+        $("#shame").css("color", "black");
+
+        $("#outrage").css("background-color", "white");
+        $("#outrage").css("color", "black");
+
+        $("#pessimism").css("background-color", "white");
+        $("#pessimism").css("color", "black");
+
+        $("#morbidness").css("background-color", "white");
+        $("#morbidness").css("color", "black");
+
+        $("#dominance").css("background-color", "white");
+        $("#dominance").css("color", "black");
+
+        $("#anxiety").css("background-color", "white");
+        $("#anxiety").css("color", "black");
+      }
+
+      function changeEmotionColor(emotionValue, backgroundColor, emotionId) {
+        if(emotionValue) {
+          $(emotionId).css("background-color", backgroundColor);
+          $(emotionId).css("color", "white");
+        }
+      }
+
       $("#year").click(function() {
         $.ajax({
 					url: "/dyads",
@@ -54,8 +153,47 @@
             year: $("#year").val()
 					},
 					success: function(data) {
-						data = $.parseJSON(data)
-						console.log(data);
+						data = $.parseJSON(data);
+            resetEmotions();
+
+            //For Primary Emotions
+            changeEmotionColor(data[0][0], "#DC143C", "#anger");
+            changeEmotionColor(data[0][1], "#DC143C", "#disgust");
+            changeEmotionColor(data[0][2], "#DC143C", "#fear");
+            changeEmotionColor(data[0][3], "#FF4500", "#joy");
+            changeEmotionColor(data[0][4], "#DC143C", "#sadness");
+            changeEmotionColor(data[0][5], "#FF4500", "#surprise");
+            changeEmotionColor(data[0][6], "#FF4500", "#trust");
+            changeEmotionColor(data[0][7], "#FF4500", "#anticipation");
+
+            //primary dyads
+            changeEmotionColor(data[1][0], "#FF4500", "#submission");
+            changeEmotionColor(data[1][1], "#DC143C", "#alarm");
+            changeEmotionColor(data[1][2], "#DC143C", "#disappointment");
+            changeEmotionColor(data[1][3], "#FF4500", "#remorse");
+            changeEmotionColor(data[1][4], "#DC143C", "#contempt");
+            changeEmotionColor(data[1][5], "#DC143C", "#aggression");
+            changeEmotionColor(data[1][6], "#FF4500", "#optimism");
+            changeEmotionColor(data[1][7], "#FF4500", "#anticipation");
+
+            //secondary dyads
+            changeEmotionColor(data[2][0], "#FF4500", "#guilt");
+            changeEmotionColor(data[2][1], "#FF4500", "#curiosity");
+            changeEmotionColor(data[2][2], "#DC143C", "#despair");
+            changeEmotionColor(data[2][3], "#FF4500", "#envy");
+            changeEmotionColor(data[2][4], "#DC143C", "#cynisim");
+            changeEmotionColor(data[2][5], "#DC143C", "#pride");
+            changeEmotionColor(data[2][6], "#DC143C", "#fatalism");
+
+            //secondary dyads
+            changeEmotionColor(data[3][0], "#FF4500", "#delight");
+            changeEmotionColor(data[3][1], "#FF4500", "#sentimentality");
+            changeEmotionColor(data[3][2], "#DC143C", "#shame");
+            changeEmotionColor(data[3][3], "#DC143C", "#outrage");
+            changeEmotionColor(data[3][4], "#DC143C", "#pessimism");
+            changeEmotionColor(data[3][5], "#DC143C", "#morbidness");
+            changeEmotionColor(data[3][6], "#FF4500", "#dominance");
+            changeEmotionColor(data[3][6], "#DC143C", "#anxiety");
 					}
 				});
       });
@@ -104,10 +242,12 @@
 
 			table {
 			  border-radius: 0.25em;
-			  border-collapse: collapse;
+			  border-collapse: separate;
 			  font-family: Quicksand;
+        border-spacing: 2px;
         width: 100%;
 			}
+
 			th {
 			  border-bottom: 1px solid #364043;
 			  font-size: 0.90em;
@@ -158,6 +298,10 @@
       }
       #tertiary {
         background-color:	#FFA07A;
+        color: white;
+      }
+      #emotions {
+        background-color: #2E8B57;
         color: white;
       }
 		</style>
@@ -219,9 +363,10 @@
                 <input type="checkbox" data-toggle="toggle" data-on="Intensity" data-off="Dyads" id="toggler">
                 <hr id="bottomhr">
                 <div id="dyads">
-                  <table class="table">
+                  <table border="0px">
                     <thead>
                       <tr>
+                        <th id="emotions">PRIMARY EMOTIONS</th>
                         <th id="primary">PRIMARY DYADS</th>
                         <th id="secondary">SECONDARY DYADS</th>
                         <th id="tertiary">TERTIARY DYADS</th>
@@ -229,44 +374,52 @@
                     </thead>
                     <tbody>
                       <tr>
-                        <td>Submission</td>
-                        <td>Guilt</td>
-                        <td>Delight</td>
+                        <td id="anger">Anger</td>
+                        <td id="submission">Submission</td>
+                        <td id="guilt">Guilt</td>
+                        <td id="delight">Delight</td>
                       </tr>
                       <tr>
-                        <td>Alarm</td>
-                        <td>Curiosity</td>
-                        <td>Sentimentality</td>
+                        <td id="disgust">Disgust</td>
+                        <td id="alarm">Alarm</td>
+                        <td id="curiosity">Curiosity</td>
+                        <td id="sentimentality">Sentimentality</td>
                       </tr>
                       <tr>
-                        <td>Disappointment</td>
-                        <td>Despair</td>
-                        <td>Shame</td>
+                        <td id="fear">Fear</td>
+                        <td id="disappointment">Disappointment</td>
+                        <td id="despair">Despair</td>
+                        <td id="shame">Shame</td>
                       </tr>
                       <tr>
-                        <td>Remorse</td>
-                        <td>Envy</td>
-                        <td>Outrage</td>
+                        <td id="joy">Joy</td>
+                        <td id="remorse">Remorse</td>
+                        <td id="envy">Envy</td>
+                        <td id="outrage">Outrage</td>
                       </tr>
                       <tr>
-                        <td>Contempt</td>
-                        <td>Cynisim</td>
-                        <td>Pessimisim</td>
+                        <td id="sadness">Sadness</td>
+                        <td id="contempt">Contempt</td>
+                        <td id="cynisim">Cynisim</td>
+                        <td id="pessimism">Pessimisim</td>
                       </tr>
                       <tr>
-                        <td>Aggression</td>
-                        <td>Pride</td>
-                        <td>Morbidness</td>
+                        <td id="surprise">Surprise</td>
+                        <td id="aggression">Aggression</td>
+                        <td id="pride">Pride</td>
+                        <td id="morbidness">Morbidness</td>
                       </tr>
                       <tr>
-                        <td>Optimism</td>
-                        <td>Fatalism</td>
-                        <td>Dominance</td>
+                        <td id="trust">Trust</td>
+                        <td id="optimism">Optimism</td>
+                        <td id="fatalism">Fatalism</td>
+                        <td id="dominance">Dominance</td>
                       </tr>
                       <tr>
+                        <td id="anticipation">Anticipation</td>
                         <td></td>
                         <td></td>
-                        <td>Anxiety</td>
+                        <td id="anxiety">Anxiety</td>
                       </tr>
                     </tbody>
                   </table>
