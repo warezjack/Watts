@@ -412,7 +412,11 @@
 				float: right;
 				border-radius: 50px;
 			}
-			hr {
+			#upperhr {
+				margin-top: 15px;
+				margin-bottom: 15px;
+			}
+			#bottomhr {
 				margin-top: 15px;
 				margin-bottom: 15px;
 			}
@@ -424,8 +428,6 @@
 				background-color: #008080;
 				border-color: #008080;
 				color: #fff;
-			}
-			ol, ul {
 			}
 		</style>
 	</head>
@@ -478,7 +480,7 @@
 										<option value="{{$user->id}}">{{ $user->full_name }} </option>
 									@endforeach
 								</select>
-								<hr>
+								<hr id="upperhr">
 								<div class="form-group">
 									<label for="sel1">Select Distribution: &nbsp;</label>
 			  					<select class="form-control" id="dist" name="distribution" style="width:140px">
@@ -496,7 +498,7 @@
 			  					</select>
 								</div>
 								<input type="checkbox" data-toggle="toggle" data-on="Polarity" data-off="Emotion" id="toggler">
-								<hr>
+								<hr id="bottomhr">
 							</form>
 							<div id="emotion" style="width:100%; height:400px;"></div>
 							<div id="polarity" style="width:100%; height:400px;"></div>

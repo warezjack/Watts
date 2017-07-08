@@ -100,3 +100,7 @@ Route::get('/queues', 'QueuesController@index');
 Route::get('regression', 'RegressionController@fetch');
 
 Route::get('/predictBehavior', 'RegressionController@predict');
+
+Route::get('/plutchik', 'PlutchikController@index');
+
+Route::get('/dyads', 'PlutchikController@dyads');
