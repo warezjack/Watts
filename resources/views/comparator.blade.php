@@ -420,6 +420,7 @@
 			}
 			.nav-sidebar {
     			width: 100%;
+					margin-top: -20px;
 			    border-right: 1px solid #ddd;
 			}
 
@@ -449,7 +450,7 @@
 			    -o-text-overflow: ellipsis;
 			    text-overflow: ellipsis;
 			}
-			h5{
+			h5 {
 				font-family: Quicksand;
 				font-weight: bold;
 			}
@@ -463,7 +464,11 @@
 			.col-sm-3 {
 				width: 22%;
 			}
-			hr {
+			#bottomhr {
+				margin-top: 11px;
+				margin-bottom: 11px;
+			}
+			#upperhr {
 				margin-top: 11px;
 				margin-bottom: 11px;
 			}
@@ -518,6 +523,8 @@
 												<li><a href="{{ url('/storage') }}"><i class="glyphicon glyphicon-th-large"></i> Storage Analyzer </a></li>
 												<li><a href="{{ url('/regression') }}"><i class="glyphicon glyphicon-hourglass"></i> Regression </a></li>
 												<li class="active"><a href="{{ url('/comparator') }}"><i class="glyphicon glyphicon-stats"></i> Comparator </a></li>
+												<li class="nav-divider"></li>
+												<li><a href="{{ url('/plutchik') }}"><i class="glyphicon glyphicon-certificate"></i> Plutchik's Test </a></li>
 		                    <li class="nav-divider"></li>
 		                    <li><a href="{{ url('/logout') }}"><i class="glyphicon glyphicon-log-out"></i> Sign Out </a></li>
 		                </ul>
@@ -537,7 +544,7 @@
                     <option value="{{$user->id}}">{{ $user->full_name }} </option>
                   @endforeach
                 </select>
-                <hr>
+                <hr id="upperhr">
 								<div class="row">
     							<div class="col-sm-3">
 										<label for="sel1">Select Comparator Distribution: &nbsp;</label>
@@ -580,7 +587,7 @@
 									</div>
 								</div>
               </form>
-							<hr>
+							<hr id="bottomhr">
               <div id="comparison" style="width:100%; height:400px;"></div>
 							<div id="polarityComparison" style="width:100%; height:400px;"></div>
 		        </div>

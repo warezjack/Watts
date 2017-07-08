@@ -183,6 +183,7 @@
 			}
 			.nav-sidebar {
     			width: 100%;
+					margin-top: -20px;
 			    border-right: 1px solid #ddd;
 			}
 
@@ -266,6 +267,8 @@
 												<li><a href="{{ url('/storage') }}"><i class="glyphicon glyphicon-th-large"></i> Storage Analyzer </a></li>
 												<li class="active"><a href="{{ url('/regression') }}"><i class="glyphicon glyphicon-hourglass"></i> Regression </a></li>
 												<li><a href="{{ url('/comparator') }}"><i class="glyphicon glyphicon-stats"></i> Comparator </a></li>
+												<li class="nav-divider"></li>
+												<li><a href="{{ url('/plutchik') }}"><i class="glyphicon glyphicon-certificate"></i> Plutchik's Test </a></li>
 		                    <li class="nav-divider"></li>
 		                    <li><a href="{{ url('/logout') }}"><i class="glyphicon glyphicon-log-out"></i> Sign Out </a></li>
 		                </ul>
