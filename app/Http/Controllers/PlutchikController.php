@@ -33,10 +33,10 @@ class PlutchikController extends Controller
       $getYearsCandidateDocuments = $emotionValue->getYearsDocumentsCount($candidateId, $year);
       $totalCandidateDocs = $emotionValue->totalDocumentYears($candidateId, $year);
       $candidateEmotionsValues = $this->retrieveEmotionsValues($getYearsCandidateDocuments, $totalCandidateDocs);
-      $primaryDyads = $this->computePrimaryDyads($candidateEmotionsValues);
-      $secondaryDyads = $this->computeSecondaryDyads($candidateEmotionsValues);
-      $tertiaryDyads = $this->computeTertiaryDyads($candidateEmotionsValues);
-      echo json_encode(array($candidateEmotionsValues, $primaryDyads, $secondaryDyads, $tertiaryDyads));
+      $primaryDyads = $this->computePrimaryDyads($candidateEmotionsValues[0]);
+      $secondaryDyads = $this->computeSecondaryDyads($candidateEmotionsValues[0]);
+      $tertiaryDyads = $this->computeTertiaryDyads($candidateEmotionsValues[0]);
+      echo json_encode(array($candidateEmotionsValues[0], $primaryDyads, $secondaryDyads, $tertiaryDyads, $candidateEmotionsValues[1]));
     }
 
     public function computePrimaryDyads($candidateEmotionsValues) {
@@ -90,6 +90,7 @@ class PlutchikController extends Controller
     public function retrieveEmotionsValues($getCandidatesDocuments, $totalDocuments) {
       $emotionNames = array("Anger", "Disgust", "Fear", "Joy", "Love", "Sadness", "Surprise");
       $emotionNamesFromDoc = array();
+      $categoryPercent = array();
       $emotionValues = array();
 
       foreach($getCandidatesDocuments as $doc) {
@@ -99,6 +100,7 @@ class PlutchikController extends Controller
           if($emotionPercent <= 20) {
             $emotionLevel = 0;
           }
+          array_push($categoryPercent, $emotionPercent);
           array_push($emotionValues, $emotionLevel);
       }
       $diffArray = array_diff($emotionNames, $emotionNamesFromDoc);
@@ -109,8 +111,10 @@ class PlutchikController extends Controller
 
       foreach($diffArray as $key => $val) {
         array_splice($emotionValues, $key, 0, 0);
+        array_splice($categoryPercent, $key, 0, 0);
       }
       array_splice($emotionValues, 4, 1);
+      array_splice($categoryPercent, 4 , 1);
       $trustValue = 1;
       if ($emotionNames[1] == 1) {
         $trustValue = 0;
@@ -121,7 +125,7 @@ class PlutchikController extends Controller
       }
       array_push($emotionValues, $trustValue);
       array_push($emotionValues, $anticipationValue);
-      return $emotionValues;
+      return array($emotionValues, $categoryPercent);
     }
 
 }

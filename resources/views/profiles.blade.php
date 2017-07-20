@@ -413,12 +413,12 @@
 				border-radius: 50px;
 			}
 			#upperhr {
-				margin-top: 15px;
-				margin-bottom: 15px;
+				margin-top: 12px;
+				margin-bottom: 12px;
 			}
 			#bottomhr {
-				margin-top: 15px;
-				margin-bottom: 15px;
+				margin-top: 10px;
+				margin-bottom: 10px;
 			}
 			.btn-primary {
 				background-color: #DC143C;
@@ -428,6 +428,9 @@
 				background-color: #008080;
 				border-color: #008080;
 				color: #fff;
+			}
+			#namehr {
+				margin-top: 12px;
 			}
 		</style>
 	</head>
@@ -447,7 +450,7 @@
 				@endif
 			</script>
 			<h3 align="center">Watts</h3>
-			<hr>
+			<hr id="namehr">
 			 <div class="row">
 		        <div class="col-sm-2">
 		            <nav class="nav-sidebar">

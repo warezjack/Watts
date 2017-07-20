@@ -144,7 +144,24 @@
         }
       }
 
+			function setIntensityLevel(value, emotion, lowIntensity, mediumIntensity, highIntensity, tagName, highName, mediumName, lowName) {
+				$(emotion).css("width", value + '%');
+				if(value <= 20) {
+					$(emotion).css("background-color", lowIntensity);
+					$(tagName).text(lowName);
+				}
+				else if(value >= 90) {
+					$(emotion).css("background-color", highIntensity);
+					$(tagName).text(highName);
+				}
+				else {
+					$(emotion).css("background-color", mediumIntensity);
+					$(tagName).text(mediumName);
+				}
+			}
+
       $("#year").click(function() {
+				resetEmotions();
         $.ajax({
 					url: "/dyads",
 					type: 'GET',
@@ -154,7 +171,6 @@
 					},
 					success: function(data) {
 						data = $.parseJSON(data);
-            resetEmotions();
 
             //For Primary Emotions
             changeEmotionColor(data[0][0], "#DC143C", "#anger");
@@ -194,9 +210,28 @@
             changeEmotionColor(data[3][5], "#DC143C", "#morbidness");
             changeEmotionColor(data[3][6], "#FF4500", "#dominance");
             changeEmotionColor(data[3][6], "#DC143C", "#anxiety");
+
+						//Set intensityLevels
+						setIntensityLevel(data[4][0], ".angerWidth", "PaleVioletRed", "IndianRed", "#DC143C", "#angerName", "Rage", "Anger", "Annoyance");
+						setIntensityLevel(data[4][1], ".disgustWidth", "#DDA0DD", "Orchid", "#800080", "#disgustName", "Loathing", "Disgust", "Boredom");
+						setIntensityLevel(data[4][2], ".fearWidth", "#00FA9A", "#3CB371", "#32CD32", "#fearName", "Terror", "Fear", "Apprehension");
+						setIntensityLevel(data[4][3], ".joyWidth", "#CD853F", "#FFA500", "#FF4500", "#joyName", "Ecstacy", "Joy", "Serenity");
+						setIntensityLevel(data[4][4], ".sadnessWidth", "#87CEFA", "#7B68EE", "#000080", "#sadnessName", "Grief", "Sadness", "Pensiveness");
+						setIntensityLevel(data[4][5], ".surpriseWidth", "#ADD8E6", "#20B2AA", "#1E90FF", "#surpriseName", "Amazement", "Surprise", "Distraction");
 					}
 				});
       });
+			$("#intensityLevels").hide();
+			$("#toggler").change(function() {
+				if($(this).prop('checked')) {
+					$("#intensityLevels").show();
+					$("#dyads").hide();
+				}
+				else {
+					$("#intensityLevels").hide();
+					$("#dyads").show();
+				}
+			});
     });
 
     </script>
@@ -304,6 +339,32 @@
         background-color: #2E8B57;
         color: white;
       }
+			* {box-sizing: border-box}
+			.container {
+  			width: 100%;
+  			background-color: white;
+			}
+			.skills {
+			  line-height: 40px;
+			}
+			.angerWidth {
+				height: 15px;
+			}
+			.disgustWidth {
+				height: 15px;
+			}
+			.fearWidth {
+				height: 15px;
+			}
+			.joyWidth {
+				height: 15px;
+			}
+			.sadnessWidth {
+				height: 15px;
+			}
+			.surpriseWidth {
+				height: 15px;
+			}
 		</style>
 
 	</head>
@@ -423,7 +484,38 @@
                       </tr>
                     </tbody>
                   </table>
-                  <hr>
+									<hr>
+								</div>
+									<div class="row" id="intensityLevels">
+										<div class="col-sm-6" style="margin-top: -35px;">
+											<img src="wheel.png" style="width:430px;height:430px;">
+										</div>
+										<div class="col-sm-6">
+											<h5 id="angerName">Anger</h5>
+											<div class="container">
+  											<div class="skills angerWidth" id="anger_percent"></div>
+											</div>
+											<h5 id="disgustName">Disgust</h5>
+											<div class="container">
+  											<div class="skills disgustWidth" id="disgust_percent"></div>
+											</div>
+											<h5 id="fearName">Fear</h5>
+											<div class="container">
+  											<div class="skills fearWidth" id="fear_percent"></div>
+											</div>
+											<h5 id="joyName">Joy</h5>
+											<div class="container">
+  											<div class="skills joyWidth" id="joy_percent"></div>
+											</div>
+											<h5 id="sadnessName">Sadness</h5>
+											<div class="container">
+  											<div class="skills sadnessWidth" id="sadness_percent"></div>
+											</div>
+											<h5 id="surpriseName">Surprise</h5>
+											<div class="container">
+												<div class="skills surpriseWidth" id="surprise_percent"></div>
+											</div>
+										</div>
                 </div>
               </form>
             </div>

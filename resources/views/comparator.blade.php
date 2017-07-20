@@ -489,6 +489,9 @@
 			.col-sm-1 {
 				float: right;
 			}
+			#namehr {
+				margin-top: 1px;
+			}
 		</style>
 	</head>
 	<body>
@@ -506,7 +509,7 @@
 				@endif
 			</script>
 			<h3 align="center">Watts</h3>
-			<hr>
+			<hr id="namehr">
 			 <div class="row">
 		        <div class="col-sm-2">
 		            <nav class="nav-sidebar">
