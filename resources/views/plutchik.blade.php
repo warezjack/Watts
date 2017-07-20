@@ -304,7 +304,7 @@
         margin-bottom: 15px;
       }
       #bottomhr {
-        margin-top: 15px;
+        margin-top: 10px;
         margin-bottom: 15px;
       }
       label {
@@ -364,6 +364,13 @@
 			}
 			.surpriseWidth {
 				height: 15px;
+			}
+			p {
+				margin-bottom: 20px;
+			}
+			img {
+				margin-left: 60px;
+				margin-top: 5px;
 			}
 		</style>
 
@@ -495,22 +502,27 @@
 											<div class="container">
   											<div class="skills angerWidth" id="anger_percent"></div>
 											</div>
+											<p></p>
 											<h5 id="disgustName">Disgust</h5>
 											<div class="container">
   											<div class="skills disgustWidth" id="disgust_percent"></div>
 											</div>
+											<p></p>
 											<h5 id="fearName">Fear</h5>
 											<div class="container">
   											<div class="skills fearWidth" id="fear_percent"></div>
 											</div>
+											<p></p>
 											<h5 id="joyName">Joy</h5>
 											<div class="container">
   											<div class="skills joyWidth" id="joy_percent"></div>
 											</div>
+											<p></p>
 											<h5 id="sadnessName">Sadness</h5>
 											<div class="container">
   											<div class="skills sadnessWidth" id="sadness_percent"></div>
 											</div>
+											<p></p>
 											<h5 id="surpriseName">Surprise</h5>
 											<div class="container">
 												<div class="skills surpriseWidth" id="surprise_percent"></div>
