@@ -39,6 +39,7 @@ class RegressionController extends Controller
         $job = (new PredictFutureBehavior($candidateId))->onQueue('Prediction');
   			$this->dispatch($job);
         $emotion = $this->emotionValues($predictedValues);
+        $polarity = $this->polarityValues($predictedpvalues);
       }
       else {
         $emotion = $this->emotionValues($predictedValues);
