@@ -11,6 +11,7 @@ use View;
 use App\UsersDetail as UsersDetails;
 use App\CandidateAssessment as CandidateAssessment;
 use App\TwitterStatus as TwitterStatus;
+use App\KerberosAuthenticated as KerberosAuthenticated;
 
 class CandidatesController extends Controller
 {
@@ -27,23 +28,29 @@ class CandidatesController extends Controller
     }
 
     public function show($id) {
-    	$userObject = new Users();
-    	$twitterUrl = $userObject->fetchTwitterUrl($id);
-			list($proto, $second) = explode('[{"connect_to_twitter":"http:\/\/www.twitter.com\/', $twitterUrl);
-			list($screenName) = explode('"}]', $second);
+			$userDetails = KerberosAuthenticated::where('user_id', Auth::user()->id)->first();
 
-			//dispatch queue
-			$job = (new DownloadCandidateTweets($screenName, $id))->onQueue('Tweets');
-			$this->dispatch($job);
+			if(isset($userDetails['is_authenticated'])) {
+				$userObject = new Users();
+	    	$twitterUrl = $userObject->fetchTwitterUrl($id);
+				list($proto, $second) = explode('[{"connect_to_twitter":"http:\/\/www.twitter.com\/', $twitterUrl);
+				list($screenName) = explode('"}]', $second);
 
-			$twitterStatus = new TwitterStatus;
-			$twitterStatus->user_id = $id;
-			$twitterStatus->is_downloaded = 1;
+				//dispatch queue
+				$job = (new DownloadCandidateTweets($screenName, $id))->onQueue('Tweets');
+				$this->dispatch($job);
 
-      $twitterStatus->csv_location = '/tweets' . '/' . $screenName . '_tweets.csv';
-      $twitterStatus->save();
+				$twitterStatus = new TwitterStatus;
+				$twitterStatus->user_id = $id;
+				$twitterStatus->is_downloaded = 1;
 
-			notify()->flash("Candidate's tweets are put on download queue", 'success');
+	      $twitterStatus->csv_location = '/tweets' . '/' . $screenName . '_tweets.csv';
+	      $twitterStatus->save();
+
+				notify()->flash("Candidate's tweets are put on download queue", 'success');
+				return redirect()->to('candidates');
+			}
+			notify()->flash("User is not authenticated. Please authenticate yourself.", 'error');
 			return redirect()->to('candidates');
     }
 

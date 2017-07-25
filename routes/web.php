@@ -104,3 +104,7 @@ Route::get('/predictBehavior', 'RegressionController@predict');
 Route::get('/plutchik', 'PlutchikController@index');
 
 Route::get('/dyads', 'PlutchikController@dyads');
+
+Route::get('/settings', 'SettingsController@index');
+
+Route::post('authenticate', 'SettingsController@authenticate');

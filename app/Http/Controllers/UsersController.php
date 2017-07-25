@@ -9,6 +9,7 @@ use Laracasts\Flash\Flash;
 use App\User as Users;
 use App\UsersDetail as UsersDetails;
 use Alert;
+use App\KerberosAuthenticated as KerberosAuthenticated;
 
 class UsersController extends Controller
 {
@@ -24,6 +25,9 @@ class UsersController extends Controller
     }
 
     public function logout() {
+        $kerberosDelete = new KerberosAuthenticated;
+        $kerberosDelete->removeUserAuthentication(Auth::user()->id);
+
         Auth::logout(); // log the user out of our application
         return Redirect::to('login'); // redirect the user to the login screen
     }
