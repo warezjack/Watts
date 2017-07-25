@@ -8,6 +8,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Symfony\Component\Process\Process;
+use Illuminate\Queue\Events\JobProcessed;
 use Symfony\Component\Process\ProcessBuilder;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use App\TwitterStatus as TwitterStatus;
@@ -15,6 +16,7 @@ use App\TwitterStatus as TwitterStatus;
 class DownloadCandidateTweets implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
     protected $screenName;
     protected $id;
     /**
@@ -37,15 +39,9 @@ class DownloadCandidateTweets implements ShouldQueue
     {
       $builder = new ProcessBuilder();
 			$builder->setPrefix('python');
-			$builder->setTimeout(3600);
+			$builder->setTimeout(36000);
 			$builder->disableOutput();
 			$builder->setArguments(array('/home/warez/dataset/twitter/tweet_dumper.py', $this->screenName))->getProcess()->getCommandLine();
 			$builder->getProcess()->run();
-
-      $twitterStatus = new TwitterStatus;
-			$twitterStatus->user_id = $this->id;
-			$twitterStatus->is_downloaded = 1;
-			$twitterStatus->csv_location = '/home/warez/dataset/twitter/files/' . $this->screenName . '_tweets.csv';
-			$twitterStatus->save();
     }
 }

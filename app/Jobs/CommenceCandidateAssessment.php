@@ -49,7 +49,7 @@ class CommenceCandidateAssessment implements ShouldQueue
       $builder = new ProcessBuilder();
       $builder->setPrefix('/home/warez/spark/bin/spark-submit');
       $builder->setTimeout(36000000000);
-      $builder->setArguments(array('/home/warez/spark/code/classifier/target/scala-2.11/classification-module_2.11-1.0.jar', $this->CSVFile, $this->userId))->getProcess()->getCommandLine();
+      $builder->setArguments(array('/home/warez/classifier/target/scala-2.11/classification-module_2.11-1.0.jar', $this->CSVFile, $this->userId))->getProcess()->getCommandLine();
       $builder->getProcess()->run();
 
       $candidateAssessment->end_time = $now->format('Y-m-d H:i:s');

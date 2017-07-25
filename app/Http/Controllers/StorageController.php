@@ -24,7 +24,6 @@ class StorageController extends Controller
   }
 
   public function destroyCSV($twitterId) {
-    //trigger HDFS hadoop fs -rm -r OR alluxio fs rm -r command to delete file then remove the record from twitter statuses
 
     $twitterStatus = TwitterStatus::find($twitterId);
     unlink($twitterStatus->csv_location);

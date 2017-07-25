@@ -36,6 +36,13 @@ class CandidatesController extends Controller
 			$job = (new DownloadCandidateTweets($screenName, $id))->onQueue('Tweets');
 			$this->dispatch($job);
 
+			$twitterStatus = new TwitterStatus;
+			$twitterStatus->user_id = $id;
+			$twitterStatus->is_downloaded = 1;
+
+      $twitterStatus->csv_location = '/tweets' . '/' . $screenName . '_tweets.csv';
+      $twitterStatus->save();
+
 			notify()->flash("Candidate's tweets are put on download queue", 'success');
 			return redirect()->to('candidates');
     }
