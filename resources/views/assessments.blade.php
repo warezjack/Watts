@@ -103,7 +103,7 @@
 				            title: "{!! notify()->message() !!}",
 				            text: "{!! notify()->option('text') !!}",
 				            type: "{{ notify()->type() }}",
-				            timer: 100000,
+				            timer: 1000,
 				            showConfirmButton: false
 				        });
 				@endif
@@ -115,7 +115,6 @@
 		        <div class="col-sm-2">
 		            <nav class="nav-sidebar">
 		                <ul class="nav">
-		                    <li><a href="{{ url('/index') }}"><i class="glyphicon glyphicon-modal-window"></i> Dashboard </a></li>
 		                    <li class="active"><a href="{{ url('/assessments') }}"><i class="glyphicon glyphicon-list-alt"></i> Assessments </a></li>
 		                    <li><a href="{{ url('/profiles') }}"><i class="glyphicon glyphicon-signal"></i> Profiles </a></li>
 		                    <li><a href="{{ url('/compose') }}"><i class="glyphicon glyphicon-edit"></i> Compose </a></li>

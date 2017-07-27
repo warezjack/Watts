@@ -37,7 +37,7 @@ class UsersController extends Controller
         $password = $request->get('password');
         if (Auth::attempt(['email' => $email, 'password' => $password]) && Auth::user()->is_admin == 1) {
             notify()->flash('You are signed in', 'success');
-            return redirect()->intended('index');
+            return redirect()->intended('assessments');
         }
         notify()->flash('Please check your credentials. Try again.', 'error');
         return redirect()->to('login');
