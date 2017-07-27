@@ -97,7 +97,7 @@ class PlutchikController extends Controller
           array_push($emotionNamesFromDoc, $doc->emotion);
           $emotionPercent = ($doc->count / $totalDocuments) * 100;
           $emotionLevel = 1;
-          if($emotionPercent <= 20) {
+          if($emotionPercent <= 10) {
             $emotionLevel = 0;
           }
           array_push($categoryPercent, $emotionPercent);

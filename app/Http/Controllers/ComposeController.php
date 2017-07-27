@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Auth;
 
 use Illuminate\Http\Request;
 
@@ -44,7 +45,7 @@ class ComposeController extends Controller
   			$emotionTypeId = $this->saveEmotions($getAllEmotions);
   			$behaviour->emotion_id = $emotionTypeId;
   		}
-
+			$behaviour->user_id = Auth::user()->id;
   		$behaviour->save();
   		return redirect('compose');
     }
@@ -116,7 +117,7 @@ class ComposeController extends Controller
     }
 
     public function index() {
-    	$behaviours = Behaviours::all();
+    	$behaviours = Behaviours::all()->where('user_id', Auth::user()->id);
       return view('compose', compact('behaviours'));
     }
 

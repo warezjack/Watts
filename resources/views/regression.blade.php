@@ -138,14 +138,24 @@
 								for(i = 0; i <= 6; i++) {
 									var predicted_values = [];
 									for(j = 0; j <=4; j++) {
-										predicted_values.push(parseInt(data[1][emotions[i]][j][1]));
+										if(typeof data[1][emotions[i]][j] == "undefined") {
+											predicted_values.push(0);
+										}
+										else {
+											predicted_values.push(parseInt(data[1][emotions[i]][j][1]));
+										}
 									}
 									options.series[i].data = predicted_values;
 								}
 								for(i = 0; i<= 2; i++) {
 									var predicted_polarity_values = [];
 									for(j = 0; j <= 4; j++) {
-										predicted_polarity_values.push(parseInt(data[2][polarity[i]][j][1]));
+										if(typeof data[2][polarity[i]][j] == "undefined") {
+											predicted_polarity_values.push(0);
+										}
+										else {
+											predicted_polarity_values.push(parseInt(data[2][polarity[i]][j][1]));
+										}
 									}
 									polarity_options.series[i].data = predicted_polarity_values;
 								}
