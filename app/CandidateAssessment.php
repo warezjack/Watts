@@ -9,7 +9,7 @@ use DB;
 
 class CandidateAssessment extends Model
 {
-    public function getCandidateData() {
+    public function getCandidateData($organisation_name) {
       return $data = DB::table('candidate_assessments')
         ->join('users_details', 'candidate_assessments.user_id', '=', 'users_details.user_id')
         ->leftJoin('behaviours', 'candidate_assessments.behaviour_id', '=', 'behaviours.id')
@@ -22,7 +22,7 @@ class CandidateAssessment extends Model
           'candidate_assessments.start_time',
           'candidate_assessments.end_time',
           'candidate_assessments.is_completed'
-        )->get();
+        )->where('users_details.organisation_name', $organisation_name)->get();
     }
 
     public function removeCandidateRecord($userId) {
