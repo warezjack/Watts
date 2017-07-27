@@ -11,6 +11,8 @@ use App\PredictedValue as PredictedValue;
 use App\PredictedPvalue as PredictedPvalue;
 use App\UsersDetail as UsersDetails;
 use App\TwitterStatus as TwitterStatus;
+use Symfony\Component\Process\Process;
+use Symfony\Component\Process\Exception\ProcessFailedException;
 use View;
 use Auth;
 
@@ -26,10 +28,17 @@ class StorageController extends Controller
   public function destroyCSV($twitterId) {
 
     $twitterStatus = TwitterStatus::find($twitterId);
-    unlink($twitterStatus->csv_location);
-    $twitterStatus->delete();
 
-    notify()->flash('Candidate Data file has been successfully deleted', 'success');
+    $process = new Process("alluxio fs rm -R '$twitterStatus->csv_location'");
+    $process->run();
+    $process->wait();
+
+    if ($process->isSuccessful()) {
+      $twitterStatus->delete();
+      notify()->flash('Candidate Data file has been successfully deleted', 'success');
+      return redirect()->to('storage');
+    }
+    notify()->flash('We failed to remove selected candidate\'s CSV', 'error');
     return redirect()->to('storage');
   }
 
