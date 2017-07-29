@@ -97,12 +97,14 @@ class PlutchikController extends Controller
           array_push($emotionNamesFromDoc, $doc->emotion);
           $emotionPercent = ($doc->count / $totalDocuments) * 100;
           $emotionLevel = 1;
-          if($emotionPercent <= 10) {
+          if($emotionPercent == 0) {
             $emotionLevel = 0;
           }
+
           array_push($categoryPercent, $emotionPercent);
           array_push($emotionValues, $emotionLevel);
       }
+
       $diffArray = array_diff($emotionNames, $emotionNamesFromDoc);
 
       foreach($diffArray as $arr) {
@@ -116,11 +118,11 @@ class PlutchikController extends Controller
       array_splice($emotionValues, 4, 1);
       array_splice($categoryPercent, 4 , 1);
       $trustValue = 1;
-      if ($emotionNames[1] == 1) {
+      if ($emotionValues[0] == 1) {
         $trustValue = 0;
       }
       $anticipationValue = 1;
-      if($emotionNames[6] == 1) {
+      if($emotionValues[5] == 1) {
         $anticipationValue = 0;
       }
       array_push($emotionValues, $trustValue);
